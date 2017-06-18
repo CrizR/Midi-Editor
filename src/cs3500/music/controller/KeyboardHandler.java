@@ -50,7 +50,6 @@ public class KeyboardHandler implements KeyListener {
 
   @Override
   public void keyTyped(KeyEvent e) {
-    System.out.print("hungry");
     if (keyTypedMap.containsKey(e.getKeyChar()))
       keyTypedMap.get(e.getKeyChar()).run();
   }
@@ -62,7 +61,6 @@ public class KeyboardHandler implements KeyListener {
 
   @Override
   public void keyPressed(KeyEvent e) {
-    System.out.print("hungry");
     if (keyPressedMap.containsKey(e.getKeyCode()))
       keyPressedMap.get(e.getKeyCode()).run();
   }
@@ -74,7 +72,6 @@ public class KeyboardHandler implements KeyListener {
 
   @Override
   public void keyReleased(KeyEvent e) {
-    System.out.print("hungry");
     if (keyReleasedMap.containsKey(e.getKeyCode()))
       keyReleasedMap.get(e.getKeyCode()).run();
   }

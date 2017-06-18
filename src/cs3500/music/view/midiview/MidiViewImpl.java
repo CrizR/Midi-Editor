@@ -39,7 +39,7 @@ public class MidiViewImpl implements IView {
   Transmitter seqTrans;
   Synthesizer synth;
   Receiver receiver;
-  boolean play = true;
+  boolean play = false;
 
   /**
    * Builds a MidiViewImpl.
@@ -114,11 +114,12 @@ public class MidiViewImpl implements IView {
       // failed to get midi data
     }
 
-    try {
-      sequencer.start();
-      System.out.println("works");
-    } catch (IllegalStateException e) {
-      System.out.println("Invalid");
+    if (this.play) {
+      try {
+        sequencer.start();
+      } catch (IllegalStateException e) {
+        System.out.println("Invalid");
+      }
     }
 //    this.receiver.close();
   }
@@ -142,7 +143,6 @@ public class MidiViewImpl implements IView {
 
   @Override
   public void prevBeat() {
-
   }
 
   @Override
@@ -152,12 +152,15 @@ public class MidiViewImpl implements IView {
 
   @Override
   public void toEnd() {
-
+    this.sequencer.setTickPosition(op.lastBeat() * this.tempo);
   }
 
   @Override
   public void toBeginning() {
     this.sequencer.setTickPosition(0);
+    if (play) {
+      this.sequencer.start();
+    }
   }
   @Override
   public void resetFocus() {
@@ -176,6 +179,5 @@ public class MidiViewImpl implements IView {
 
   @Override
   public void addMouseListener(MouseListener listener) {
-
   }
 }
