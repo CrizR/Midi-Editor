@@ -124,6 +124,10 @@ public class MidiViewImpl implements IView {
 //    this.receiver.close();
   }
 
+  public boolean isPlaying() {
+    return this.sequencer.isRunning();
+  }
+
   @Override
   public void togglePlay() {
     if (this.play) {
@@ -137,8 +141,9 @@ public class MidiViewImpl implements IView {
     }
   }
 
-  public long currentBeat() {
-    return sequencer.getMicrosecondPosition();
+  public int currentBeat() {
+    System.out.print(sequencer.getMicrosecondPosition());
+    return (int) sequencer.getMicrosecondPosition() / this.tempo;
   }
 
   @Override
