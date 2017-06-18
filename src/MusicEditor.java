@@ -31,7 +31,6 @@ public class MusicEditor {
     IView view = ViewBuilder.createView(args[1], op);
     IController controller = new Controller(op);
     controller.setView(view);
-    view.refresh();
     view.initialize();
   }
 }

@@ -35,6 +35,8 @@ public class MouseHandler implements MouseListener {
         } else {
           for (int j = i; j < PianoPanel.keys.size(); j++) {
             if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
+              System.out.println(k.getOctave());
+              System.out.println(k.getPitch());
               op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 10),
                       GuiViewFrame.BEAT);
               view.nextBeat();

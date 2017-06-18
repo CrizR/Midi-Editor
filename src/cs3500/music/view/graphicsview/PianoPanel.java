@@ -124,7 +124,7 @@ public class PianoPanel extends JPanel {
   //initializes the keys to draw
   private void initKeys(int x, int y) {
     //initialize the keys
-    for (int i = 0; i < 10; i++) {
+    for (int i = 1; i <= 10; i++) {
       for (Pitch p : Pitch.values()) {
         String tone = p.toString() + Integer.toString(i);
         boolean played = false;
@@ -133,11 +133,11 @@ public class PianoPanel extends JPanel {
         }
         if (p.isSharp()) {
           x += keyWidth / 3;
-          this.keys.add(new Key(played, Color.BLACK, p, x, y, i + 1));
+          this.keys.add(new Key(played, Color.BLACK, p, x, y, i));
           x -= keyWidth / 3;
         } else {
           x += keyWidth;
-          this.keys.add(new Key(played, Color.WHITE, p, x, y, i + 1));
+          this.keys.add(new Key(played, Color.WHITE, p, x, y, i));
         }
       }
     }

@@ -1,5 +1,8 @@
 package cs3500.music.view.compositeview;
 
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.swing.*;
@@ -13,7 +16,6 @@ import cs3500.music.view.midiview.MidiViewImpl;
  * Created by ChrisRisley on 6/18/17.
  */
 public class CompView extends JFrame implements GuiView {
-  int beat;
   MidiViewImpl midiDelegate;
   GuiViewFrame guiDelegate;
   boolean playing;
@@ -23,7 +25,20 @@ public class CompView extends JFrame implements GuiView {
     this.op = op;
     this.midiDelegate = new MidiViewImpl(op, MidiSystem.getSynthesizer());
     this.guiDelegate = new GuiViewFrame(op);
+  }
 
+  @Override
+  public void addKeyListener(KeyListener e) {
+    super.addKeyListener(e);
+    this.midiDelegate.addKeyListener(e);
+    this.guiDelegate.addKeyListener(e);
+  }
+
+  @Override
+  public void addMouseListener(MouseListener e) {
+    super.addMouseListener(e);
+    this.midiDelegate.addMouseListener(e);
+    this.guiDelegate.addMouseListener(e);
   }
 
   @Override
@@ -36,13 +51,16 @@ public class CompView extends JFrame implements GuiView {
 
   @Override
   public void resetFocus() {
-    this.setFocusable(true);
-    this.requestFocus();
+    // this.setFocusable(true);
+    //this.requestFocus();
+    this.midiDelegate.resetFocus();
+    this.guiDelegate.resetFocus();
   }
 
   @Override
   public void refresh() {
-
+    this.midiDelegate.refresh();
+    this.guiDelegate.refresh();
   }
 
   @Override
@@ -53,28 +71,28 @@ public class CompView extends JFrame implements GuiView {
 
   @Override
   public void prevBeat() {
-    if (beat - 1 >= 0) {
-      beat--;
+    if (GuiViewFrame.BEAT - 1 >= 0) {
+      GuiViewFrame.BEAT--;
     }
     refresh();
   }
 
   @Override
   public void nextBeat() {
-    if (beat + 1 <= op.lastBeat() + 1) {
-      beat++;
+    if (GuiViewFrame.BEAT + 1 <= op.lastBeat() + 1) {
+      GuiViewFrame.BEAT++;
     }
     refresh();
   }
 
   @Override
   public void toEnd() {
-    beat = op.lastBeat();
+    GuiViewFrame.BEAT = op.lastBeat();
   }
 
   @Override
   public void toBeginning() {
-    beat = 0;
+    GuiViewFrame.BEAT = 0;
   }
 
 }

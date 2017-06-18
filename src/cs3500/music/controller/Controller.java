@@ -34,6 +34,7 @@ public class Controller implements IController {
   private void mouseSetup() {
     MouseHandler mh = new MouseHandler(op, view);
     view.addMouseListener(mh);
+    view.resetFocus();
   }
 
   private void keyBoardSetup() {
