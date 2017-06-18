@@ -1,14 +1,10 @@
 package cs3500.music.view.midiview;
 
 
-import com.sun.demo.jvmti.hprof.Tracker;
-
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -24,13 +20,13 @@ import javax.sound.midi.Transmitter;
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.View;
+import cs3500.music.view.IView;
 
 /**
  * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
  * this view allows the user to hear the notes found in the music model.
  */
-public class MidiViewImpl implements View {
+public class MidiViewImpl implements IView {
   //  private final Synthesizer synth;
 //  private final Receiver receiver;
   private final IMusicOperations op;
@@ -39,9 +35,9 @@ public class MidiViewImpl implements View {
   private Sequence sequence;
   private Sequencer sequencer;
   //  private Track track;
-  Transmitter         seqTrans;
-  Synthesizer         synth;
-  Receiver         receiver;
+  Transmitter seqTrans;
+  Synthesizer synth;
+  Receiver receiver;
 
   /**
    * Builds a MidiViewImpl.
@@ -93,6 +89,21 @@ public class MidiViewImpl implements View {
   }
 
   @Override
+  public void togglePlay() {
+
+  }
+
+  @Override
+  public void resetFocus() {
+
+  }
+
+  @Override
+  public void addKeyListener(KeyListener listener) {
+
+  }
+
+  @Override
   public void initialize() {
     try {
 //      this.synth.open();
@@ -123,5 +134,15 @@ public class MidiViewImpl implements View {
       System.out.println("Invalid");
     }
 //    this.receiver.close();
+  }
+
+  @Override
+  public void prevBeat() {
+
+  }
+
+  @Override
+  public void nextBeat() {
+
   }
 }

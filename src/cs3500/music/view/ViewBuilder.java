@@ -4,9 +4,9 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.graphicsview.GuiViewFrame;
-import cs3500.music.view.midiview.MidiViewImpl;
-import cs3500.music.view.textview.ConsoleView;
+import cs3500.music.view.graphicsview.GuiIViewFrame;
+import cs3500.music.view.midiview.MidiIViewImpl;
+import cs3500.music.view.textview.ConsoleIView;
 
 /**
  * Builds the program's view via the usage of its method createView.
@@ -14,28 +14,28 @@ import cs3500.music.view.textview.ConsoleView;
 public class ViewBuilder {
   /**
    * Builds a via as determined by the given string. If the incorrect view is given
-   * it will return a ConsoleView;
+   * it will return a ConsoleIView;
    *
    * @param view The type of view to return.
    * @param op   the model to build the view with.
    * @return the constructed view.
    */
-  public static View createView(String view, IMusicOperations op) {
+  public static IView createView(String view, IMusicOperations op) {
     switch (view) {
       case "console":
-        return new ConsoleView(op);
+        return new ConsoleIView(op);
       case "visual":
-        return new GuiViewFrame(op);
+        return new GuiIViewFrame(op);
       case "midi":
         try {
-          return new MidiViewImpl(op, MidiSystem.getSynthesizer());
+          return new MidiIViewImpl(op, MidiSystem.getSynthesizer());
         } catch (MidiUnavailableException e) {
           System.out.println("Could not start MidiView");
-          return new ConsoleView(op);
+          return new ConsoleIView(op);
         }
       default:
-        System.out.println("Invalid View, Reverting to Console View");
-        return new ConsoleView(op);
+        System.out.println("Invalid IView, Reverting to Console IView");
+        return new ConsoleIView(op);
     }
   }
 }

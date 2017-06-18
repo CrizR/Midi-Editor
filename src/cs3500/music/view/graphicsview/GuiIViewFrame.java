@@ -1,5 +1,6 @@
 package cs3500.music.view.graphicsview;
 
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Color;
@@ -16,7 +17,7 @@ import cs3500.music.model.IMusicOperations;
 
 
 /**
- * View that represents the graphical view for the user. This view shows each note on a grid
+ * IView that represents the graphical view for the user. This view shows each note on a grid
  * above keys. As the user clicks the left or right arrow, the bar on the
  * midi editor moves in accordance to the changed BEAT. The keys light up
  * when the bar is on top of the corresponding note. This is represented with two JPanels,
@@ -24,7 +25,7 @@ import cs3500.music.model.IMusicOperations;
  * our panels have access to the current BEAT being "played." The current BEAT is updated in the
  * view because the model is a read only object.
  */
-public class GuiViewFrame extends JFrame implements GuiView {
+public class GuiIViewFrame extends JFrame implements GuiIView {
   private final IMusicOperations op;
   public static int BEAT;
   private final KeyListener keyListener = new KeyListener() {
@@ -57,14 +58,14 @@ public class GuiViewFrame extends JFrame implements GuiView {
   };
 
   /**
-   * Constructs a GuiView frame by first instantiating the midipanel and piano panel
+   * Constructs a GuiIView frame by first instantiating the midipanel and piano panel
    * to the given IMusicOperations. It then sets the size of each panel, adds key listeners
    * to each panel, sets up a scroll bar for the midi panel, and finally sets the size for this
    * frame.
    *
    * @param op Represents the IMusicOperations to create the view for.
    */
-  public GuiViewFrame(IMusicOperations op) {
+  public GuiIViewFrame(IMusicOperations op) {
     this.op = op;
     JPanel midiPanel = new GuiPanel(op);
     JPanel pianoPanel = new PianoPanel(op);
@@ -103,6 +104,35 @@ public class GuiViewFrame extends JFrame implements GuiView {
 
 
     this.setResizable(false);
+  }
+
+
+  //SAMPLE CODE TODO:
+  @Override
+  public void setEchoOutput(String s) {
+
+  }
+
+  @Override
+  public String getInputString() {
+    return null;
+  }
+
+  @Override
+  public void clearInputString() {
+
+  }
+
+  @Override
+  public void resetFocus() {
+    this.setFocusable(true);
+    this.requestFocus();
+  }
+
+
+  @Override
+  public void addActionListener(ActionListener listener) {
+
   }
 
   @Override

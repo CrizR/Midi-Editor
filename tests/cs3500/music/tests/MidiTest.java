@@ -22,13 +22,13 @@ import javax.sound.midi.VoiceStatus;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.model.Music;
 import cs3500.music.util.MusicReader;
-import cs3500.music.view.View;
-import cs3500.music.view.midiview.MidiViewImpl;
+import cs3500.music.view.IView;
+import cs3500.music.view.midiview.MidiIViewImpl;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test class for the Midi View.
+ * Test class for the Midi IView.
  */
 public class MidiTest {
   // testing the midi view using a mock midi device
@@ -43,9 +43,9 @@ public class MidiTest {
     Music.Builder x = new Music.Builder();
     IMusicOperations op = MusicReader.parseFile(br, x);
     MockMidiDevice mockMidiDevice = new MockMidiDevice();
-    View view = null;
+    IView view = null;
     try {
-      view = new MidiViewImpl(op, mockMidiDevice);
+      view = new MidiIViewImpl(op, mockMidiDevice);
     } catch (MidiUnavailableException e) {
       //can't play midi
     }
@@ -133,9 +133,9 @@ public class MidiTest {
     Music.Builder x = new Music.Builder();
     IMusicOperations op = MusicReader.parseFile(br, x);
     MockMidiDevice modckMidiDevice = new MockMidiDevice();
-    View view = null;
+    IView view = null;
     try {
-      view = new MidiViewImpl(op, modckMidiDevice);
+      view = new MidiIViewImpl(op, modckMidiDevice);
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }

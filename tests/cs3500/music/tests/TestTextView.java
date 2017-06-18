@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.Music;
-import cs3500.music.view.View;
+import cs3500.music.view.IView;
 import cs3500.music.view.ViewBuilder;
 
 import static junit.framework.TestCase.assertEquals;
@@ -23,7 +23,7 @@ public class TestTextView {
   @Test //test.txt when the model is empty
   public void testEmptyModel() throws Exception {
     Music op = new Music();
-    View console = ViewBuilder.createView("console", op);
+    IView console = ViewBuilder.createView("console", op);
     System.setOut(new PrintStream(baos));
     console.initialize();
     assertEquals("", baos.toString());
@@ -37,7 +37,7 @@ public class TestTextView {
     Note gSharp3 = new Note(Pitch.G_SHARP, 3, 2, 0, 2);
 
 
-    View console = ViewBuilder.createView("console", op);
+    IView console = ViewBuilder.createView("console", op);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals("", baos.toString());
@@ -51,7 +51,7 @@ public class TestTextView {
     Note gSharp3 = new Note(Pitch.G_SHARP, 3, 2, 0, 2);
 
     op.addNote(gSharp3, 0);
-    View console = ViewBuilder.createView("console", op);
+    IView console = ViewBuilder.createView("console", op);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals("  G#3 \n" +
@@ -68,7 +68,7 @@ public class TestTextView {
     Note gSharp3 = new Note(Pitch.G_SHARP, 3, 2, 0, 2);
     op.addNote(e4, 5);
     op.addNote(gSharp3, 0);
-    View console = ViewBuilder.createView("console", op);
+    IView console = ViewBuilder.createView("console", op);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals("  G#3   A3  A#3   B3   C4  C#4   D4  D#4   E4 \n" +
@@ -95,7 +95,7 @@ public class TestTextView {
     op.addNote(gSharp3, 0);
     op.addNote(e4, 5);
     op.addNote(aSharp4, 3);
-    View console = ViewBuilder.createView("console", op);
+    IView console = ViewBuilder.createView("console", op);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals(
@@ -135,7 +135,7 @@ public class TestTextView {
     op.addNote(e4, 5);
     op.addNote(aSharp4, 3);
     op.addNote(c2, 3);
-    View console = ViewBuilder.createView("console", op);
+    IView console = ViewBuilder.createView("console", op);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals("   C2  C#2   D2  D#2   E2   F2  F#2   G2  G#2   A2  A#2   B2   C3  " +
@@ -186,7 +186,7 @@ public class TestTextView {
     song.addNote(b3, 2);
     song.addNote(e4, 5);
     song.deleteNote(e4, 5);
-    View console = ViewBuilder.createView("console", song);
+    IView console = ViewBuilder.createView("console", song);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals("  G#3   A3  A#3   B3 \n" +
@@ -214,7 +214,7 @@ public class TestTextView {
     song2.addNote(e4Overlap, 4);
     song2.addNote(c4, 4);
     song1.combine(song2);
-    View console = ViewBuilder.createView("console", song1);
+    IView console = ViewBuilder.createView("console", song1);
     System.setOut(new PrintStream(baos));
     console.initialize();
     Assert.assertEquals(
@@ -249,7 +249,7 @@ public class TestTextView {
     song2.addNote(c4, 4);
     song1.playNext(song2);
 
-    View console = ViewBuilder.createView("console", song1);
+    IView console = ViewBuilder.createView("console", song1);
     System.setOut(new PrintStream(baos));
     console.initialize();
 
@@ -284,7 +284,7 @@ public class TestTextView {
     song.addNote(e4, 2);
 
     song.editNote(gSharp3, 0, aSharp4, 2);
-    View console = ViewBuilder.createView("console", song);
+    IView console = ViewBuilder.createView("console", song);
     System.setOut(new PrintStream(baos));
     console.initialize();
 

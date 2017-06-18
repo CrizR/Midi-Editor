@@ -1,9 +1,16 @@
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
 import cs3500.music.controller.Controller;
+import cs3500.music.controller.IController;
+import cs3500.music.model.IMusicOperations;
+import cs3500.music.model.Music;
+import cs3500.music.util.MusicReader;
+import cs3500.music.view.IView;
+import cs3500.music.view.ViewBuilder;
 
 
 /**
@@ -19,10 +26,11 @@ MusicEditor {
    * @throws InvalidMidiDataException throws an InvalidMidiDataException
    */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
-    try {
-      new Controller().start(args);
-    } catch (FileNotFoundException e) {
-      System.out.println("File Not Found");
-    }
+    BufferedReader br = new BufferedReader(new FileReader(args[0]));
+    Music.Builder x = new Music.Builder(); //Once built, returns a copy of the model.
+    IMusicOperations op = MusicReader.parseFile(br, x);
+    IView view = ViewBuilder.createView(args[1], op);
+    IController controller = new Controller(op);
+    controller.setView(view);
   }
 }

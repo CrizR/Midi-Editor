@@ -100,7 +100,7 @@ public class PianoPanel extends JPanel {
       for (Pitch p : Pitch.values()) {
         String tone = p.toString() + Integer.toString(i);
         boolean played = false;
-        if (op.activeNotes(GuiViewFrame.BEAT).containsKey(tone)) {
+        if (op.activeNotes(GuiIViewFrame.BEAT).containsKey(tone)) {
           played = true;
         }
         if (p.toString().contains("#")) {
