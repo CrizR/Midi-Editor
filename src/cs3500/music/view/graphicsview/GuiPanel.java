@@ -59,6 +59,8 @@ public class GuiPanel extends JPanel {
     Graphics2D g2 = (Graphics2D) g;
     super.paintComponent(g2);
 
+
+
     for (int i : op.getStartingBeats()) {
       HashMap<String, Note> notes = this.op.getNotes(i);
       for (String t : notes.keySet()) {

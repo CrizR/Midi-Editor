@@ -4,9 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import cs3500.music.mechanics.Note;
-import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.model.Music;
 import cs3500.music.view.IView;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.graphicsview.PianoPanel;
@@ -26,10 +24,24 @@ public class MouseHandler implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    for (PianoPanel.Key k : PianoPanel.keys){
-      if (k.onKey(e.getX(), 641)){
-        System.out.println("test");
-        op.addNote(new Note(k.getPitch(), 1, 1, 1, 10), GuiViewFrame.BEAT);
+    for (int i = 0; i < PianoPanel.keys.size(); i++) {
+      PianoPanel.Key k = PianoPanel.keys.get(i);
+      if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
+        if (k.getPitch().isSharp()) {
+          op.addNote(new Note(k.getPitch(), 1, 1, 1, 10),
+                  GuiViewFrame.BEAT);
+          view.nextBeat();
+          break;
+        } else {
+          for (int j = i; j < PianoPanel.keys.size(); j++) {
+            if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
+              op.addNote(new Note(k.getPitch(), 1, 1, 1, 10),
+                      GuiViewFrame.BEAT);
+              view.nextBeat();
+              break;
+            }
+          }
+        }
       }
     }
   }

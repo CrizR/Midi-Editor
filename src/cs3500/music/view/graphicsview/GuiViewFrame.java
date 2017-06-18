@@ -20,6 +20,10 @@ import cs3500.music.view.GuiView;
 public class GuiViewFrame extends JFrame implements GuiView {
   private IMusicOperations op;
   public static int BEAT;
+  public static final int PIANO_WIDTH = 1000;
+  public static final int PIANO_HEIGHT = 250;
+  public static final int MIDI_WIDTH = 1000;
+  public static final int MIDI_HEIGHT = 500;
 
   /**
    * Constructs a GuiView frame by first instantiating the midipanel and piano panel
@@ -35,7 +39,7 @@ public class GuiViewFrame extends JFrame implements GuiView {
     JPanel pianoPanel = new PianoPanel(op);
 
     //init piano panel
-    pianoPanel.setPreferredSize(new Dimension(1000, 250));
+    pianoPanel.setPreferredSize(new Dimension(PIANO_WIDTH, PIANO_HEIGHT));
     pianoPanel.setBackground(Color.gray.brighter());
     //this.pianoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
 
@@ -48,7 +52,7 @@ public class GuiViewFrame extends JFrame implements GuiView {
     midiPanel.setPreferredSize(new Dimension(
             (op.lastBeat() + 2) * GuiPanel.cellWidth,
             (op.getTones().size() + 2) * GuiPanel.cellHeight));
-    scrollPane.setPreferredSize(new Dimension(1000, 500));
+    scrollPane.setPreferredSize(new Dimension(MIDI_WIDTH, MIDI_HEIGHT));
     scrollPane.getVerticalScrollBar().setUnitIncrement(128);
     scrollPane.getHorizontalScrollBar().setUnitIncrement(128);
 
@@ -98,12 +102,14 @@ public class GuiViewFrame extends JFrame implements GuiView {
 
   @Override
   public void toEnd() {
-
+    BEAT = op.lastBeat() + 1;
+    refresh();
   }
 
   @Override
   public void toBeginning() {
-
+    BEAT = 0;
+    refresh();
   }
 
   @Override
