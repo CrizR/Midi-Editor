@@ -103,6 +103,26 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
   }
 
   @Override
+  public void addNote() {
+
+  }
+
+  @Override
+  public void removeNote() {
+
+  }
+
+  @Override
+  public void toEnd() {
+
+  }
+
+  @Override
+  public void toBeginning() {
+
+  }
+
+  @Override
   public void refresh() {
     this.revalidate();
     this.repaint();

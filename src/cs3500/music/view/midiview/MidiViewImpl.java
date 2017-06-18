@@ -151,4 +151,24 @@ public class MidiViewImpl implements IView {
   public void nextBeat() {
 
   }
+
+  @Override
+  public void addNote() {
+
+  }
+
+  @Override
+  public void removeNote() {
+
+  }
+
+  @Override
+  public void toEnd() {
+
+  }
+
+  @Override
+  public void toBeginning() {
+
+  }
 }

@@ -42,6 +42,7 @@ public class Controller implements IController {
     //remove a note
     HashMap<Integer, Runnable> mouseClicked = new HashMap<>();
     mouseClicked.put(MouseEvent.MOUSE_CLICKED, () -> view.addNote());
+    mouseClicked.put(MouseEvent.MOUSE_CLICKED, () -> view.addNote());
 
   }
 

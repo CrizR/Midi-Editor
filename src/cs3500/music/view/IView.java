@@ -51,4 +51,8 @@ public interface IView {
   void addNote();
 
   void removeNote();
+
+  void toEnd();
+
+  void toBeginning();
 }
