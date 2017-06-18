@@ -39,6 +39,7 @@ public class MidiViewImpl implements IView {
   Transmitter seqTrans;
   Synthesizer synth;
   Receiver receiver;
+  boolean play = true;
 
   /**
    * Builds a MidiViewImpl.
@@ -123,6 +124,23 @@ public class MidiViewImpl implements IView {
   }
 
   @Override
+  public void togglePlay() {
+    if (this.play) {
+      System.out.print("Stop");
+      sequencer.stop();
+      this.play = false;
+    }
+    else {
+      sequencer.start();
+      this.play = true;
+    }
+  }
+
+  public long currentBeat() {
+    return sequencer.getMicrosecondPosition();
+  }
+
+  @Override
   public void prevBeat() {
 
   }
@@ -139,14 +157,8 @@ public class MidiViewImpl implements IView {
 
   @Override
   public void toBeginning() {
-
+    this.sequencer.setTickPosition(0);
   }
-
-  @Override
-  public void togglePlay() {
-
-  }
-
   @Override
   public void resetFocus() {
 

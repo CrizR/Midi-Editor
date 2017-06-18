@@ -43,10 +43,7 @@ public class CompView extends JFrame implements GuiView {
 
   @Override
   public void togglePlay() {
-    if (playing) {
-
-    }
-
+    this.midiDelegate.togglePlay();
   }
 
   @Override
@@ -87,12 +84,13 @@ public class CompView extends JFrame implements GuiView {
 
   @Override
   public void toEnd() {
-    GuiViewFrame.BEAT = op.lastBeat();
+    this.guiDelegate.toEnd();
+    this.midiDelegate.toEnd();
   }
 
   @Override
   public void toBeginning() {
-    GuiViewFrame.BEAT = 0;
+    this.guiDelegate.toBeginning();
+    this.midiDelegate.toBeginning();
   }
-
 }
