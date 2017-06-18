@@ -1,15 +1,11 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.BasicStroke;
-import java.awt.Color;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
@@ -24,15 +20,15 @@ public class GuiPanel extends JPanel {
 
   private final IMusicOperations op;
   private final HashMap<String, Integer> pitchToY = new HashMap<>();
-  private final ArrayList<String> tones;
-  private final int numOfTones;
-  private final ArrayList<String> revTone;
+  private ArrayList<String> tones;
+  private int numOfTones;
+  private ArrayList<String> revTone;
   private final int fromTop = 25;
   private final int fromSide = 40;
   private static int scale = 1;
   static final int cellWidth = 42 * scale;
   static final int cellHeight = 25 * scale;
-  private final int columnNum;
+  private int columnNum;
 
   /**
    * Builds the panel by first determining the number of tones then
@@ -42,15 +38,7 @@ public class GuiPanel extends JPanel {
    */
   GuiPanel(IMusicOperations op) {
     this.op = op;
-    numOfTones = this.op.getTones().size();
-    tones = this.op.getTones();
-    Collections.reverse(this.tones);
-    revTone = tones;
-    columnNum = (int) Math.round(this.op.lastBeat() / 4);
-
-    for (int i = 0; i < numOfTones; i++) {
-      this.pitchToY.put(tones.get(i), fromTop + i * cellHeight);
-    }
+    update();
     repaint();
   }
 
@@ -59,7 +47,7 @@ public class GuiPanel extends JPanel {
     Graphics2D g2 = (Graphics2D) g;
     super.paintComponent(g2);
 
-
+    update();
 
     for (int i : op.getStartingBeats()) {
       HashMap<String, Note> notes = this.op.getNotes(i);
@@ -73,6 +61,17 @@ public class GuiPanel extends JPanel {
     this.drawOctaveLine(g2);
     g2.setColor(Color.MAGENTA);
     this.drawLine(g2);
+  }
+
+  private void update() {
+    numOfTones = this.op.getTones().size();
+    tones = this.op.getTones();
+    Collections.reverse(this.tones);
+    revTone = tones;
+    columnNum = (int) Math.round(this.op.lastBeat() / 4);
+    for (int i = 0; i < numOfTones; i++) {
+      this.pitchToY.put(tones.get(i), fromTop + i * cellHeight);
+    }
   }
 
   // draws the the line
