@@ -16,8 +16,7 @@ import cs3500.music.view.ViewBuilder;
 /**
  * Main class to initiate the program.
  */
-public class
-MusicEditor {
+public class MusicEditor {
   /**
    * Main method starts the program.
    *
@@ -32,5 +31,6 @@ MusicEditor {
     IView view = ViewBuilder.createView(args[1], op);
     IController controller = new Controller(op);
     controller.setView(view);
+    view.initialize();
   }
 }

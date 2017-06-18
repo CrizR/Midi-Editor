@@ -90,26 +90,6 @@ public class MidiViewImpl implements IView {
   }
 
   @Override
-  public void togglePlay() {
-
-  }
-
-  @Override
-  public void resetFocus() {
-
-  }
-
-  @Override
-  public void addKeyListener(KeyListener listener) {
-
-  }
-
-  @Override
-  public void addMouseListener(MouseListener listener) {
-
-  }
-
-  @Override
   public void initialize() {
     try {
 //      this.synth.open();
@@ -153,22 +133,37 @@ public class MidiViewImpl implements IView {
   }
 
   @Override
-  public void addNote() {
-
-  }
-
-  @Override
-  public void removeNote() {
-
-  }
-
-  @Override
   public void toEnd() {
 
   }
 
   @Override
   public void toBeginning() {
+
+  }
+
+  @Override
+  public void togglePlay() {
+
+  }
+
+  @Override
+  public void resetFocus() {
+
+  }
+
+  @Override
+  public void refresh() {
+
+  }
+
+  @Override
+  public void addKeyListener(KeyListener listener) {
+
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
 
   }
 }

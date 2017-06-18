@@ -75,8 +75,8 @@ public class GuiPanel extends JPanel {
 
   // draws the the line
   private void drawLine(Graphics g2) {
-    g2.drawLine(fromSide + (GuiIViewFrame.BEAT * cellWidth), fromTop,
-            fromSide + (GuiIViewFrame.BEAT * cellWidth),
+    g2.drawLine(fromSide + (GuiViewFrame.BEAT * cellWidth), fromTop,
+            fromSide + (GuiViewFrame.BEAT * cellWidth),
             fromTop + cellHeight * this.numOfTones);
   }
 

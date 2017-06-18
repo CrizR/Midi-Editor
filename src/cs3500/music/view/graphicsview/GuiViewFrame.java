@@ -1,13 +1,11 @@
 package cs3500.music.view.graphicsview;
 
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.IView;
+import cs3500.music.view.GuiView;
 
 
 /**
@@ -19,19 +17,19 @@ import cs3500.music.view.IView;
  * our panels have access to the current BEAT being "played." The current BEAT is updated in the
  * view because the model is a read only object.
  */
-public class GuiIViewFrame extends JFrame implements GuiIView {
-  private final IMusicOperations op;
+public class GuiViewFrame extends JFrame implements GuiView {
+  private IMusicOperations op;
   public static int BEAT;
 
   /**
-   * Constructs a GuiIView frame by first instantiating the midipanel and piano panel
+   * Constructs a GuiView frame by first instantiating the midipanel and piano panel
    * to the given IMusicOperations. It then sets the size of each panel, adds key listeners
    * to each panel, sets up a scroll bar for the midi panel, and finally sets the size for this
    * frame.
    *
    * @param op Represents the IMusicOperations to create the view for.
    */
-  public GuiIViewFrame(IMusicOperations op) {
+  public GuiViewFrame(IMusicOperations op) {
     this.op = op;
     JPanel midiPanel = new GuiPanel(op);
     JPanel pianoPanel = new PianoPanel(op);
@@ -40,9 +38,6 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
     pianoPanel.setPreferredSize(new Dimension(1000, 250));
     pianoPanel.setBackground(Color.gray.brighter());
     //this.pianoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-
-    midiPanel.setFocusable(true);
-    pianoPanel.setFocusable(true);
 
 
     //make midi panel scrollable
@@ -63,7 +58,6 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
     this.add(pianoPanel, BorderLayout.SOUTH);
     this.setSize(1000, 750);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
     this.setResizable(false);
   }
@@ -103,16 +97,6 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
   }
 
   @Override
-  public void addNote() {
-
-  }
-
-  @Override
-  public void removeNote() {
-
-  }
-
-  @Override
   public void toEnd() {
 
   }
@@ -127,5 +111,4 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
     this.revalidate();
     this.repaint();
   }
-
 }

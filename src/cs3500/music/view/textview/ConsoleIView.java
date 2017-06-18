@@ -1,5 +1,8 @@
 package cs3500.music.view.textview;
 
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.IView;
 
@@ -16,9 +19,56 @@ public class ConsoleIView implements IView {
     this.op = op;
   }
 
+
   @Override
   public void initialize() {
     System.out.print(op.visualize());
   }
+
+  @Override
+  public void prevBeat() {
+
+  }
+
+  @Override
+  public void nextBeat() {
+
+  }
+
+  @Override
+  public void toEnd() {
+
+  }
+
+  @Override
+  public void toBeginning() {
+
+  }
+
+  @Override
+  public void togglePlay() {
+
+  }
+
+  @Override
+  public void resetFocus() {
+
+  }
+
+  @Override
+  public void refresh() {
+
+  }
+
+  @Override
+  public void addKeyListener(KeyListener listener) {
+
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
+
+  }
+
 
 }

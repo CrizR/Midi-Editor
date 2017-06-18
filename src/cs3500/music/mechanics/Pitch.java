@@ -38,6 +38,11 @@ public enum Pitch {
     this.pitch = pitch;
   }
 
+//TODO JAVADOC AND ADD MODIFY FILE
+
+  public boolean isSharp() {
+    return this.pitch.contains("#");
+  }
 
   @Override
   public String toString() {

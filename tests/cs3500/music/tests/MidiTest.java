@@ -23,7 +23,7 @@ import cs3500.music.model.IMusicOperations;
 import cs3500.music.model.Music;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.IView;
-import cs3500.music.view.midiview.MidiIViewImpl;
+import cs3500.music.view.midiview.MidiViewImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,7 +45,7 @@ public class MidiTest {
     MockMidiDevice mockMidiDevice = new MockMidiDevice();
     IView view = null;
     try {
-      view = new MidiIViewImpl(op, mockMidiDevice);
+      view = new MidiViewImpl(op, mockMidiDevice);
     } catch (MidiUnavailableException e) {
       //can't play midi
     }
@@ -135,7 +135,7 @@ public class MidiTest {
     MockMidiDevice modckMidiDevice = new MockMidiDevice();
     IView view = null;
     try {
-      view = new MidiIViewImpl(op, modckMidiDevice);
+      view = new MidiViewImpl(op, modckMidiDevice);
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
