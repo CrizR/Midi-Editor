@@ -107,19 +107,8 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
   }
 
 
-  //SAMPLE CODE TODO:
   @Override
-  public void setEchoOutput(String s) {
-
-  }
-
-  @Override
-  public String getInputString() {
-    return null;
-  }
-
-  @Override
-  public void clearInputString() {
+  public void togglePlay() {
 
   }
 
@@ -131,13 +120,18 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
 
 
   @Override
-  public void addActionListener(ActionListener listener) {
+  public void initialize() {
+    this.setVisible(true);
+  }
+
+  @Override
+  public void prevBeat() {
 
   }
 
   @Override
-  public void initialize() {
-    this.setVisible(true);
+  public void nextBeat() {
+
   }
 
   @Override

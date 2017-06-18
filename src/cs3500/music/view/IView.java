@@ -3,6 +3,7 @@ package cs3500.music.view;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 /**
  * IView class that represents the methods to be used by all of the editors views.
@@ -29,6 +30,9 @@ public interface IView {
    * @param listener
    */
   void addKeyListener(KeyListener listener);
+
+
+  void addMouseListener(MouseListener listener);
 
 
   /**
