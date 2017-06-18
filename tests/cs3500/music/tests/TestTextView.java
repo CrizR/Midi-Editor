@@ -20,7 +20,7 @@ import static junit.framework.TestCase.assertEquals;
 public class TestTextView {
   private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-  @Test //test.txt when the model is empty
+  @Test //test.txt.txt when the model is empty
   public void testEmptyModel() throws Exception {
     Music op = new Music();
     IView console = ViewBuilder.createView("console", op);
@@ -30,7 +30,7 @@ public class TestTextView {
   }
 
 
-  // test.txt when a node is successfully added
+  // test.txt.txt when a node is successfully added
   @Test
   public void addNoteSuccess() {
     Music op = new Music();
@@ -231,7 +231,7 @@ public class TestTextView {
                     "9                                          |  ", baos.toString());
   }
 
-  // test.txt combine music by adding a song after
+  // test.txt.txt combine music by adding a song after
   @Test
   public void addSongNextTest() {
     Music song1 = new Music();
@@ -273,7 +273,7 @@ public class TestTextView {
             "16                      |                      ", baos.toString());
   }
 
-  // test.txt editing notes
+  // test.txt.txt editing notes
   @Test
   public void editTest() {
     Music song = new Music();

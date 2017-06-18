@@ -13,7 +13,7 @@ import cs3500.music.view.IView;
  * Basic Controller class to aid in the initial setup of the music editor. The user
  * inputs a view type and a file name in the config and it runs the program.
  */
-public class Controller implements IController {
+public class Controller {
 
   private IMusicOperations op;
   private IView view;
@@ -22,11 +22,11 @@ public class Controller implements IController {
     this.op = op;
   }
 
-
-  @Override
+  /**
+   * Add javadoc TODO
+   */
   public void setView(IView view) {
     this.view = view;
-
     keyBoardSetup();
     mouseSetup();
   }

@@ -14,11 +14,11 @@ import cs3500.music.model.Music;
 import static org.junit.Assert.assertEquals;
 
 /**
- * This the test.txt class to test.txt the IMusicOperation interface methods.
+ * This the test.txt.txt class to test.txt.txt the IMusicOperation interface methods.
  */
 public class MusicTests {
 
-  // test.txt when a node is successfully added
+  // test.txt.txt when a node is successfully added
   // add a note with the last BEAT longer than the current last BEAT and see if it scales
   // add a note that is in a new octave and see if the new octave column is added
   @Test
@@ -183,7 +183,7 @@ public class MusicTests {
   }
 
   // delete note successfully
-  // test.txt to see when music has the same note,
+  // test.txt.txt to see when music has the same note,
   // OVERLAPPING NOTE NEED TO BE COMBINED
   @Test
   public void combineMusicTest() {
@@ -246,7 +246,7 @@ public class MusicTests {
                     "6                                          |  ", song1.visualize());
   }
 
-  // test.txt combine music by adding a song after
+  // test.txt.txt combine music by adding a song after
   @Test
   public void addSongNextTest() {
     Music song1 = new Music();
@@ -302,7 +302,7 @@ public class MusicTests {
             "16                      |                      ", song1.visualize());
   }
 
-  // test.txt editing notes
+  // test.txt.txt editing notes
   @Test
   public void editTest() {
     Music song = new Music();
@@ -335,8 +335,8 @@ public class MusicTests {
 
   // visualize the music in console
   // empty string for a music with no notes
-  // test.txt to see if prints starting from the correct pitch
-  // test.txt to see if add a note with a next octave prints the next octave
+  // test.txt.txt to see if prints starting from the correct pitch
+  // test.txt.txt to see if add a note with a next octave prints the next octave
   // add an octave that jumps an octave
   // right padding depending on the BEAT digits
   @Test
@@ -401,7 +401,7 @@ public class MusicTests {
                     "        ", song.visualize());
   }
 
-  // test.txt if it can get the last BEAT of the music
+  // test.txt.txt if it can get the last BEAT of the music
   @Test
   public void testLastBeat() {
     Music song = new Music();
@@ -413,7 +413,7 @@ public class MusicTests {
     assertEquals(9, song.lastBeat());
   }
 
-  // test.txt if it can get the last BEAT of the music
+  // test.txt.txt if it can get the last BEAT of the music
   @Test
   public void testGetTones() {
     Music song = new Music();
@@ -426,7 +426,7 @@ public class MusicTests {
             "D4", "D#4", "E4")), song.getTones());
   }
 
-  // test.txt if it can get a hashMap of notes
+  // test.txt.txt if it can get a hashMap of notes
   @Test
   public void testGetNotes() {
     Music song = new Music();
@@ -457,7 +457,7 @@ public class MusicTests {
   }
 
   @Test
-  //test.txt the active notes method
+  //test.txt.txt the active notes method
   public void testActiveNotes() {
     IMusicOperations op = new Music();
     Note gSharp3 = new Note(Pitch.G_SHARP, 3, 2, 0, 2);

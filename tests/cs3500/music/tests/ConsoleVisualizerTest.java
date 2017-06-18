@@ -14,10 +14,10 @@ import cs3500.music.mechanics.Set;
 import static org.junit.Assert.assertEquals;
 
 /**
- * This is a test.txt class for consoleVisualizer.
+ * This is a test.txt.txt class for consoleVisualizer.
  */
 public class ConsoleVisualizerTest {
-  // test.txt of it draws one note and scales from the right side
+  // test.txt.txt of it draws one note and scales from the right side
   @Test
   public void renderTest() {
     ArrayList<String> tones = new ArrayList(Arrays.asList("G3"));
@@ -52,7 +52,7 @@ public class ConsoleVisualizerTest {
             "8                 |  ", visual2.render());
   }
 
-  // test.txt of it draws one note and scales from the left side
+  // test.txt.txt of it draws one note and scales from the left side
   @Test
   public void renderTest2() {
     ArrayList<String> tones = new ArrayList(Arrays.asList("A#3"));

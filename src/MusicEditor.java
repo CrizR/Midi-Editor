@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
 import cs3500.music.controller.Controller;
-import cs3500.music.controller.IController;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.model.Music;
 import cs3500.music.util.MusicReader;
@@ -29,8 +28,7 @@ public class MusicEditor {
     Music.Builder x = new Music.Builder(); //Once built, returns a copy of the model.
     IMusicOperations op = MusicReader.parseFile(br, x);
     IView view = ViewBuilder.createView(args[1], op);
-    IController controller = new Controller(op);
-    controller.setView(view);
+    new Controller(op).setView(view);
     view.initialize();
   }
 }

@@ -8,6 +8,7 @@ import cs3500.music.model.IMusicOperations;
 
 /**
  * IView class that represents the methods to be used by all of the editors views.
+ * //TODO: MODIFIED
  */
 public interface IView {
 
@@ -56,4 +57,5 @@ public interface IView {
 
   void addMouseListener(MouseListener listener);
 
+  void addNote(MouseEvent e);
 }

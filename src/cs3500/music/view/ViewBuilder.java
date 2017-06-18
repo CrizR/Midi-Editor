@@ -7,7 +7,7 @@ import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.compositeview.CompView;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.midiview.MidiViewImpl;
-import cs3500.music.view.textview.ConsoleIView;
+import cs3500.music.view.textview.ConsoleView;
 
 /**
  * Builds the program's view via the usage of its method createView.
@@ -15,7 +15,7 @@ import cs3500.music.view.textview.ConsoleIView;
 public class ViewBuilder {
   /**
    * Builds a via as determined by the given string. If the incorrect view is given
-   * it will return a ConsoleIView;
+   * it will return a ConsoleView;
    *
    * @param view The type of view to return.
    * @param op   the model to build the view with.
@@ -24,7 +24,7 @@ public class ViewBuilder {
   public static IView createView(String view, IMusicOperations op) {
     switch (view) {
       case "console":
-        return new ConsoleIView(op);
+        return new ConsoleView(op);
       case "visual":
         return new GuiViewFrame(op);
       case "midi":
@@ -32,17 +32,17 @@ public class ViewBuilder {
           return new MidiViewImpl(op, MidiSystem.getSynthesizer());
         } catch (MidiUnavailableException e) {
           System.out.println("Could not start MidiView");
-          return new ConsoleIView(op);
+          return new ConsoleView(op);
         }
       case "composite":
         try {
           return new CompView(op);
         } catch (MidiUnavailableException e) {
-          return new ConsoleIView(op);
+          return new ConsoleView(op);
         }
       default:
         System.out.println("Invalid IView, Reverting to Console IView");
-        return new ConsoleIView(op);
+        return new ConsoleView(op);
     }
   }
 }

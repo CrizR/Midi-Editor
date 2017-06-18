@@ -17,10 +17,10 @@ import static org.junit.Assert.assertNotEquals;
 
 
 /**
- * The test.txt class for ToneRange.
+ * The test.txt.txt class for ToneRange.
  */
 public class ToneRangeTest {
-  // test.txt to see if it can get an array list of String tones
+  // test.txt.txt to see if it can get an array list of String tones
   @Test
   public void testGetters() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, 0, 2);
@@ -32,7 +32,7 @@ public class ToneRangeTest {
     assertEquals(new ArrayList<>(Arrays.asList("C#4", "D4", "D#4", "E4")), tones.getList());
   }
 
-  // test.txt if a tone will be added correctly passing in a note, the new tone comes after
+  // test.txt.txt if a tone will be added correctly passing in a note, the new tone comes after
   @Test
   public void testAddAfter() {
     Note a = new Note(Pitch.A, 4, 2, 0, 2);
@@ -44,7 +44,7 @@ public class ToneRangeTest {
     assertEquals(new ArrayList<>(Arrays.asList("A4", "A#4", "B4", "C5")), tones.getList());
   }
 
-  // test.txt if a tone will be added correctly passing in a note, the new tone comes before
+  // test.txt.txt if a tone will be added correctly passing in a note, the new tone comes before
   @Test
   public void testAddBefore() {
     Note d = new Note(Pitch.D, 5, 2, 0, 2);
@@ -57,7 +57,7 @@ public class ToneRangeTest {
             tones.getList());
   }
 
-  // test.txt if nothing happens when a note has a tone that is already in the range
+  // test.txt.txt if nothing happens when a note has a tone that is already in the range
   @Test
   public void addNothing() {
     Note d = new Note(Pitch.D, 5, 2, 0, 2);
@@ -72,7 +72,7 @@ public class ToneRangeTest {
             tones.getList());
   }
 
-  // test.txt if a tone will be deleted correctly passing in a note, the new list will scale
+  // test.txt.txt if a tone will be deleted correctly passing in a note, the new list will scale
   // when the note map does not have the tone
   @Test
   public void deleteTest() {
@@ -96,7 +96,7 @@ public class ToneRangeTest {
             tones.getList());
   }
 
-  // test.txt if a tone will be deleted correctly passing in a note, the new list will scale
+  // test.txt.txt if a tone will be deleted correctly passing in a note, the new list will scale
   // when the note map does not have the tone
   @Test
   public void deleteTest2() {
@@ -120,7 +120,7 @@ public class ToneRangeTest {
             tones.getList());
   }
 
-  // test.txt if nothing happens when the note map still has other notes with the tone
+  // test.txt.txt if nothing happens when the note map still has other notes with the tone
   @Test
   public void deleteNothing() {
     Note c = new Note(Pitch.C, 5, 2, 0, 2);

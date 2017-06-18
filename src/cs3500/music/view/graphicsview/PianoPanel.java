@@ -100,7 +100,7 @@ public class PianoPanel extends JPanel {
       if (!key.getPitch().isSharp()) {
         g.fillRect(key.x, key.y, keyWidth, whiteKeyLength);
         g.setColor(Color.BLACK);
-        g.drawRect(key.x, key.y, keyWidth, whiteKeyLength);//test.txt
+        g.drawRect(key.x, key.y, keyWidth, whiteKeyLength);//test.txt.txt
       }
     }
   }

@@ -121,7 +121,7 @@ public class MidiTest {
             "send() called : send in note [-128, 52, 72]\n", mockMidiDevice.testResult.toString());
   }
 
-  // test.txt to see if the right number of notes is being played
+  // test.txt.txt to see if the right number of notes is being played
   @Test
   public void testNumNotes() {
     BufferedReader br = null;

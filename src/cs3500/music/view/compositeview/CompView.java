@@ -1,6 +1,7 @@
 package cs3500.music.view.compositeview;
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.sound.midi.MidiSystem;
@@ -18,13 +19,16 @@ import cs3500.music.view.midiview.MidiViewImpl;
 public class CompView extends JFrame implements GuiView {
   MidiViewImpl midiDelegate;
   GuiViewFrame guiDelegate;
-  boolean playing;
   IMusicOperations op;
 
   public CompView(IMusicOperations op) throws MidiUnavailableException {
     this.op = op;
     this.midiDelegate = new MidiViewImpl(op, MidiSystem.getSynthesizer());
     this.guiDelegate = new GuiViewFrame(op);
+  }
+
+  private boolean isPlaying() {
+    return this.midiDelegate.isPlaying();
   }
 
   @Override
@@ -39,6 +43,14 @@ public class CompView extends JFrame implements GuiView {
     super.addMouseListener(e);
     this.midiDelegate.addMouseListener(e);
     this.guiDelegate.addMouseListener(e);
+  }
+
+  @Override
+  public void addNote(MouseEvent e) {
+    if (!isPlaying()) {
+      this.guiDelegate.addNote(e);
+      this.midiDelegate.refresh();
+    }
   }
 
   @Override
@@ -68,18 +80,16 @@ public class CompView extends JFrame implements GuiView {
 
   @Override
   public void prevBeat() {
-    if (GuiViewFrame.BEAT - 1 >= 0) {
-      GuiViewFrame.BEAT--;
+    if (!isPlaying()) {
+      this.guiDelegate.prevBeat();
     }
-    refresh();
   }
 
   @Override
   public void nextBeat() {
-    if (GuiViewFrame.BEAT + 1 <= op.lastBeat() + 1) {
-      GuiViewFrame.BEAT++;
+    if (!isPlaying()) {
+      this.guiDelegate.nextBeat();
     }
-    refresh();
   }
 
   @Override

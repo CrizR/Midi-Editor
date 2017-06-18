@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotEquals;
  * Test class for the Set class.
  */
 public class SetTest {
-  // test.txt getters returns the primitive value
+  // test.txt.txt getters returns the primitive value
   @Test
   public void getNotesTest() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, 0, 2);
@@ -27,7 +27,7 @@ public class SetTest {
             new Note(Pitch.C_SHARP, 4, 2, 0, 2))), set1.getNotes());
   }
 
-  // test.txt adding a note to this set
+  // test.txt.txt adding a note to this set
   @Test
   public void testAdd() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, 0, 2);
@@ -42,7 +42,7 @@ public class SetTest {
             new Note(Pitch.E, 3, 2, 0, 2))), set1.getNotes());
   }
 
-  // test.txt if it properly checks contains
+  // test.txt.txt if it properly checks contains
   @Test
   public void testContains() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, 0, 2);
@@ -76,7 +76,7 @@ public class SetTest {
     assertEquals(false, set1.contains(cSharp));
   }
 
-  // test.txt if it can detect if a pitch is in this set
+  // test.txt.txt if it can detect if a pitch is in this set
   @Test
   public void pitchTest() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, 0, 2);

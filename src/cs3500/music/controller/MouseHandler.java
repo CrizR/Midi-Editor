@@ -24,28 +24,7 @@ public class MouseHandler implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    for (int i = 0; i < PianoPanel.keys.size(); i++) {
-      PianoPanel.Key k = PianoPanel.keys.get(i);
-      if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
-        if (k.getPitch().isSharp()) {
-          op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 10),
-                  GuiViewFrame.BEAT);
-          view.nextBeat();
-          break;
-        } else {
-          for (int j = i; j < PianoPanel.keys.size(); j++) {
-            if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
-              System.out.println(k.getOctave());
-              System.out.println(k.getPitch());
-              op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 10),
-                      GuiViewFrame.BEAT);
-              view.nextBeat();
-              break;
-            }
-          }
-        }
-      }
-    }
+    view.addNote(e);
   }
 
   @Override

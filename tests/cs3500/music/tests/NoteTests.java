@@ -8,32 +8,32 @@ import cs3500.music.mechanics.Pitch;
 import static org.junit.Assert.assertEquals;
 
 /**
- * This is the test.txt class to test.txt the methods in the Note Class.
+ * This is the test.txt.txt class to test.txt.txt the methods in the Note Class.
  */
 public class NoteTests {
   int instrument = 0;
   int volume = 0;
 
-  // test.txt invalid octave
+  // test.txt.txt invalid octave
   @Test(expected = IllegalArgumentException.class)
   public void invalidOctave1() {
     Note invalid = new Note(Pitch.C_SHARP, 0, 2, instrument, volume);
   }
 
-  // test.txt invalid octave
+  // test.txt.txt invalid octave
   @Test(expected = IllegalArgumentException.class)
   public void invalidOctave2() {
     Note invalid = new Note(Pitch.C_SHARP, 11, 2, instrument, volume);
   }
 
-  // test.txt invalid duration
+  // test.txt.txt invalid duration
   @Test(expected = IllegalArgumentException.class)
   public void invalidDuration() {
     Note invalid = new Note(Pitch.C_SHARP, 11, 0, instrument, volume);
   }
 
 
-  // test.txt getters returns the primitive value
+  // test.txt.txt getters returns the primitive value
   @Test
   public void testGetters() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, instrument, volume);
@@ -43,7 +43,7 @@ public class NoteTests {
     assertEquals("C#4", cSharp.getTone());
   }
 
-  // test.txt equality
+  // test.txt.txt equality
   @Test
   public void equalsTest() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, instrument, volume);
@@ -54,21 +54,21 @@ public class NoteTests {
     assertEquals(false, cSharp.equals(c));
   }
 
-  // test.txt hashcode
+  // test.txt.txt hashcode
   @Test
   public void hashTest() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, instrument, volume);
     assertEquals(63, cSharp.hashCode());
   }
 
-  // test.txt the printing out the pitch in string with the octave
+  // test.txt.txt the printing out the pitch in string with the octave
   @Test
   public void stringPitchTest() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, instrument, volume);
     assertEquals("C#4", cSharp.getTone());
   }
 
-  // test.txt getting the index of the pitch of a note
+  // test.txt.txt getting the index of the pitch of a note
   @Test
   public void pitchIndexTest() {
     Note cSharp = new Note(Pitch.C_SHARP, 4, 2, instrument, volume);

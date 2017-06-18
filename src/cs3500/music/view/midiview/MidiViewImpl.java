@@ -2,6 +2,7 @@ package cs3500.music.view.midiview;
 
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
@@ -121,7 +122,6 @@ public class MidiViewImpl implements IView {
         System.out.println("Invalid");
       }
     }
-//    this.receiver.close();
   }
 
   public boolean isPlaying() {
@@ -134,8 +134,7 @@ public class MidiViewImpl implements IView {
       System.out.print("Stop");
       sequencer.stop();
       this.play = false;
-    }
-    else {
+    } else {
       sequencer.start();
       this.play = true;
     }
@@ -167,13 +166,34 @@ public class MidiViewImpl implements IView {
       this.sequencer.start();
     }
   }
+
   @Override
   public void resetFocus() {
-
+//
   }
 
   @Override
   public void refresh() {
+    try {
+//      this.synth.open();
+      sequencer.open();
+    } catch (MidiUnavailableException e) {
+      // failed to connect to mid
+    }
+    for (int i : beats) {
+      for (Note n : op.getNotes(i).values()) {
+        try {
+          this.playNote(n.getTone(), n.getDuration(), i, n.getVolume(), n.getInstrument() - 1);
+        } catch (InvalidMidiDataException e) {
+          //failed to init Midi
+        }
+      }
+    }
+    try {
+      sequencer.setSequence(sequence);
+    } catch (InvalidMidiDataException e) {
+      // failed to get midi data
+    }
 
   }
 
@@ -185,4 +205,10 @@ public class MidiViewImpl implements IView {
   @Override
   public void addMouseListener(MouseListener listener) {
   }
+
+  @Override
+  public void addNote(MouseEvent e) {
+
+  }
+
 }
