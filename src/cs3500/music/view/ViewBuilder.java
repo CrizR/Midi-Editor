@@ -5,7 +5,7 @@ import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.graphicsview.GuiIViewFrame;
-import cs3500.music.view.midiview.MidiIViewImpl;
+import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.ConsoleIView;
 
 /**
@@ -28,7 +28,7 @@ public class ViewBuilder {
         return new GuiIViewFrame(op);
       case "midi":
         try {
-          return new MidiIViewImpl(op, MidiSystem.getSynthesizer());
+          return new MidiViewImpl(op, MidiSystem.getSynthesizer());
         } catch (MidiUnavailableException e) {
           System.out.println("Could not start MidiView");
           return new ConsoleIView(op);

@@ -15,9 +15,6 @@ public class MouseHandler implements MouseListener {
   Map<Integer, Runnable> mouseEnteredMap = new HashMap<>();
   Map<Integer, Runnable> mouseExitedMap = new HashMap<>();
 
-  public MouseHandler() {
-  }
-
   public void setMouseClickedMap(Map<Integer, Runnable> mouseClickedMap) {
     this.mouseClickedMap = mouseClickedMap;
   }
@@ -40,28 +37,37 @@ public class MouseHandler implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    if (this.mouseClickedMap.containsKey(e)){
+    if (this.mouseClickedMap.containsKey(e)) {
       mouseClickedMap.get(e).run();
     }
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
+    if (this.mousePressedMap.containsKey(e)) {
+      mousePressedMap.get(e).run();
+    }
 
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-
+    if (this.mouseReleasedMap.containsKey(e)) {
+      mouseReleasedMap.get(e).run();
+    }
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-
+    if (this.mouseEnteredMap.containsKey(e)) {
+      mouseEnteredMap.get(e).run();
+    }
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-
+    if (this.mouseExitedMap.containsKey(e)) {
+      mouseExitedMap.get(e).run();
+    }
   }
 }

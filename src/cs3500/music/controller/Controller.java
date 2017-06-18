@@ -40,6 +40,8 @@ public class Controller implements IController {
   private void mouseSetup() {
     //add a note
     //remove a note
+    HashMap<Integer, Runnable> mouseClicked = new HashMap<>();
+    mouseClicked.put(MouseEvent.MOUSE_CLICKED, () -> view.addNote());
 
   }
 
@@ -50,7 +52,6 @@ public class Controller implements IController {
 
     //play and pause
     //right and left arrows
-
     keyPresses.put(KeyEvent.VK_LEFT, () -> view.prevBeat());
     keyPresses.put(KeyEvent.VK_RIGHT, () -> view.nextBeat());
     keyPresses.put(KeyEvent.VK_SPACE, () -> view.togglePlay());

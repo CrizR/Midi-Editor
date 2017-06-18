@@ -2,6 +2,7 @@ package cs3500.music.view.midiview;
 
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -100,6 +101,11 @@ public class MidiViewImpl implements IView {
 
   @Override
   public void addKeyListener(KeyListener listener) {
+
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
 
   }
 

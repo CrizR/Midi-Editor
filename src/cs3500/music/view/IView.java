@@ -46,4 +46,9 @@ public interface IView {
 
   //TODO: JAVADOC
   void nextBeat();
+
+
+  void addNote();
+
+  void removeNote();
 }

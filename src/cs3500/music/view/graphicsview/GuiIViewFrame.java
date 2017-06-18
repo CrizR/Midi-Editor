@@ -1,19 +1,13 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.*;
 import java.awt.event.KeyListener;
-import java.awt.Color;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.event.MouseListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import cs3500.music.model.IMusicOperations;
+import cs3500.music.view.IView;
 
 
 /**
@@ -28,34 +22,6 @@ import cs3500.music.model.IMusicOperations;
 public class GuiIViewFrame extends JFrame implements GuiIView {
   private final IMusicOperations op;
   public static int BEAT;
-  private final KeyListener keyListener = new KeyListener() {
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-      //Do Nothing
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-      int key = e.getKeyCode();
-      if (key == KeyEvent.VK_RIGHT) {
-        if (BEAT + 1 <= op.lastBeat() + 1) {
-          BEAT++;
-        }
-        refresh();
-      } else if (key == KeyEvent.VK_LEFT) {
-        if (BEAT - 1 >= 0) {
-          BEAT--;
-        }
-        refresh();
-      }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-      //Do Nothing
-    }
-  };
 
   /**
    * Constructs a GuiIView frame by first instantiating the midipanel and piano panel
@@ -75,10 +41,6 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
     pianoPanel.setBackground(Color.gray.brighter());
     //this.pianoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
 
-
-    //add key listeners
-    midiPanel.addKeyListener(keyListener);
-    pianoPanel.addKeyListener(keyListener);
     midiPanel.setFocusable(true);
     pianoPanel.setFocusable(true);
 
@@ -126,12 +88,18 @@ public class GuiIViewFrame extends JFrame implements GuiIView {
 
   @Override
   public void prevBeat() {
-
+    if (BEAT - 1 >= 0) {
+      BEAT--;
+    }
+    refresh();
   }
 
   @Override
   public void nextBeat() {
-
+    if (BEAT + 1 <= op.lastBeat() + 1) {
+      BEAT++;
+    }
+    refresh();
   }
 
   @Override
