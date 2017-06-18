@@ -9,7 +9,8 @@ import cs3500.music.controller.Controller;
 /**
  * Main class to initiate the program.
  */
-public class MusicEditor {
+public class
+MusicEditor {
   /**
    * Main method starts the program.
    *
