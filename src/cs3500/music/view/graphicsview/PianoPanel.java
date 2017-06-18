@@ -39,14 +39,16 @@ public class PianoPanel extends JPanel {
     Pitch p;
     int x;
     int y;
+    int octave;
 
     //Builds a key via the given boolean, color, tone, and position
-    private Key(boolean played, Color color, Pitch p, int x, int y) {
+    private Key(boolean played, Color color, Pitch p, int x, int y, int octave) {
       this.played = played;
       this.color = color;
       this.p = p;
       this.x = x;
       this.y = y;
+      this.octave = octave;
     }
 
     public int getX() {
@@ -70,12 +72,16 @@ public class PianoPanel extends JPanel {
     public Pitch getPitch() {
       return p;
     }
+
+    public int getOctave() {
+      return this.octave;
+    }
   }
 
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    int x = 25;
+    int x = 50;
     int y = 0;
     keys = new ArrayList<>();
     initKeys(x, y);
@@ -118,7 +124,7 @@ public class PianoPanel extends JPanel {
   //initializes the keys to draw
   private void initKeys(int x, int y) {
     //initialize the keys
-    for (int i = 0; i <= 10; i++) {
+    for (int i = 0; i < 10; i++) {
       for (Pitch p : Pitch.values()) {
         String tone = p.toString() + Integer.toString(i);
         boolean played = false;
@@ -127,11 +133,11 @@ public class PianoPanel extends JPanel {
         }
         if (p.isSharp()) {
           x += keyWidth / 3;
-          this.keys.add(new Key(played, Color.BLACK, p, x, y));
+          this.keys.add(new Key(played, Color.BLACK, p, x, y, i + 1));
           x -= keyWidth / 3;
         } else {
           x += keyWidth;
-          this.keys.add(new Key(played, Color.WHITE, p, x, y));
+          this.keys.add(new Key(played, Color.WHITE, p, x, y, i + 1));
         }
       }
     }

@@ -32,13 +32,8 @@ public class Controller implements IController {
   }
 
   private void mouseSetup() {
-    //add a note
-    //remove a note
-
     MouseHandler mh = new MouseHandler(op, view);
     view.addMouseListener(mh);
-
-
   }
 
   private void keyBoardSetup() {
@@ -46,8 +41,6 @@ public class Controller implements IController {
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
-    //play and pause
-    //right and left arrows
     keyPresses.put(KeyEvent.VK_LEFT, () -> view.prevBeat());
     keyPresses.put(KeyEvent.VK_RIGHT, () -> view.nextBeat());
     keyPresses.put(KeyEvent.VK_SPACE, () -> view.togglePlay());

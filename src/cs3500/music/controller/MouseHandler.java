@@ -28,14 +28,14 @@ public class MouseHandler implements MouseListener {
       PianoPanel.Key k = PianoPanel.keys.get(i);
       if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
         if (k.getPitch().isSharp()) {
-          op.addNote(new Note(k.getPitch(), 1, 1, 1, 10),
+          op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 10),
                   GuiViewFrame.BEAT);
           view.nextBeat();
           break;
         } else {
           for (int j = i; j < PianoPanel.keys.size(); j++) {
             if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
-              op.addNote(new Note(k.getPitch(), 1, 1, 1, 10),
+              op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 10),
                       GuiViewFrame.BEAT);
               view.nextBeat();
               break;
