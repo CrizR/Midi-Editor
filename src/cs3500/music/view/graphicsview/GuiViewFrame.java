@@ -24,6 +24,8 @@ public class GuiViewFrame extends JFrame implements GuiView {
   public static final int PIANO_HEIGHT = 250;
   public static final int MIDI_WIDTH = 1000;
   public static final int MIDI_HEIGHT = 500;
+  JPanel midiPanel;
+  JPanel pianoPanel;
 
   /**
    * Constructs a GuiView frame by first instantiating the midipanel and piano panel
@@ -35,27 +37,17 @@ public class GuiViewFrame extends JFrame implements GuiView {
    */
   public GuiViewFrame(IMusicOperations op) {
     this.op = op;
-    JPanel midiPanel = new GuiPanel(op);
-    JPanel pianoPanel = new PianoPanel(op);
-
-    //init piano panel
-    pianoPanel.setPreferredSize(new Dimension(PIANO_WIDTH, PIANO_HEIGHT));
-    pianoPanel.setBackground(Color.gray.brighter());
-    //this.pianoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
-
+    midiPanel = new GuiPanel(op);
+    pianoPanel = new PianoPanel(op);
+    update();
 
     //make midi panel scrollable
     JScrollPane scrollPane = new JScrollPane(midiPanel,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    midiPanel.setAutoscrolls(true);
-    midiPanel.setPreferredSize(new Dimension(
-            (op.lastBeat() + 2) * GuiPanel.cellWidth,
-            (op.getTones().size() + 2) * GuiPanel.cellHeight));
     scrollPane.setPreferredSize(new Dimension(MIDI_WIDTH, MIDI_HEIGHT));
     scrollPane.getVerticalScrollBar().setUnitIncrement(128);
     scrollPane.getHorizontalScrollBar().setUnitIncrement(128);
-
 
     //add to frame
     this.add(scrollPane, BorderLayout.NORTH);
@@ -64,6 +56,17 @@ public class GuiViewFrame extends JFrame implements GuiView {
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     this.setResizable(false);
+  }
+
+  private void update() {
+    //init piano panel
+    pianoPanel.setPreferredSize(new Dimension(PIANO_WIDTH, PIANO_HEIGHT));
+    pianoPanel.setBackground(Color.gray.brighter());
+    //this.pianoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+    midiPanel.setAutoscrolls(true);
+    midiPanel.setPreferredSize(new Dimension(
+            (op.lastBeat() + 2) * GuiPanel.cellWidth,
+            (op.getTones().size() + 2) * GuiPanel.cellHeight));
   }
 
 
@@ -116,5 +119,6 @@ public class GuiViewFrame extends JFrame implements GuiView {
   public void refresh() {
     this.revalidate();
     this.repaint();
+    this.update();
   }
 }
