@@ -25,15 +25,17 @@ public class CompView extends JFrame implements GuiView {
   IMusicOperations op;
   boolean playing;
   Timer timer;
+  int tempo;
 
   public CompView(IMusicOperations op) throws MidiUnavailableException {
     this.op = op;
+    this.tempo = this.op.getTempo();
     this.midiDelegate = new MidiViewImpl(op, MidiSystem.getSynthesizer());
     this.guiDelegate = new GuiViewFrame(op);
 
     //Set up timer to drive animation events.
-    timer = new Timer(100, new refreshFrame());
-    timer.setInitialDelay(10);
+    timer = new Timer(110, new refreshFrame());
+    timer.setInitialDelay(5);
     this.playing = false;
   }
 
@@ -68,9 +70,11 @@ public class CompView extends JFrame implements GuiView {
     this.midiDelegate.togglePlay();
     if (playing) {
       timer.stop();
+      this.playing = false;
     }
     else {
       timer.start();
+      this.playing = true;
     }
   }
 
@@ -123,8 +127,9 @@ public class CompView extends JFrame implements GuiView {
   public class refreshFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-      guiDelegate.sync(midiDelegate.currentBeat());
-      refresh();
+//      guiDelegate.sync(midiDelegate.currentBeat());
+//      guiDelegate.refresh();
+      guiDelegate.nextBeat();
     }
   }
 }

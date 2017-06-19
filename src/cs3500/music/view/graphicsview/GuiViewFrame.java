@@ -150,8 +150,6 @@ public class GuiViewFrame extends JFrame implements GuiView {
         } else {
           for (int j = i; j < PianoPanel.keys.size(); j++) {
             if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
-              System.out.println(k.getOctave());
-              System.out.println(k.getPitch());
               op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 60),
                       GuiViewFrame.BEAT);
               this.nextBeat();
