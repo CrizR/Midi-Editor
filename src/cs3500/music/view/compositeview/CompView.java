@@ -1,8 +1,11 @@
 package cs3500.music.view.compositeview;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.TimerTask;
 
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -20,11 +23,18 @@ public class CompView extends JFrame implements GuiView {
   MidiViewImpl midiDelegate;
   GuiViewFrame guiDelegate;
   IMusicOperations op;
+  boolean playing;
+  Timer timer;
 
   public CompView(IMusicOperations op) throws MidiUnavailableException {
     this.op = op;
     this.midiDelegate = new MidiViewImpl(op, MidiSystem.getSynthesizer());
     this.guiDelegate = new GuiViewFrame(op);
+
+    //Set up timer to drive animation events.
+    timer = new Timer(100, new refreshFrame());
+    timer.setInitialDelay(10);
+    this.playing = false;
   }
 
   private boolean isPlaying() {
@@ -56,6 +66,12 @@ public class CompView extends JFrame implements GuiView {
   @Override
   public void togglePlay() {
     this.midiDelegate.togglePlay();
+    if (playing) {
+      timer.stop();
+    }
+    else {
+      timer.start();
+    }
   }
 
   @Override
@@ -102,5 +118,13 @@ public class CompView extends JFrame implements GuiView {
   public void toBeginning() {
     this.guiDelegate.toBeginning();
     this.midiDelegate.toBeginning();
+  }
+
+  public class refreshFrame implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      guiDelegate.sync(midiDelegate.currentBeat());
+      refresh();
+    }
   }
 }

@@ -72,6 +72,9 @@ public class GuiViewFrame extends JFrame implements GuiView {
             (op.getTones().size() + 2) * GuiPanel.cellHeight));
   }
 
+  public void sync(int beat) {
+    BEAT = beat;
+  }
 
   @Override
   public void togglePlay() {

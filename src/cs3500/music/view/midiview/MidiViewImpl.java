@@ -141,7 +141,6 @@ public class MidiViewImpl implements IView {
   }
 
   public int currentBeat() {
-    System.out.print(sequencer.getMicrosecondPosition());
     return (int) sequencer.getMicrosecondPosition() / this.tempo;
   }
 
