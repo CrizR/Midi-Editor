@@ -4,6 +4,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.sound.midi.MetaEventListener;
+
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.IView;
 
@@ -26,54 +28,11 @@ public class ConsoleView implements IView {
   }
 
   @Override
-  public void prevBeat() {
-
-  }
-
-  @Override
-  public void nextBeat() {
-
-  }
-
-  @Override
   public void toEnd() {
-
   }
 
   @Override
   public void toBeginning() {
-
   }
-
-  @Override
-  public void togglePlay() {
-
-  }
-
-  @Override
-  public void resetFocus() {
-
-  }
-
-  @Override
-  public void refresh() {
-
-  }
-
-  @Override
-  public void addKeyListener(KeyListener listener) {
-
-  }
-
-  @Override
-  public void addMouseListener(MouseListener listener) {
-
-  }
-
-  @Override
-  public void addNote(MouseEvent e) {
-
-  }
-
 
 }

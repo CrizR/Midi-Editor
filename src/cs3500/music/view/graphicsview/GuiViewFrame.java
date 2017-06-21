@@ -3,6 +3,7 @@ package cs3500.music.view.graphicsview;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import javax.sound.midi.MetaEventListener;
 import javax.swing.*;
 
 import cs3500.music.mechanics.Note;
@@ -70,10 +71,6 @@ public class GuiViewFrame extends JFrame implements GuiView {
     midiPanel.setPreferredSize(new Dimension(
             (op.lastBeat() + 2) * GuiPanel.cellWidth,
             (op.getTones().size() + 2) * GuiPanel.cellHeight));
-  }
-
-  public void sync(int beat) {
-    BEAT = beat;
   }
 
   @Override

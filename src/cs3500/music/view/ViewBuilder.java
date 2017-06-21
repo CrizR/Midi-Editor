@@ -4,7 +4,8 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.compositeview.CompView;
+//import cs3500.music.view.compositeview.CompView;
+import cs3500.music.view.compositeview.CompViewAlt;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.ConsoleView;
@@ -34,10 +35,17 @@ public class ViewBuilder {
           System.out.println("Could not start MidiView");
           return new ConsoleView(op);
         }
-      case "composite":
+//      case "composite":
+//        try {
+//          return new CompView(op);
+//        } catch (MidiUnavailableException e) {
+//          return new ConsoleView(op);
+//        }
+      case "compositeAlt":
         try {
-          return new CompView(op);
+          return new CompViewAlt(op, MidiSystem.getSynthesizer());
         } catch (MidiUnavailableException e) {
+          System.out.println("Could not start MidiView");
           return new ConsoleView(op);
         }
       default:

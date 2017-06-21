@@ -6,7 +6,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.sound.midi.ControllerEventListener;
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -31,11 +33,11 @@ import cs3500.music.view.IView;
 public class MidiViewImpl implements IView {
   //  private final Synthesizer synth;
 //  private final Receiver receiver;
-  private final IMusicOperations op;
-  private final int tempo;
+  protected final IMusicOperations op;
+  protected final int tempo;
   private final ArrayList<Integer> beats;
-  private Sequence sequence;
-  private Sequencer sequencer;
+  protected Sequence sequence;
+  protected Sequencer sequencer;
   //  private Track track;
   Transmitter seqTrans;
   Synthesizer synth;
@@ -115,6 +117,7 @@ public class MidiViewImpl implements IView {
       // failed to get midi data
     }
 
+
     if (this.play) {
       try {
         sequencer.start();
@@ -124,34 +127,11 @@ public class MidiViewImpl implements IView {
     }
   }
 
+
   public boolean isPlaying() {
     return this.sequencer.isRunning();
   }
 
-  @Override
-  public void togglePlay() {
-    if (this.play) {
-      System.out.print("Stop");
-      sequencer.stop();
-      this.play = false;
-    } else {
-      sequencer.start();
-      this.play = true;
-    }
-  }
-
-  public int currentBeat() {
-    return (int) sequencer.getMicrosecondPosition() / this.tempo;
-  }
-
-  @Override
-  public void prevBeat() {
-  }
-
-  @Override
-  public void nextBeat() {
-
-  }
 
   @Override
   public void toEnd() {
@@ -166,12 +146,6 @@ public class MidiViewImpl implements IView {
     }
   }
 
-  @Override
-  public void resetFocus() {
-//
-  }
-
-  @Override
   public void refresh() {
     try {
 //      this.synth.open();
@@ -193,21 +167,7 @@ public class MidiViewImpl implements IView {
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
-
   }
 
-  @Override
-  public void addKeyListener(KeyListener listener) {
-
-  }
-
-  @Override
-  public void addMouseListener(MouseListener listener) {
-  }
-
-  @Override
-  public void addNote(MouseEvent e) {
-
-  }
 
 }

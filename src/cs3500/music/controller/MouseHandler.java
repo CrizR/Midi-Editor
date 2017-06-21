@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
+import cs3500.music.view.GuiView;
 import cs3500.music.view.IView;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.graphicsview.PianoPanel;
@@ -14,10 +15,10 @@ import cs3500.music.view.graphicsview.PianoPanel;
  */
 public class MouseHandler implements MouseListener {
   IMusicOperations op;
-  IView view;
+  GuiView view;
 
 
-  public MouseHandler(IMusicOperations op, IView view) {
+  public MouseHandler(IMusicOperations op, GuiView view) {
     this.op = op;
     this.view = view;
   }

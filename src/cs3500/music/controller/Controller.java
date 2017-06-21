@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cs3500.music.model.IMusicOperations;
+import cs3500.music.view.GuiView;
 import cs3500.music.view.IView;
 
 
@@ -32,9 +33,9 @@ public class Controller {
   }
 
   private void mouseSetup() {
-    MouseHandler mh = new MouseHandler(op, view);
-    view.addMouseListener(mh);
-    view.resetFocus();
+    MouseHandler mh = new MouseHandler(op, ((GuiView)view));
+    ((GuiView)view).addMouseListener(mh);
+    ((GuiView)view).resetFocus();
   }
 
   private void keyBoardSetup() {
@@ -42,9 +43,9 @@ public class Controller {
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
-    keyPresses.put(KeyEvent.VK_LEFT, () -> view.prevBeat());
-    keyPresses.put(KeyEvent.VK_RIGHT, () -> view.nextBeat());
-    keyPresses.put(KeyEvent.VK_SPACE, () -> view.togglePlay());
+    keyPresses.put(KeyEvent.VK_LEFT, () -> ((GuiView)view).prevBeat());
+    keyPresses.put(KeyEvent.VK_RIGHT, () -> ((GuiView)view).nextBeat());
+    keyPresses.put(KeyEvent.VK_SPACE, () -> ((GuiView)view).togglePlay());
     keyPresses.put(KeyEvent.VK_HOME, () -> view.toBeginning());
     keyPresses.put(KeyEvent.VK_END, () -> view.toEnd());
 
@@ -53,7 +54,7 @@ public class Controller {
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
 
-    view.addKeyListener(kbd);
-    view.resetFocus();
+    ((GuiView)view).addKeyListener(kbd);
+    ((GuiView)view).resetFocus();
   }
 }
