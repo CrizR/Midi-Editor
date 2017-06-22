@@ -1,14 +1,9 @@
 package cs3500.music.view.midiview;
 
 
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.sound.midi.ControllerEventListener;
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -31,8 +26,6 @@ import cs3500.music.view.IView;
  * this view allows the user to hear the notes found in the music model.
  */
 public class MidiViewImpl implements IView {
-  //  private final Synthesizer synth;
-//  private final Receiver receiver;
   protected final IMusicOperations op;
   protected final int tempo;
   private final ArrayList<Integer> beats;

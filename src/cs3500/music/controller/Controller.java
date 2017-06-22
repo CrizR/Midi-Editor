@@ -26,10 +26,11 @@ public class Controller {
   /**
    * Add javadoc TODO
    */
-  public void setView(IView view) {
+  public Controller setView(IView view) {
     this.view = view;
     keyBoardSetup();
     mouseSetup();
+    return this;
   }
 
   private void mouseSetup() {
