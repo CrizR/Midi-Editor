@@ -28,11 +28,53 @@ public class ConsoleView implements IView {
   }
 
   @Override
+  public void prevBeat() {
+
+  }
+
+  @Override
+  public void nextBeat() {
+
+  }
+
+  @Override
   public void toEnd() {
+
   }
 
   @Override
   public void toBeginning() {
+
+  }
+
+  @Override
+  public void togglePlay() {
+
+  }
+
+  @Override
+  public void resetFocus() {
+
+  }
+
+  @Override
+  public void refresh() {
+
+  }
+
+  @Override
+  public void addKeyListener(KeyListener listener) {
+
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
+
+  }
+
+  @Override
+  public void addNote(MouseEvent e) {
+
   }
 
 }

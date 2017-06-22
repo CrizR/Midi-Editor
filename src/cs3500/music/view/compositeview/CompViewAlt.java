@@ -24,17 +24,19 @@ import javax.sound.midi.Transmitter;
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.GuiView;
 import cs3500.music.view.IView;
 import cs3500.music.view.graphicsview.GuiViewFrame;
-import cs3500.music.view.midiview.MidiViewImpl;
 
 /**
  * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
  * this view allows the user to hear the notes found in the music model.
  */
-public class CompViewAlt extends MidiViewImpl implements GuiView{
+public class CompViewAlt implements IView {
+  private final IMusicOperations op;
+  private final int tempo;
   private final ArrayList<Integer> beats;
+  private Sequence sequence;
+  private Sequencer sequencer;
   boolean play = false;
   GuiViewFrame guiDelegate;
 
@@ -48,24 +50,80 @@ public class CompViewAlt extends MidiViewImpl implements GuiView{
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
   public CompViewAlt(IMusicOperations op, Synthesizer synth) throws MidiUnavailableException {
-    super(op, synth);
+    this.op = op;
     this.guiDelegate = new GuiViewFrame(op);
+    this.tempo = op.getTempo();
     this.beats = op.getStartingBeats();
-    Track t = this.sequence.createTrack();
-    MetaMessage tick = new MetaMessage();
-
-    for (int i = 0; i <= op.lastBeat(); i ++) {
-      MidiEvent tic = new MidiEvent(tick, i * tempo);
-      t.add(tic);
+    try {
+      sequencer = MidiSystem.getSequencer();
+      sequence = new Sequence(Sequence.PPQ, this.tempo * 4);
+    } catch (InvalidMidiDataException e) {
+      // failed to use mid
     }
+  }
 
-    sequencer.addMetaEventListener(new Refresh());
+  /**
+   * Plays the given note as defined by the following parameters.
+   *
+   * @param tone       Represents the tone of the note to play.
+   * @param duration   Represents the duration of the note to play.
+   * @param startBeat  Represents the startBeat of the note to play.
+   * @param volume     Represents the volume of the note to play.
+   * @param instrument Represents the instrument of the note to play.
+   * @throws InvalidMidiDataException if the midi fails to play the note.
+   */
+  private void playNote(String tone, int duration, int startBeat, int volume, int instrument) throws InvalidMidiDataException {
+    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument, Pitch.toneIndex.indexOf(tone), volume);
+    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument, Pitch.toneIndex.indexOf(tone), volume);
+
+    MidiEvent startNote = new MidiEvent(start, this.tempo * startBeat);
+    MidiEvent endNote = new MidiEvent(stop, this.tempo * (startBeat + duration));
+    Track t = sequence.createTrack();
+    t.add(startNote);
+    t.add(endNote);
   }
 
   @Override
   public void initialize() {
-    super.initialize();
     this.guiDelegate.initialize();
+
+    try {
+      sequencer.open();
+    } catch (MidiUnavailableException e) {
+      // failed to connect to mid
+    }
+    for (int i : beats) {
+      for (Note n : op.getNotes(i).values()) {
+        try {
+          this.playNote(n.getTone(), n.getDuration(), i, n.getVolume(), n.getInstrument() - 1);
+        } catch (InvalidMidiDataException e) {
+          //failed to init Midi
+        }
+      }
+    }
+    for (int i = 0; i <= op.lastBeat(); i ++) {
+      MetaMessage tick = new MetaMessage();
+      MidiEvent tic = new MidiEvent(tick, i * tempo);
+      Track t = sequence.createTrack();
+      t.add(tic);
+    }
+
+    sequencer.addMetaEventListener(new Refresh());
+
+    try {
+      sequencer.setSequence(sequence);
+    } catch (InvalidMidiDataException e) {
+      // failed to get midi data
+    }
+
+
+    if (this.play) {
+      try {
+        sequencer.start();
+      } catch (IllegalStateException e) {
+        System.out.println("Invalid");
+      }
+    }
   }
 
   @Override
@@ -77,6 +135,11 @@ public class CompViewAlt extends MidiViewImpl implements GuiView{
       sequencer.start();
       this.play = true;
     }
+  }
+
+
+  public int currentBeat() {
+    return (int) sequencer.getMicrosecondPosition() / this.tempo;
   }
 
   @Override
@@ -96,7 +159,7 @@ public class CompViewAlt extends MidiViewImpl implements GuiView{
   @Override
   public void toEnd() {
     this.guiDelegate.toEnd();
-    this.sequencer.setTickPosition(this.op.lastBeat() * this.tempo);
+    this.sequencer.setTickPosition(op.lastBeat() * this.tempo);
   }
 
   @Override
@@ -115,7 +178,26 @@ public class CompViewAlt extends MidiViewImpl implements GuiView{
 
   @Override
   public void refresh() {
-    super.refresh();
+    try {
+//      this.synth.open();
+      sequencer.open();
+    } catch (MidiUnavailableException e) {
+      // failed to connect to mid
+    }
+    for (int i : beats) {
+      for (Note n : op.getNotes(i).values()) {
+        try {
+          this.playNote(n.getTone(), n.getDuration(), i, n.getVolume(), n.getInstrument() - 1);
+        } catch (InvalidMidiDataException e) {
+          //failed to init Midi
+        }
+      }
+    }
+    try {
+      sequencer.setSequence(sequence);
+    } catch (InvalidMidiDataException e) {
+      // failed to get midi data
+    }
     this.guiDelegate.refresh();
   }
 
@@ -140,7 +222,8 @@ public class CompViewAlt extends MidiViewImpl implements GuiView{
   public class Refresh implements MetaEventListener {
     @Override
     public void meta(MetaMessage meta) {
-      guiDelegate.nextBeat();
+      guiDelegate.sync(currentBeat());
+      guiDelegate.refresh();
     }
   }
 }

@@ -33,11 +33,11 @@ import cs3500.music.view.IView;
 public class MidiViewImpl implements IView {
   //  private final Synthesizer synth;
 //  private final Receiver receiver;
-  protected final IMusicOperations op;
-  protected final int tempo;
+  private final IMusicOperations op;
+  private final int tempo;
   private final ArrayList<Integer> beats;
-  protected Sequence sequence;
-  protected Sequencer sequencer;
+  private Sequence sequence;
+  private Sequencer sequencer;
   //  private Track track;
   Transmitter seqTrans;
   Synthesizer synth;
@@ -86,6 +86,7 @@ public class MidiViewImpl implements IView {
 //    receiver.send(start, this.tempo * startBeat);
 //    receiver.send(stop, this.tempo * (startBeat + duration));
 
+
     MidiEvent startNote = new MidiEvent(start, this.tempo * startBeat);
     MidiEvent endNote = new MidiEvent(stop, this.tempo * (startBeat + duration));
     Track t = sequence.createTrack();
@@ -132,6 +133,31 @@ public class MidiViewImpl implements IView {
     return this.sequencer.isRunning();
   }
 
+  @Override
+  public void togglePlay() {
+    if (this.play) {
+      System.out.print("Stop");
+      sequencer.stop();
+      this.play = false;
+    } else {
+      sequencer.start();
+      this.play = true;
+    }
+  }
+
+
+  public int currentBeat() {
+    return (int) sequencer.getMicrosecondPosition() / this.tempo;
+  }
+
+  @Override
+  public void prevBeat() {
+  }
+
+  @Override
+  public void nextBeat() {
+
+  }
 
   @Override
   public void toEnd() {
@@ -146,6 +172,12 @@ public class MidiViewImpl implements IView {
     }
   }
 
+  @Override
+  public void resetFocus() {
+//
+  }
+
+  @Override
   public void refresh() {
     try {
 //      this.synth.open();
@@ -169,5 +201,18 @@ public class MidiViewImpl implements IView {
     }
   }
 
+  @Override
+  public void addKeyListener(KeyListener listener) {
+
+  }
+
+  @Override
+  public void addMouseListener(MouseListener listener) {
+  }
+
+  @Override
+  public void addNote(MouseEvent e) {
+
+  }
 
 }
