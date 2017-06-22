@@ -1,5 +1,13 @@
 package cs3500.music.view;
 
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.sound.midi.MetaEventListener;
+
+import cs3500.music.model.IMusicOperations;
+
 /**
  * IView class that represents the methods to be used by all of the editors views.
  * //TODO: MODIFIED
@@ -13,15 +21,21 @@ public interface IView {
    */
   void initialize();
 
+  void toEnd();
+
+  void toBeginning();
+
+
+  /**
+   * Signal the view to draw itself.
+   */
+  void refresh();
+
   //TODO: JAVADOC
   void prevBeat();
 
   //TODO: JAVADOC
   void nextBeat();
-
-  void toEnd();
-
-  void toBeginning();
 
 
   void togglePlay();
@@ -31,12 +45,6 @@ public interface IView {
    * to it, so that keyboard events will still flow through.
    */
   void resetFocus();
-
-  /**
-   * Signal the view to draw itself.
-   */
-  void refresh();
-
 
   /**
    * this is to force the view to have a method to set up the keyboard.

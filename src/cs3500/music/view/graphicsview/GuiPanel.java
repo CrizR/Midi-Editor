@@ -26,8 +26,8 @@ public class GuiPanel extends JPanel {
   private final int fromTop = 25;
   private final int fromSide = 40;
   private static int scale = 1;
-  static final int cellWidth = 42 * scale;
-  static final int cellHeight = 25 * scale;
+  public static final int cellWidth = 42 * scale;
+  public static final int cellHeight = 25 * scale;
   private int columnNum;
 
   /**

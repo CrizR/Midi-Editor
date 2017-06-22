@@ -28,6 +28,19 @@ public class ConsoleView implements IView {
   }
 
   @Override
+  public void toEnd() {
+  }
+
+  @Override
+  public void toBeginning() {
+  }
+
+  @Override
+  public void refresh() {
+
+  }
+
+  @Override
   public void prevBeat() {
 
   }
@@ -38,27 +51,12 @@ public class ConsoleView implements IView {
   }
 
   @Override
-  public void toEnd() {
-
-  }
-
-  @Override
-  public void toBeginning() {
-
-  }
-
-  @Override
   public void togglePlay() {
 
   }
 
   @Override
   public void resetFocus() {
-
-  }
-
-  @Override
-  public void refresh() {
 
   }
 

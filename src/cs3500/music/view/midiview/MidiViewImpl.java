@@ -31,15 +31,11 @@ import cs3500.music.view.IView;
  * this view allows the user to hear the notes found in the music model.
  */
 public class MidiViewImpl implements IView {
-  //  private final Synthesizer synth;
-//  private final Receiver receiver;
-  private final IMusicOperations op;
-  private final int tempo;
+  protected final IMusicOperations op;
+  protected final int tempo;
   private final ArrayList<Integer> beats;
-  private Sequence sequence;
-  private Sequencer sequencer;
-  //  private Track track;
-  Transmitter seqTrans;
+  protected Sequence sequence;
+  protected Sequencer sequencer;
   Synthesizer synth;
   Receiver receiver;
   boolean play = false;
@@ -60,11 +56,8 @@ public class MidiViewImpl implements IView {
     this.beats = op.getStartingBeats();
     try {
       sequencer = MidiSystem.getSequencer();
-      sequence = new Sequence(Sequence.PPQ, this.tempo * 4);
-//      seqTrans = sequencer.getTransmitter();
-//      synth   = MidiSystem.getSynthesizer();
-//      receiver = synth.getReceiver();
-//      seqTrans.setReceiver(receiver);
+      sequence = new Sequence(Sequence.PPQ, 1);
+      sequencer.setTempoInMPQ(this.tempo);
     } catch (InvalidMidiDataException e) {
       // failed to use mid
     }
@@ -80,28 +73,24 @@ public class MidiViewImpl implements IView {
    * @param instrument Represents the instrument of the note to play.
    * @throws InvalidMidiDataException if the midi fails to play the note.
    */
-  private void playNote(String tone, int duration, int startBeat, int volume, int instrument) throws InvalidMidiDataException {
+  protected void playNote(String tone, int duration, int startBeat, int volume, int instrument) throws InvalidMidiDataException {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument, Pitch.toneIndex.indexOf(tone), volume);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument, Pitch.toneIndex.indexOf(tone), volume);
-//    receiver.send(start, this.tempo * startBeat);
-//    receiver.send(stop, this.tempo * (startBeat + duration));
 
-
-    MidiEvent startNote = new MidiEvent(start, this.tempo * startBeat);
-    MidiEvent endNote = new MidiEvent(stop, this.tempo * (startBeat + duration));
+    MidiEvent startNote = new MidiEvent(start, startBeat);
+    MidiEvent endNote = new MidiEvent(stop, startBeat + duration);
     Track t = sequence.createTrack();
     t.add(startNote);
     t.add(endNote);
-  }
-
-  @Override
-  public void initialize() {
     try {
-//      this.synth.open();
       sequencer.open();
     } catch (MidiUnavailableException e) {
       // failed to connect to mid
     }
+  }
+
+  @Override
+  public void initialize() {
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {
@@ -117,46 +106,7 @@ public class MidiViewImpl implements IView {
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
-
-
-    if (this.play) {
-      try {
-        sequencer.start();
-      } catch (IllegalStateException e) {
-        System.out.println("Invalid");
-      }
-    }
-  }
-
-
-  public boolean isPlaying() {
-    return this.sequencer.isRunning();
-  }
-
-  @Override
-  public void togglePlay() {
-    if (this.play) {
-      System.out.print("Stop");
-      sequencer.stop();
-      this.play = false;
-    } else {
-      sequencer.start();
-      this.play = true;
-    }
-  }
-
-
-  public int currentBeat() {
-    return (int) sequencer.getMicrosecondPosition() / this.tempo;
-  }
-
-  @Override
-  public void prevBeat() {
-  }
-
-  @Override
-  public void nextBeat() {
-
+    sequencer.start();
   }
 
   @Override
@@ -172,19 +122,7 @@ public class MidiViewImpl implements IView {
     }
   }
 
-  @Override
-  public void resetFocus() {
-//
-  }
-
-  @Override
   public void refresh() {
-    try {
-//      this.synth.open();
-      sequencer.open();
-    } catch (MidiUnavailableException e) {
-      // failed to connect to mid
-    }
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {
@@ -202,17 +140,34 @@ public class MidiViewImpl implements IView {
   }
 
   @Override
+  public void prevBeat() {
+      this.sequencer.setTickPosition(this.sequencer.getTickPosition() - 1);
+  }
+
+  @Override
+  public void nextBeat() {
+      this.sequencer.setTickPosition(this.sequencer.getTickPosition() + 1);
+  }
+
+  @Override
+  public void togglePlay() {
+  }
+
+  @Override
+  public void resetFocus() {
+  }
+
+  @Override
   public void addKeyListener(KeyListener listener) {
 
   }
 
   @Override
   public void addMouseListener(MouseListener listener) {
+
   }
 
   @Override
   public void addNote(MouseEvent e) {
-
   }
-
 }

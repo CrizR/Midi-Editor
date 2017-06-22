@@ -1,153 +1,160 @@
 package cs3500.music.view.compositeview;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.EventListener;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
-import javax.sound.midi.ControllerEventListener;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
-import javax.swing.*;
 
+import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.GuiView;
+import cs3500.music.view.IView;
+import cs3500.music.view.graphicsview.GuiPanel;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.midiview.MidiViewImpl;
 
 /**
- * Created by ChrisRisley on 6/18/17.
+ * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
+ * this view allows the user to hear the notes found in the music model.
  */
-public class CompView extends JFrame implements GuiView {
-  MidiViewImpl midiDelegate;
+public class CompView extends MidiViewImpl implements IView{
+  private final ArrayList<Integer> beats;
+  boolean play = false;
   GuiViewFrame guiDelegate;
-  IMusicOperations op;
-  boolean playing;
-  Timer timer;
-  int tempo;
 
-  public CompView(IMusicOperations op) throws MidiUnavailableException {
-    this.op = op;
-    this.tempo = this.op.getTempo();
-    this.midiDelegate = new MidiViewImpl(op, MidiSystem.getSynthesizer());
+
+  /**
+   * Builds a MidiViewImpl.
+   * The MidiView has an IMusicOperation, the last beat in the model, a synthesizer,
+   * a receiver, and the starting beats.
+   *
+   * @param op Represents the model to read from.
+   * @throws MidiUnavailableException throws an exception if the midi fails.
+   */
+  public CompView(IMusicOperations op, Synthesizer synth) throws MidiUnavailableException {
+    super(op, synth);
     this.guiDelegate = new GuiViewFrame(op);
+    this.beats = op.getStartingBeats();
+    Track t = this.sequence.createTrack();
+    MetaMessage tick = new MetaMessage();
+    int lastBeat = this.op.lastBeat();
+    for (int i = 0; i <= lastBeat; i ++) {
+      MidiEvent tic = new MidiEvent(tick, i);
+      t.add(tic);
+    }
 
-//    //Set up timer to drive animation events.
-//    timer = new Timer(op.getTempo()/ 2000, new refreshFrame());
-//    timer.setInitialDelay(0);
-    this.playing = false;
-  }
-
-  private boolean isPlaying() {
-    return this.midiDelegate.isPlaying();
-  }
-
-  @Override
-  public void addKeyListener(KeyListener e) {
-    super.addKeyListener(e);
-    this.midiDelegate.addKeyListener(e);
-    this.guiDelegate.addKeyListener(e);
+    sequencer.addMetaEventListener(new Refresh());
   }
 
   @Override
-  public void addMouseListener(MouseListener e) {
-    super.addMouseListener(e);
-    this.midiDelegate.addMouseListener(e);
-    this.guiDelegate.addMouseListener(e);
-  }
+  public void initialize() {
+    this.guiDelegate.initialize();
 
-  @Override
-  public void addNote(MouseEvent e) {
-    if (!isPlaying()) {
-      this.guiDelegate.addNote(e);
-      this.midiDelegate.refresh();
+    for (int i : beats) {
+      for (Note n : op.getNotes(i).values()) {
+        try {
+          super.playNote(n.getTone(), n.getDuration(), i, n.getVolume(), n.getInstrument() - 1);
+        } catch (InvalidMidiDataException e) {
+          //failed to init Midi
+        }
+      }
+    }
+
+    try {
+      sequencer.setSequence(sequence);
+    } catch (InvalidMidiDataException e) {
+      // failed to get midi data
+    }
+    if (play) {
+      sequencer.start();
     }
   }
 
   @Override
   public void togglePlay() {
-    if (playing) {
-//      timer.stop();
-      this.midiDelegate.togglePlay();
-      this.playing = false;
+    if (this.play) {
+      sequencer.stop();
+      this.play = false;
+    } else {
+      sequencer.start();
+      sequencer.setTempoInMPQ(super.tempo);
+      this.play = true;
     }
-    else {
-//      timer.start();
-      this.midiDelegate.togglePlay();
-      this.playing = true;
-    }
-  }
-
-  @Override
-  public void resetFocus() {
-    // this.setFocusable(true);
-    //this.requestFocus();
-    this.midiDelegate.resetFocus();
-    this.guiDelegate.resetFocus();
-  }
-
-  @Override
-  public void refresh() {
-    this.midiDelegate.refresh();
-    this.guiDelegate.refresh();
-  }
-
-  @Override
-  public void initialize() {
-    this.midiDelegate.initialize();
-    this.guiDelegate.initialize();
   }
 
   @Override
   public void prevBeat() {
-    if (!isPlaying()) {
+    if (!play) {
       this.guiDelegate.prevBeat();
+      super.prevBeat();
     }
   }
 
   @Override
   public void nextBeat() {
-    if (!isPlaying()) {
+    if (!play) {
       this.guiDelegate.nextBeat();
+      super.nextBeat();
     }
   }
 
   @Override
   public void toEnd() {
     this.guiDelegate.toEnd();
-    this.midiDelegate.toEnd();
+    this.sequencer.setTickPosition(this.op.lastBeat() * this.tempo);
   }
 
   @Override
   public void toBeginning() {
     this.guiDelegate.toBeginning();
-    this.midiDelegate.toBeginning();
+    this.sequencer.setTickPosition(0);
+    if (play) {
+      this.sequencer.start();
+    }
   }
 
-  public class refreshFrame implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-//      guiDelegate.sync(midiDelegate.currentBeat());
-//      guiDelegate.refresh();
-      guiDelegate.nextBeat();
+  @Override
+  public void resetFocus() {
+    this.guiDelegate.resetFocus();
+  }
+
+  @Override
+  public void refresh() {
+    super.initialize();
+    this.guiDelegate.refresh();
+  }
+
+  @Override
+  public void addKeyListener(KeyListener e) {
+    this.guiDelegate.addKeyListener(e);
+  }
+
+  @Override
+  public void addMouseListener(MouseListener e) {
+    this.guiDelegate.addMouseListener(e);
+  }
+
+  @Override
+  public void addNote(MouseEvent e) {
+    if (!play) {
+      this.guiDelegate.addNote(e);
+      this.refresh();
     }
   }
 
   public class Refresh implements MetaEventListener {
     @Override
     public void meta(MetaMessage meta) {
-      guiDelegate.nextBeat();
+      GuiViewFrame.BEAT = (int)sequencer.getTickPosition();
+      guiDelegate.movePanel();
+      guiDelegate.refresh();
     }
   }
 }

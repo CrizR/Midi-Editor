@@ -3,11 +3,8 @@ package cs3500.music.controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.IView;
-import cs3500.music.view.graphicsview.GuiViewFrame;
-import cs3500.music.view.graphicsview.PianoPanel;
 
 /**
  * Created by ChrisRisley on 6/18/17.
