@@ -4,17 +4,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.IView;
+import cs3500.music.view.textview.GuiView;
 
 /**
- * Created by ChrisRisley on 6/18/17.
+ * Handles the mouse events that occur in the view. There's currently only one action
+ * that is meant to occur in a Mouse Event and that is to add a note to the editor.
  */
 public class MouseHandler implements MouseListener {
   IMusicOperations op;
-  IView view;
+  GuiView view;
 
 
-  public MouseHandler(IMusicOperations op, IView view) {
+  /**
+   * Constructs the MouseHandler by initializing the IMusicOperations and IView.
+   *
+   * @param op   Represents the IMusicOperations.
+   * @param view Represents the View.
+   */
+  public MouseHandler(IMusicOperations op, GuiView view) {
     this.op = op;
     this.view = view;
   }

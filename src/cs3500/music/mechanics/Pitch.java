@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * in the Western system of music. They are C C♯ D D♯ E F F♯ G G♯ A A♯ B.
  * The note C♯, pronounced “Cee-sharp” is the same note as “Dee-flat”, written D♭;
  * notes without these “accidentals” are called natural.
+ * MODIFIED: June 22, Added a method isSharp().
  */
 public enum Pitch {
   C("C"), C_SHARP("C#"), D("D"), D_SHARP("D#"), E("E"), F("F"),
@@ -38,8 +39,12 @@ public enum Pitch {
     this.pitch = pitch;
   }
 
-//TODO JAVADOC AND ADD MODIFY FILE
 
+  /**
+   * Tests to see if a note is a Sharp.
+   *
+   * @return whether not it's a sharp.
+   */
   public boolean isSharp() {
     return this.pitch.contains("#");
   }

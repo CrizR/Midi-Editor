@@ -1,11 +1,15 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
@@ -63,12 +67,13 @@ public class GuiPanel extends JPanel {
     this.drawLine(g2);
   }
 
+  //Updates the GuiPanel every time the component is called.
   private void update() {
     numOfTones = this.op.getTones().size();
     tones = this.op.getTones();
     Collections.reverse(this.tones);
     revTone = tones;
-    columnNum = (int) Math.round(this.op.lastBeat() / 4);
+    columnNum = Math.round(this.op.lastBeat() / 4);
     for (int i = 0; i < numOfTones; i++) {
       this.pitchToY.put(tones.get(i), fromTop + i * cellHeight);
     }

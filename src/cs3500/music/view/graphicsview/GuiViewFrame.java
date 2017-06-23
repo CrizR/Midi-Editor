@@ -1,13 +1,20 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
+
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.IView;
+import cs3500.music.view.textview.GuiView;
 
 
 /**
@@ -18,17 +25,19 @@ import cs3500.music.view.IView;
  * the midiPanel and the piano panel. We made the BEAT public and static in this class so that
  * our panels have access to the current BEAT being "played." The current BEAT is updated in the
  * view because the model is a read only object.
+ * Modified, June 22, abstracted out some of the logic in the constructor to a helper method.
+ * Added methods that were added to the GuiView interface.
  */
-public class GuiViewFrame extends JFrame implements IView {
+public class GuiViewFrame extends JFrame implements GuiView {
   private IMusicOperations op;
   public static int BEAT;
   public static final int PIANO_WIDTH = 1000;
   public static final int PIANO_HEIGHT = 250;
   public static final int MIDI_WIDTH = 1000;
   public static final int MIDI_HEIGHT = 500;
-  JPanel midiPanel;
-  JPanel pianoPanel;
-  JScrollPane scrollPane;
+  private JPanel midiPanel;
+  private JPanel pianoPanel;
+  private JScrollPane scrollPane;
 
   /**
    * Constructs a GuiView frame by first instantiating the midipanel and piano panel
@@ -73,6 +82,10 @@ public class GuiViewFrame extends JFrame implements IView {
             (op.getTones().size() + 2) * GuiPanel.cellHeight));
   }
 
+  public void sync(int beat) {
+    BEAT = beat;
+  }
+
   @Override
   public void togglePlay() {
 
@@ -97,7 +110,7 @@ public class GuiViewFrame extends JFrame implements IView {
       if (BEAT % (MIDI_WIDTH / GuiPanel.cellWidth) == 0) {
         this.scrollPane.getHorizontalScrollBar().setValue(
                 GuiViewFrame.BEAT * GuiPanel.cellWidth -
-                scrollPane.getWidth());
+                        scrollPane.getWidth());
       }
       BEAT--;
     }
@@ -134,7 +147,6 @@ public class GuiViewFrame extends JFrame implements IView {
             this.scrollPane.getVerticalScrollBar().getValue(), this.midiPanel.getWidth(),
             this.midiPanel.getHeight());
     this.pianoPanel.repaint();
-//    this.repaint();
     this.update();
   }
 

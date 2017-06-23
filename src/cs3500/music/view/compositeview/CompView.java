@@ -15,16 +15,15 @@ import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.IView;
-import cs3500.music.view.graphicsview.GuiPanel;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.midiview.MidiViewImpl;
+import cs3500.music.view.textview.GuiView;
 
 /**
  * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
  * this view allows the user to hear the notes found in the music model.
  */
-public class CompView extends MidiViewImpl implements IView{
+public class CompView extends MidiViewImpl implements GuiView {
   private final ArrayList<Integer> beats;
   boolean play = false;
   GuiViewFrame guiDelegate;
@@ -46,7 +45,7 @@ public class CompView extends MidiViewImpl implements IView{
     Track t = this.sequence.createTrack();
     MetaMessage tick = new MetaMessage();
     this.lastBeat = this.op.lastBeat();
-    for (int i = 0; i <= lastBeat; i ++) {
+    for (int i = 0; i <= lastBeat; i++) {
       MidiEvent tic = new MidiEvent(tick, i);
       t.add(tic);
     }
@@ -155,7 +154,7 @@ public class CompView extends MidiViewImpl implements IView{
   public class Refresh implements MetaEventListener {
     @Override
     public void meta(MetaMessage meta) {
-      GuiViewFrame.BEAT = (int)sequencer.getTickPosition();
+      GuiViewFrame.BEAT = (int) sequencer.getTickPosition();
       guiDelegate.movePanel();
       guiDelegate.refresh();
     }

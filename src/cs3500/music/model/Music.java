@@ -264,12 +264,6 @@ public class Music implements IMusicOperations {
       if (end - start <= 0) {
         return this;
       }
-
-      if (end == 34656){
-        System.out.println(Pitch.values()[pitch % 12]);
-        System.out.println((pitch / 12) - 1);
-        System.out.println(start);
-      }
       op.addNote(new Note(Pitch.values()[pitch % 12], (pitch / 12) - 1,
               (end - start), instrument, volume), start);
       return this;
