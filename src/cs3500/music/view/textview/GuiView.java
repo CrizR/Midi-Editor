@@ -77,4 +77,6 @@ public interface GuiView extends IView {
    * when pressing space to pause or play the editor.
    */
   void movePanel();
+
+  void addDuration();
 }

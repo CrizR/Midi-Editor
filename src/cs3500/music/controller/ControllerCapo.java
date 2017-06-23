@@ -1,6 +1,5 @@
 package cs3500.music.controller;
 
-
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
@@ -8,16 +7,10 @@ import java.util.Map;
 
 import cs3500.music.view.textview.GuiView;
 
-
 /**
- * Initializes the keyboard and mouse commands and then adds the keyboard and mouse listeners
- * to the set view.
- * Modified: June 22, Changed the controller to account for the key and mouse listeners.
+ * Created by ChrisRisley on 6/23/17.
  */
-public class Controller {
-  protected GuiView view;
-  protected KeyboardHandler kbd;
-  protected MouseListener mh;
+public class ControllerCapo extends Controller {
 
   /**
    * Builds the controller given an IMusicOperation
@@ -25,33 +18,16 @@ public class Controller {
    * @param kh Represents the keyboard handler to set it to.
    * @param mh Represents the mouse handler to set it to.
    */
-  public Controller(KeyboardHandler kh, MouseListener mh) {
-    this.kbd = kh;
-    this.mh = mh;
+  public ControllerCapo(KeyboardHandler kh, MouseListener mh) {
+    super(kh, mh);
   }
 
-  /**
-   * Sets the view of the controller.
-   *
-   * @param view Represents the view to set.
-   */
   public void setView(GuiView view) {
-    this.view = view;
-    keyBoardSetup();
-    mouseSetup();
+    super.setView(view);
+    super.mouseSetup();
   }
 
-  //sets up the mouse handler and adds it to the view
-
-  /**
-   * TODO: JAVADOC
-   */
-  protected void mouseSetup() {
-    view.addMouseListener(mh);
-    view.resetFocus();
-  }
-
-  //Sets upt the keyboard and the commands and adds it to the view
+  @Override
   protected void keyBoardSetup() {
     Map<Character, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
@@ -62,6 +38,8 @@ public class Controller {
     keyPresses.put(KeyEvent.VK_SPACE, () -> view.togglePlay());
     keyPresses.put(KeyEvent.VK_HOME, () -> view.toBeginning());
     keyPresses.put(KeyEvent.VK_END, () -> view.toEnd());
+    keyPresses.put(KeyEvent.VK_SHIFT, () -> view.addDuration());
+
 
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
