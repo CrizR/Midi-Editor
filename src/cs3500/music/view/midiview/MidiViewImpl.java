@@ -67,8 +67,10 @@ public class MidiViewImpl implements IView {
    */
   protected void playNote(String tone, int duration, int startBeat, int volume, int instrument)
           throws InvalidMidiDataException {
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument, Pitch.toneIndex.indexOf(tone), volume);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument, Pitch.toneIndex.indexOf(tone), volume);
+    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument,
+            Pitch.toneIndex.indexOf(tone), volume);
+    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument,
+            Pitch.toneIndex.indexOf(tone), volume);
 
     MidiEvent startNote = new MidiEvent(start, startBeat);
     MidiEvent endNote = new MidiEvent(stop, startBeat + duration);
@@ -104,6 +106,10 @@ public class MidiViewImpl implements IView {
     }
   }
 
+  /**
+   * Refreshes the Midi View by reinitializing every note. This is used mainly after a note has
+   * been added manually.
+   */
   public void refresh() {
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {

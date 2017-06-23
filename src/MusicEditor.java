@@ -37,8 +37,8 @@ public class MusicEditor {
         IView view = ViewBuilder.createView(args[1], op);
         if (args[1].equals("visual") || args[1].equals("composite")) {
           KeyboardHandler kl = new KeyboardHandler();
-          MouseHandler mh = new MouseHandler(op, (GuiView) view);
-          new Controller(op, kl, mh).setView((GuiView) view);
+          MouseHandler mh = new MouseHandler((GuiView) view);
+          new Controller(kl, mh).setView((GuiView) view);
           view.initialize();
         }
       } catch (FileNotFoundException e) {

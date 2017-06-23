@@ -7,7 +7,7 @@ import cs3500.music.view.IView;
  * Represents the Console view. The view is printed out to the console for the user to see.
  */
 public class ConsoleView implements IView {
-  IMusicOperations op;
+  private final IMusicOperations op;
 
   /**
    * Builds the Console view with the given model and initializes it.
@@ -23,12 +23,12 @@ public class ConsoleView implements IView {
 
   @Override
   public void prevBeat() {
-
+    //Do Nothing
   }
 
   @Override
   public void nextBeat() {
-
+    //Do Nothing
   }
 
 }

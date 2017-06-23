@@ -28,7 +28,7 @@ public class TestControl {
   private IMusicOperations op = new Music();
   private IView view = ViewBuilder.createView("visual", op);
   private KeyboardHandler kh = new KeyboardHandler();
-  private MouseHandler mh = new MouseHandler(op, (GuiView) view);
+  private MouseHandler mh = new MouseHandler((GuiView) view);
   private JPanel test = new JPanel();
   private boolean testRunnable = false;
 
@@ -94,6 +94,11 @@ public class TestControl {
     public void addNote(MouseEvent e) {
       log.append("addNote").append("\n");
     }
+
+    @Override
+    public void movePanel() {
+      //do nothing
+    }
   }
 
 
@@ -129,7 +134,7 @@ public class TestControl {
   @Test
   //tests to see if the  keyhandler properly calls the right methods
   public void testKeyHandler2() {
-    Controller c1 = new Controller(op, kh, mh);
+    Controller c1 = new Controller(kh, mh);
     MockView x = new MockView();
     c1.setView(x);
 
@@ -147,7 +152,7 @@ public class TestControl {
   @Test
   //tests to see if the  keyhandler properly calls the right methods
   public void testKeyHandler3() {
-    Controller c1 = new Controller(op, kh, mh);
+    Controller c1 = new Controller(kh, mh);
     MockView x = new MockView();
     c1.setView(x);
 
@@ -165,7 +170,7 @@ public class TestControl {
   @Test
   //tests to see if the  keyhandler properly calls the right methods
   public void testKeyHandler4() {
-    Controller c1 = new Controller(op, kh, mh);
+    Controller c1 = new Controller(kh, mh);
     MockView x = new MockView();
     c1.setView(x);
 
@@ -183,7 +188,7 @@ public class TestControl {
   @Test
   //tests to see if the  keyhandler properly calls the right methods
   public void testKeyHandler5() {
-    Controller c1 = new Controller(op, kh, mh);
+    Controller c1 = new Controller(kh, mh);
     MockView x = new MockView();
     c1.setView(x);
 
@@ -202,8 +207,8 @@ public class TestControl {
   //tests to see if the mousehandler properly calls the right methods
   public void testMouseHandler5() {
     MockView x = new MockView();
-    MouseHandler mh = new MouseHandler(op, x);
-    Controller c1 = new Controller(op, kh, mh);
+    MouseHandler mh = new MouseHandler(x);
+    Controller c1 = new Controller(kh, mh);
     c1.setView(x);
     MouseEvent mouse = new MouseEvent(test, // which
             MouseEvent.MOUSE_CLICKED, // what

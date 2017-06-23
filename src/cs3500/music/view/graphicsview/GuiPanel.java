@@ -1,15 +1,11 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.BasicStroke;
-import java.awt.Color;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
@@ -30,8 +26,8 @@ public class GuiPanel extends JPanel {
   private final int fromTop = 25;
   private final int fromSide = 40;
   private static int scale = 1;
-  public static final int cellWidth = 42 * scale;
-  public static final int cellHeight = 25 * scale;
+  protected static final int CELL_WIDTH = 42 * scale;
+  protected static final int CELL_HEIGHT = 25 * scale;
   private int columnNum;
 
   /**
@@ -75,38 +71,38 @@ public class GuiPanel extends JPanel {
     revTone = tones;
     columnNum = Math.round(this.op.lastBeat() / 4);
     for (int i = 0; i < numOfTones; i++) {
-      this.pitchToY.put(tones.get(i), fromTop + i * cellHeight);
+      this.pitchToY.put(tones.get(i), fromTop + i * CELL_HEIGHT);
     }
   }
 
   // draws the the line
   private void drawLine(Graphics g2) {
-    g2.drawLine(fromSide + (GuiViewFrame.BEAT * cellWidth), fromTop,
-            fromSide + (GuiViewFrame.BEAT * cellWidth),
-            fromTop + cellHeight * this.numOfTones);
+    g2.drawLine(fromSide + (GuiViewFrame.BEAT * CELL_WIDTH), fromTop,
+            fromSide + (GuiViewFrame.BEAT * CELL_WIDTH),
+            fromTop + CELL_HEIGHT * this.numOfTones);
   }
 
   // Draws a note by a given starting BEAT and the tone
   private void drawANote(Graphics g2, int beat, String tone, int duration) {
     g2.setColor(Color.GREEN);
-    g2.fillRect(fromSide + beat * cellWidth, this.pitchToY.get(tone),
-            duration * cellWidth, cellHeight);
+    g2.fillRect(fromSide + beat * CELL_WIDTH, this.pitchToY.get(tone),
+            duration * CELL_WIDTH, CELL_HEIGHT);
     g2.setColor(Color.black);
-    g2.fillRect(fromSide + beat * cellWidth, this.pitchToY.get(tone),
-            cellWidth, cellHeight);
+    g2.fillRect(fromSide + beat * CELL_WIDTH, this.pitchToY.get(tone),
+            CELL_WIDTH, CELL_HEIGHT);
   }
 
   // draws the tone labeling
   private void drawTones(Graphics g2) {
     for (int i = 0; i < this.revTone.size(); i++) {
-      g2.drawString(this.revTone.get(i), fromSide - 30, i * cellHeight + fromTop + 20);
+      g2.drawString(this.revTone.get(i), fromSide - 30, i * CELL_HEIGHT + fromTop + 20);
     }
   }
 
   // draws the beats labeling
   private void drawBeats(Graphics g2) {
     for (int i = 0; i <= columnNum; i++) {
-      g2.drawString(Integer.toString(i * 4), fromSide + (cellWidth * 4) * i,
+      g2.drawString(Integer.toString(i * 4), fromSide + (CELL_WIDTH * 4) * i,
               fromTop - 5);
     }
   }
@@ -115,12 +111,12 @@ public class GuiPanel extends JPanel {
   private void drawGrid(Graphics g2) {
     g2.setColor(Color.BLACK);
     for (int j = 0; j <= columnNum; j++) {
-      g2.drawRect(fromSide + j * cellWidth * 4, fromTop,
-              cellWidth * 4, cellHeight * numOfTones);
+      g2.drawRect(fromSide + j * CELL_WIDTH * 4, fromTop,
+              CELL_WIDTH * 4, CELL_HEIGHT * numOfTones);
 
       for (int i = 0; i <= numOfTones; i++) {
-        g2.drawLine(fromSide + j * cellWidth * 4, fromTop + i * cellHeight,
-                fromSide + (j + 1) * cellWidth * 4, fromTop + i * cellHeight);
+        g2.drawLine(fromSide + j * CELL_WIDTH * 4, fromTop + i * CELL_HEIGHT,
+                fromSide + (j + 1) * CELL_WIDTH * 4, fromTop + i * CELL_HEIGHT);
       }
     }
   }
@@ -130,10 +126,10 @@ public class GuiPanel extends JPanel {
     for (int i = 0; i < tones.size(); i++) {
       if (tones.get(i).charAt(0) == 'B' && i != tones.size() - 1) {
         g2.setStroke(new BasicStroke(3));
-        g2.drawLine(fromSide, fromTop + i * cellHeight,
+        g2.drawLine(fromSide, fromTop + i * CELL_HEIGHT,
                 fromSide +
-                        (int) (Math.floor(this.op.lastBeat() / 4) + 1) * cellWidth * 4,
-                fromTop + i * cellHeight);
+                        (int) (Math.floor(this.op.lastBeat() / 4) + 1) * CELL_WIDTH * 4,
+                fromTop + i * CELL_HEIGHT);
       }
     }
   }

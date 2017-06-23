@@ -11,8 +11,6 @@ import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
@@ -27,9 +25,9 @@ import cs3500.music.view.textview.GuiView;
  */
 public class CompView extends MidiViewImpl implements GuiView {
   private final ArrayList<Integer> beats;
-  boolean play = false;
-  GuiViewFrame guiDelegate;
-  int lastBeat;
+  private boolean play = false;
+  private final GuiViewFrame guiDelegate;
+  private int lastBeat;
 
 
   /**
@@ -151,6 +149,11 @@ public class CompView extends MidiViewImpl implements GuiView {
       this.guiDelegate.addNote(e);
       this.refresh();
     }
+  }
+
+  @Override
+  public void movePanel() {
+    //do nothing
   }
 
   public class Refresh implements MetaEventListener {

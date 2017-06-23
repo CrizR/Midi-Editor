@@ -7,7 +7,9 @@ import java.awt.event.MouseListener;
 import cs3500.music.view.IView;
 
 /**
- * Created by ChrisRisley on 6/22/17.
+ * Class represents the interface (GuiView) to be used by
+ * both the Visual and the Composite views. These methods
+ * are used to add additional functionality to these two views.
  */
 public interface GuiView extends IView {
   /**
@@ -52,8 +54,9 @@ public interface GuiView extends IView {
   /**
    * this is to force the view to have a method to set up the keyboard.
    * The name has been chosen deliberately. This is the same method signature to
-   * add a key listener in Java Swing.
+   * add a key listener in Java Swing. <p>
    *
+   * </p>
    * Thus our Swing-based implementation of this interface will already have such a
    * method.
    */
@@ -63,8 +66,9 @@ public interface GuiView extends IView {
   /**
    * this is to force the view to have a method to set up the Mouse.
    * The name has been chosen deliberately. This is the same method signature to
-   * add a key listener in Java Swing.
+   * add a key listener in Java Swing.<p>
    *
+   * </p>
    * Thus our Swing-based implementation of this interface will already have such a
    * method.
    */
@@ -77,4 +81,9 @@ public interface GuiView extends IView {
    * @param e Represents the MouseEvent and its characteristics.
    */
   void addNote(MouseEvent e);
+
+  /**
+   * Moves the panel to the correct location
+   */
+  void movePanel();
 }

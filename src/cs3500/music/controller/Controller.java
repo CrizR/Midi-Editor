@@ -6,7 +6,6 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.textview.GuiView;
 
 
@@ -16,7 +15,6 @@ import cs3500.music.view.textview.GuiView;
  * Modified: June 22, Changed the controller to account for the key and mouse listeners.
  */
 public class Controller {
-  private IMusicOperations op;
   private GuiView view;
   private KeyboardHandler kbd;
   private MouseListener mh;
@@ -24,12 +22,10 @@ public class Controller {
   /**
    * Builds the controller given an IMusicOperation
    *
-   * @param op Represents the operations to set it to.
    * @param kh Represents the keyboard handler to set it to.
    * @param mh Represents the mouse handler to set it to.
    */
-  public Controller(IMusicOperations op, KeyboardHandler kh, MouseListener mh) {
-    this.op = op;
+  public Controller(KeyboardHandler kh, MouseListener mh) {
     this.kbd = kh;
     this.mh = mh;
   }
@@ -38,7 +34,6 @@ public class Controller {
    * Sets the view of the controller.
    *
    * @param view Represents the view to set.
-   * @return the controller itself.
    */
   public void setView(GuiView view) {
     this.view = view;

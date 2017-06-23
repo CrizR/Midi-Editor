@@ -3,7 +3,6 @@ package cs3500.music.controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.textview.GuiView;
 
 /**
@@ -11,18 +10,15 @@ import cs3500.music.view.textview.GuiView;
  * that is meant to occur in a Mouse Event and that is to add a note to the editor.
  */
 public class MouseHandler implements MouseListener {
-  private final IMusicOperations op;
   private final GuiView view;
 
 
   /**
    * Constructs the MouseHandler by initializing the IMusicOperations and IView.
    *
-   * @param op   Represents the IMusicOperations.
    * @param view Represents the View.
    */
-  public MouseHandler(IMusicOperations op, GuiView view) {
-    this.op = op;
+  public MouseHandler(GuiView view) {
     this.view = view;
   }
 

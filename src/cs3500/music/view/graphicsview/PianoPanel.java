@@ -11,10 +11,9 @@ import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.IMusicOperations;
 
 
-
 /**
  * A class that represents the piano aspect of the view. This panel draws the white and black
- * keys at the right positions, given the set width, set length, and IMusicOperations.
+ * KEYS at the right positions, given the set width, set length, and IMusicOperations.
  */
 public class PianoPanel extends JPanel {
   private final int whiteKeyLength = 200;
@@ -22,7 +21,7 @@ public class PianoPanel extends JPanel {
   private final int keyWidth = 12;
   private final Color playedColor = Color.ORANGE;
   private final IMusicOperations op;
-  public static ArrayList<Key> keys;
+  protected static ArrayList<Key> KEYS = new ArrayList<>();
 
   /**
    * Constructs a piano panel by first setting the IMusicOperations
@@ -30,7 +29,6 @@ public class PianoPanel extends JPanel {
    */
   PianoPanel(IMusicOperations op) {
     this.op = op;
-    this.keys = new ArrayList<>();
     repaint();
   }
 
@@ -54,7 +52,14 @@ public class PianoPanel extends JPanel {
       this.octave = octave;
     }
 
-    public boolean onKey(int x1, int y1) {
+    /**
+     * Determines if the position is on the position of the key
+     *
+     * @param x1 x value of pos
+     * @param y1 y value of pos
+     * @return whether or not the pos is on the key
+     */
+    protected boolean onKey(int x1, int y1) {
       if (p.isSharp()) {
         return x1 > x && x1 < x + keyWidth
                 && y1 > y && y1 < y + blackKeyLength;
@@ -64,11 +69,21 @@ public class PianoPanel extends JPanel {
       }
     }
 
+    /**
+     * Returns the pitch of the key
+     *
+     * @return the pitch of this object
+     */
     public Pitch getPitch() {
       return p;
     }
 
-    public int getOctave() {
+    /**
+     * Returns the octave of this key
+     *
+     * @return the octave of this key.
+     */
+    protected int getOctave() {
       return this.octave;
     }
   }
@@ -78,15 +93,15 @@ public class PianoPanel extends JPanel {
     super.paintComponent(g);
     int x = 50;
     int y = 0;
-    keys = new ArrayList<>();
+    KEYS = new ArrayList<>();
     initKeys(x, y);
     drawWhite(g);
     drawBlack(g);
   }
 
-  //Draws the white keys
+  //Draws the white KEYS
   private void drawWhite(Graphics g) {
-    for (Key key : this.keys) {
+    for (Key key : this.KEYS) {
       if (key.played) {
         g.setColor(playedColor);
       } else {
@@ -100,9 +115,9 @@ public class PianoPanel extends JPanel {
     }
   }
 
-  //Draws the black keys
+  //Draws the black KEYS
   private void drawBlack(Graphics g) {
-    for (Key key : this.keys) {
+    for (Key key : this.KEYS) {
       if (key.played) {
         g.setColor(playedColor);
       } else {
@@ -116,9 +131,9 @@ public class PianoPanel extends JPanel {
     }
   }
 
-  //initializes the keys to draw
+  //initializes the KEYS to draw
   private void initKeys(int x, int y) {
-    //initialize the keys
+    //initialize the KEYS
     for (int i = 1; i <= 10; i++) {
       for (Pitch p : Pitch.values()) {
         String tone = p.toString() + Integer.toString(i);
@@ -128,11 +143,11 @@ public class PianoPanel extends JPanel {
         }
         if (p.isSharp()) {
           x += keyWidth / 3;
-          this.keys.add(new Key(played, Color.BLACK, p, x, y, i));
+          this.KEYS.add(new Key(played, Color.BLACK, p, x, y, i));
           x -= keyWidth / 3;
         } else {
           x += keyWidth;
-          this.keys.add(new Key(played, Color.WHITE, p, x, y, i));
+          this.KEYS.add(new Key(played, Color.WHITE, p, x, y, i));
         }
       }
     }
