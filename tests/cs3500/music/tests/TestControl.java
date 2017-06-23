@@ -22,7 +22,7 @@ import cs3500.music.view.textview.GuiView;
 import static junit.framework.TestCase.assertEquals;
 
 /**
- * Tests the controller
+ * Tests the controller.
  */
 public class TestControl {
   private IMusicOperations op = new Music();

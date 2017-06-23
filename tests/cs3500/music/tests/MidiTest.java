@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.sound.midi.ControllerEventListener;
@@ -290,12 +289,12 @@ public class MidiTest {
 
     @Override
     public void startRecording() {
-
+      //Do Nothing.
     }
 
     @Override
     public void stopRecording() {
-
+      //Do Nothing.
     }
 
     @Override
@@ -310,7 +309,7 @@ public class MidiTest {
 
     @Override
     public void recordDisable(Track track) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -330,12 +329,12 @@ public class MidiTest {
 
     @Override
     public void setTempoInMPQ(float mpq) {
-
+      //Do Nothing.
     }
 
     @Override
     public void setTempoFactor(float factor) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -375,7 +374,7 @@ public class MidiTest {
 
     @Override
     public void setMasterSyncMode(SyncMode sync) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -415,7 +414,7 @@ public class MidiTest {
 
     @Override
     public void setTrackSolo(int track, boolean solo) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -430,7 +429,7 @@ public class MidiTest {
 
     @Override
     public void removeMetaEventListener(MetaEventListener listener) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -439,13 +438,14 @@ public class MidiTest {
     }
 
     @Override
-    public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers) {
+    public int[] removeControllerEventListener(ControllerEventListener listener,
+                                               int[] controllers) {
       return new int[0];
     }
 
     @Override
     public void setLoopStartPoint(long tick) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -465,7 +465,7 @@ public class MidiTest {
 
     @Override
     public void setLoopCount(int count) {
-
+      //Do Nothing.
     }
 
     @Override
