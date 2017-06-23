@@ -29,14 +29,14 @@ public class ViewBuilder {
         return new GuiViewFrame(op);
       case "midi":
         try {
-          return new MidiViewImpl(op, MidiSystem.getSynthesizer(), true);
+          return new MidiViewImpl(op, MidiSystem.getSequencer(), true);
         } catch (MidiUnavailableException e) {
           System.out.println("Could not start MidiView");
           return new ConsoleView(op);
         }
       case "composite":
         try {
-          return new CompView(op, MidiSystem.getSynthesizer());
+          return new CompView(op);
         } catch (MidiUnavailableException e) {
           return new ConsoleView(op);
         }

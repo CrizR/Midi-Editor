@@ -9,7 +9,9 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequencer;
 import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
@@ -38,8 +40,8 @@ public class CompView extends MidiViewImpl implements GuiView {
    * @param op Represents the model to read from.
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
-  public CompView(IMusicOperations op, Synthesizer synth) throws MidiUnavailableException {
-    super(op, synth, false);
+  public CompView(IMusicOperations op) throws MidiUnavailableException {
+    super(op, MidiSystem.getSequencer(), false);
     this.guiDelegate = new GuiViewFrame(op);
     this.beats = op.getStartingBeats();
     Track t = this.sequence.createTrack();

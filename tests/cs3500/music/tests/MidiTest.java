@@ -13,7 +13,6 @@ import java.util.List;
 import javax.sound.midi.ControllerEventListener;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
@@ -53,74 +52,143 @@ public class MidiTest {
     }
     view.initialize();
     assertEquals("open() Called\n" +
-            "send() called : send in note [-112, 55, 70]\n" +
-            "send() called : send in note [-128, 55, 70]\n" +
-            "send() called : send in note [-112, 64, 72]\n" +
-            "send() called : send in note [-128, 64, 72]\n" +
-            "send() called : send in note [-112, 62, 72]\n" +
-            "send() called : send in note [-128, 62, 72]\n" +
-            "send() called : send in note [-112, 60, 71]\n" +
-            "send() called : send in note [-128, 60, 71]\n" +
-            "send() called : send in note [-112, 62, 79]\n" +
-            "send() called : send in note [-128, 62, 79]\n" +
-            "send() called : send in note [-112, 55, 79]\n" +
-            "send() called : send in note [-128, 55, 79]\n" +
-            "send() called : send in note [-112, 64, 85]\n" +
-            "send() called : send in note [-128, 64, 85]\n" +
-            "send() called : send in note [-112, 64, 78]\n" +
-            "send() called : send in note [-128, 64, 78]\n" +
-            "send() called : send in note [-112, 64, 74]\n" +
-            "send() called : send in note [-128, 64, 74]\n" +
-            "send() called : send in note [-112, 62, 75]\n" +
-            "send() called : send in note [-128, 62, 75]\n" +
-            "send() called : send in note [-112, 55, 77]\n" +
-            "send() called : send in note [-128, 55, 77]\n" +
-            "send() called : send in note [-112, 62, 77]\n" +
-            "send() called : send in note [-128, 62, 77]\n" +
-            "send() called : send in note [-112, 62, 75]\n" +
-            "send() called : send in note [-128, 62, 75]\n" +
-            "send() called : send in note [-112, 55, 79]\n" +
-            "send() called : send in note [-128, 55, 79]\n" +
-            "send() called : send in note [-112, 64, 82]\n" +
-            "send() called : send in note [-128, 64, 82]\n" +
-            "send() called : send in note [-112, 67, 84]\n" +
-            "send() called : send in note [-128, 67, 84]\n" +
-            "send() called : send in note [-112, 67, 75]\n" +
-            "send() called : send in note [-128, 67, 75]\n" +
-            "send() called : send in note [-112, 55, 78]\n" +
-            "send() called : send in note [-128, 55, 78]\n" +
-            "send() called : send in note [-112, 64, 73]\n" +
-            "send() called : send in note [-128, 64, 73]\n" +
-            "send() called : send in note [-112, 62, 69]\n" +
-            "send() called : send in note [-128, 62, 69]\n" +
-            "send() called : send in note [-112, 60, 71]\n" +
-            "send() called : send in note [-128, 60, 71]\n" +
-            "send() called : send in note [-112, 62, 80]\n" +
-            "send() called : send in note [-128, 62, 80]\n" +
-            "send() called : send in note [-112, 55, 79]\n" +
-            "send() called : send in note [-128, 55, 79]\n" +
-            "send() called : send in note [-112, 64, 84]\n" +
-            "send() called : send in note [-128, 64, 84]\n" +
-            "send() called : send in note [-112, 64, 76]\n" +
-            "send() called : send in note [-128, 64, 76]\n" +
-            "send() called : send in note [-112, 64, 74]\n" +
-            "send() called : send in note [-128, 64, 74]\n" +
-            "send() called : send in note [-112, 64, 77]\n" +
-            "send() called : send in note [-128, 64, 77]\n" +
-            "send() called : send in note [-112, 62, 75]\n" +
-            "send() called : send in note [-128, 62, 75]\n" +
-            "send() called : send in note [-112, 55, 78]\n" +
-            "send() called : send in note [-128, 55, 78]\n" +
-            "send() called : send in note [-112, 62, 74]\n" +
-            "send() called : send in note [-128, 62, 74]\n" +
-            "send() called : send in note [-112, 64, 81]\n" +
-            "send() called : send in note [-128, 64, 81]\n" +
-            "send() called : send in note [-112, 62, 70]\n" +
-            "send() called : send in note [-128, 62, 70]\n" +
-            "send() called : send in note [-112, 60, 73]\n" +
-            "send() called : send in note [-128, 60, 73]\n" +
-            "send() called : send in note [-112, 52, 72]\n" +
-            "send() called : send in note [-128, 52, 72]\n", mockMidiDevice.testResult.toString());
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "open() Called\n" +
+            "send() Called : send in Track \n" +
+            "note added() at beat 0 144 \n" +
+            "note added() at beat 7 128 \n" +
+            "note added() at beat 7 255 \n" +
+            "note added() at beat 0 144 \n" +
+            "note added() at beat 2 128 \n" +
+            "note added() at beat 2 255 \n" +
+            "note added() at beat 2 144 \n" +
+            "note added() at beat 4 128 \n" +
+            "note added() at beat 4 255 \n" +
+            "note added() at beat 4 144 \n" +
+            "note added() at beat 6 128 \n" +
+            "note added() at beat 6 255 \n" +
+            "note added() at beat 6 144 \n" +
+            "note added() at beat 8 128 \n" +
+            "note added() at beat 8 255 \n" +
+            "note added() at beat 8 144 \n" +
+            "note added() at beat 15 128 \n" +
+            "note added() at beat 15 255 \n" +
+            "note added() at beat 8 144 \n" +
+            "note added() at beat 10 128 \n" +
+            "note added() at beat 10 255 \n" +
+            "note added() at beat 10 144 \n" +
+            "note added() at beat 12 128 \n" +
+            "note added() at beat 12 255 \n" +
+            "note added() at beat 12 144 \n" +
+            "note added() at beat 15 128 \n" +
+            "note added() at beat 15 255 \n" +
+            "note added() at beat 16 144 \n" +
+            "note added() at beat 18 128 \n" +
+            "note added() at beat 18 255 \n" +
+            "note added() at beat 16 144 \n" +
+            "note added() at beat 24 128 \n" +
+            "note added() at beat 24 255 \n" +
+            "note added() at beat 18 144 \n" +
+            "note added() at beat 20 128 \n" +
+            "note added() at beat 20 255 \n" +
+            "note added() at beat 20 144 \n" +
+            "note added() at beat 24 128 \n" +
+            "note added() at beat 24 255 \n" +
+            "note added() at beat 24 144 \n" +
+            "note added() at beat 26 128 \n" +
+            "note added() at beat 26 255 \n" +
+            "note added() at beat 24 144 \n" +
+            "note added() at beat 26 128 \n" +
+            "note added() at beat 26 255 \n" +
+            "note added() at beat 26 144 \n" +
+            "note added() at beat 28 128 \n" +
+            "note added() at beat 28 255 \n" +
+            "note added() at beat 28 144 \n" +
+            "note added() at beat 32 128 \n" +
+            "note added() at beat 32 255 \n" +
+            "note added() at beat 32 144 \n" +
+            "note added() at beat 40 128 \n" +
+            "note added() at beat 40 255 \n" +
+            "note added() at beat 32 144 \n" +
+            "note added() at beat 34 128 \n" +
+            "note added() at beat 34 255 \n" +
+            "note added() at beat 34 144 \n" +
+            "note added() at beat 36 128 \n" +
+            "note added() at beat 36 255 \n" +
+            "note added() at beat 36 144 \n" +
+            "note added() at beat 38 128 \n" +
+            "note added() at beat 38 255 \n" +
+            "note added() at beat 38 144 \n" +
+            "note added() at beat 40 128 \n" +
+            "note added() at beat 40 255 \n" +
+            "note added() at beat 40 144 \n" +
+            "note added() at beat 48 128 \n" +
+            "note added() at beat 48 255 \n" +
+            "note added() at beat 40 144 \n" +
+            "note added() at beat 42 128 \n" +
+            "note added() at beat 42 255 \n" +
+            "note added() at beat 42 144 \n" +
+            "note added() at beat 44 128 \n" +
+            "note added() at beat 44 255 \n" +
+            "note added() at beat 44 144 \n" +
+            "note added() at beat 46 128 \n" +
+            "note added() at beat 46 255 \n" +
+            "note added() at beat 46 144 \n" +
+            "note added() at beat 48 128 \n" +
+            "note added() at beat 48 255 \n" +
+            "note added() at beat 48 144 \n" +
+            "note added() at beat 50 128 \n" +
+            "note added() at beat 50 255 \n" +
+            "note added() at beat 48 144 \n" +
+            "note added() at beat 56 128 \n" +
+            "note added() at beat 56 255 \n" +
+            "note added() at beat 50 144 \n" +
+            "note added() at beat 52 128 \n" +
+            "note added() at beat 52 255 \n" +
+            "note added() at beat 52 144 \n" +
+            "note added() at beat 54 128 \n" +
+            "note added() at beat 54 255 \n" +
+            "note added() at beat 54 144 \n" +
+            "note added() at beat 56 128 \n" +
+            "note added() at beat 56 255 \n" +
+            "note added() at beat 56 144 \n" +
+            "note added() at beat 64 128 \n" +
+            "note added() at beat 64 255 \n" +
+            "note added() at beat 56 144 \n" +
+            "note added() at beat 64 128 \n" +
+            "note added() at beat 64 255 \n" +
+            "start() Called\n", mockMidiDevice.testResult.toString());
   }
 
   // test.txt.txt to see if the right number of notes is being played
@@ -134,15 +202,15 @@ public class MidiTest {
     }
     Music.Builder x = new Music.Builder();
     IMusicOperations op = MusicReader.parseFile(br, x);
-    MockMidiDevice modckMidiDevice = new MockMidiDevice();
+    MockMidiDevice mockMidiDevice = new MockMidiDevice();
     IView view = null;
     try {
-      view = new MidiViewImpl(op, modckMidiDevice, true);
+      view = new MidiViewImpl(op, mockMidiDevice, true);
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
     view.initialize();
-    assertEquals(943, modckMidiDevice.totalNotesPlayed());
+    assertEquals(1414, mockMidiDevice.totalNotesPlayed());
   }
 
 
@@ -181,7 +249,18 @@ public class MidiTest {
 
     @Override
     public void setSequence(Sequence sequence) throws InvalidMidiDataException {
-
+      testResult.append("send() Called : send in Track \n");
+      for (Track t : sequence.getTracks()) {
+        for (int i = 0; i < t.size(); i++) {
+          testResult
+                  .append("note added() at beat ")
+                  .append(t.get(i).getTick())
+                  .append(" ")
+                  .append(t.get(i).getMessage().getStatus())
+                  .append(" \n");
+          noteCounter++;
+        }
+      }
     }
 
     @Override
@@ -196,12 +275,12 @@ public class MidiTest {
 
     @Override
     public void start() {
-
+      testResult.append("start() Called\n");
     }
 
     @Override
     public void stop() {
-
+      testResult.append("stop() Called\n");
     }
 
     @Override
@@ -406,20 +485,7 @@ public class MidiTest {
 
     @Override
     public Receiver getReceiver() throws MidiUnavailableException {
-      return new Receiver() {
-
-        @Override
-        public void send(MidiMessage message, long timeStamp) {
-          testResult.append("send() called : send in note "
-                  + Arrays.toString(message.getMessage()) + "\n");
-          noteCounter++;
-        }
-
-        @Override
-        public void close() {
-          //Do Nothing.
-        }
-      };
+      return null;
     }
 
     @Override

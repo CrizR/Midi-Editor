@@ -6,13 +6,10 @@ import java.util.ArrayList;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
-import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
@@ -40,16 +37,14 @@ public class MidiViewImpl implements IView {
    * @param op Represents the model to read from.
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
-  public MidiViewImpl(IMusicOperations op, Synthesizer synth, boolean play)
+  public MidiViewImpl(IMusicOperations op, Sequencer seq, boolean play)
           throws MidiUnavailableException {
     this.op = op;
     this.tempo = op.getTempo();
-    this.synth = synth;
-    this.receiver = synth.getReceiver();
     this.beats = op.getStartingBeats();
     this.play = play;
     try {
-      sequencer = MidiSystem.getSequencer();
+      this.sequencer = seq;
       sequence = new Sequence(Sequence.PPQ, 1);
       sequencer.setTempoInMPQ(this.tempo);
     } catch (InvalidMidiDataException e) {
