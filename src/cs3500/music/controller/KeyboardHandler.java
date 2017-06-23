@@ -16,12 +16,6 @@ public class KeyboardHandler implements KeyListener {
   private Map<Integer, Runnable> keyReleasedMap = new HashMap<>();
 
   /**
-   * Builds the keyboard handler.
-   */
-  public KeyboardHandler() {
-  }
-
-  /**
    * Set the map for key typed events. Key typed events in Java Swing are characters
    */
   public void setKeyTypedMap(Map<Character, Runnable> map) {

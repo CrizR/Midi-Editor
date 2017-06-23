@@ -83,7 +83,7 @@ public interface GuiView extends IView {
   void addNote(MouseEvent e);
 
   /**
-   * Moves the panel to the correct location
+   * Moves the panel to the correct location.
    */
   void movePanel();
 }

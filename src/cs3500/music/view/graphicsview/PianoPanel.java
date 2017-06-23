@@ -53,7 +53,7 @@ public class PianoPanel extends JPanel {
     }
 
     /**
-     * Determines if the position is on the position of the key
+     * Determines if the position is on the position of the key.
      *
      * @param x1 x value of pos
      * @param y1 y value of pos
@@ -70,7 +70,7 @@ public class PianoPanel extends JPanel {
     }
 
     /**
-     * Returns the pitch of the key
+     * Returns the pitch of the key.
      *
      * @return the pitch of this object
      */
@@ -79,7 +79,7 @@ public class PianoPanel extends JPanel {
     }
 
     /**
-     * Returns the octave of this key
+     * Returns the octave of this key.
      *
      * @return the octave of this key.
      */

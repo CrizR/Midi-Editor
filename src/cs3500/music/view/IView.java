@@ -1,4 +1,5 @@
 package cs3500.music.view;
+
 /**
  * IView class that represents the methods to be used by all of the editors views.
  */

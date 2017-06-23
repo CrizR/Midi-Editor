@@ -1,11 +1,15 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;

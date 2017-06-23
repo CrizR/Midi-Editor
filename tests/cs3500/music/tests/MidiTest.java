@@ -264,7 +264,7 @@ public class MidiTest {
 
     @Override
     public void setSequence(InputStream stream) throws IOException, InvalidMidiDataException {
-
+      //Do Nothing.
     }
 
     @Override
@@ -304,7 +304,7 @@ public class MidiTest {
 
     @Override
     public void recordEnable(Track track, int channel) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -319,7 +319,7 @@ public class MidiTest {
 
     @Override
     public void setTempoInBPM(float bpm) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -354,7 +354,7 @@ public class MidiTest {
 
     @Override
     public void setTickPosition(long tick) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -369,7 +369,7 @@ public class MidiTest {
 
     @Override
     public void setMicrosecondPosition(long microseconds) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -389,7 +389,7 @@ public class MidiTest {
 
     @Override
     public void setSlaveSyncMode(SyncMode sync) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -404,7 +404,7 @@ public class MidiTest {
 
     @Override
     public void setTrackMute(int track, boolean mute) {
-
+      //Do Nothing.
     }
 
     @Override
@@ -455,7 +455,7 @@ public class MidiTest {
 
     @Override
     public void setLoopEndPoint(long tick) {
-
+      //Do Nothing.
     }
 
     @Override
