@@ -20,8 +20,9 @@ import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.GuiView;
 
 /**
- * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
- * this view allows the user to hear the notes found in the music model.
+ * A Class that represents both the MidiView and the GuiView.
+ * Via the implementation of the Midi Receiver and Synthesizer and JFrame's methods
+ * it allows the user to see the editor and the notes while also hearing them play.
  */
 public class CompView extends MidiViewImpl implements GuiView {
   private final ArrayList<Integer> beats;

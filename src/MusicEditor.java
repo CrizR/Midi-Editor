@@ -40,6 +40,8 @@ public class MusicEditor {
           MouseHandler mh = new MouseHandler((GuiView) view);
           new Controller(kl, mh).setView((GuiView) view);
           view.initialize();
+        } else {
+          view.initialize();
         }
       } catch (FileNotFoundException e) {
         System.out.println("Invalid File");

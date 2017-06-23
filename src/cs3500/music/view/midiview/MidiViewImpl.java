@@ -95,7 +95,6 @@ public class MidiViewImpl implements IView {
         }
       }
     }
-
     try {
       sequencer.setSequence(sequence);
     } catch (InvalidMidiDataException e) {

@@ -13,16 +13,6 @@ import cs3500.music.view.IView;
  */
 public interface GuiView extends IView {
   /**
-   * Sets the current beat to the beat - 1.
-   */
-  void prevBeat();
-
-  /**
-   * Sets the current beat to the beat + 1.
-   */
-  void nextBeat();
-
-  /**
    * Sets the current beat to the end of the song.
    */
   void toEnd();
@@ -83,7 +73,8 @@ public interface GuiView extends IView {
   void addNote(MouseEvent e);
 
   /**
-   * Moves the panel to the correct location.
+   * Moves the panel to the location of the current beat. This is used mainly
+   * when pressing space to pause or play the editor.
    */
   void movePanel();
 }
