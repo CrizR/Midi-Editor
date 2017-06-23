@@ -11,21 +11,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.sound.midi.ControllerEventListener;
-import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Patch;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 import javax.sound.midi.Transmitter;
-import javax.sound.midi.VoiceStatus;
 
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.model.Music;

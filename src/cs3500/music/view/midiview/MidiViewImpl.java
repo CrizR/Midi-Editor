@@ -30,9 +30,7 @@ public class MidiViewImpl implements IView {
   private final ArrayList<Integer> beats;
   protected Sequence sequence;
   protected Sequencer sequencer;
-  Synthesizer synth;
-  Receiver receiver;
-  boolean play = false;
+  private boolean play = false;
 
   /**
    * Builds a MidiViewImpl.
@@ -42,7 +40,8 @@ public class MidiViewImpl implements IView {
    * @param op Represents the model to read from.
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
-  public MidiViewImpl(IMusicOperations op, Synthesizer synth, boolean play) throws MidiUnavailableException {
+  public MidiViewImpl(IMusicOperations op, Synthesizer synth, boolean play)
+          throws MidiUnavailableException {
     this.op = op;
     this.tempo = op.getTempo();
     this.synth = synth;
@@ -68,7 +67,8 @@ public class MidiViewImpl implements IView {
    * @param instrument Represents the instrument of the note to play.
    * @throws InvalidMidiDataException if the midi fails to play the note.
    */
-  protected void playNote(String tone, int duration, int startBeat, int volume, int instrument) throws InvalidMidiDataException {
+  protected void playNote(String tone, int duration, int startBeat, int volume, int instrument)
+          throws InvalidMidiDataException {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument, Pitch.toneIndex.indexOf(tone), volume);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument, Pitch.toneIndex.indexOf(tone), volume);
 
