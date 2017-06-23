@@ -20,6 +20,7 @@ import cs3500.music.view.IView;
 /**
  * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
  * this view allows the user to hear the notes found in the music model.
+ * *Modified* This midi view now uses the sequencer instead of the synthesizer
  */
 public class MidiViewImpl implements IView {
   protected final IMusicOperations op;
