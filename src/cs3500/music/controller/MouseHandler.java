@@ -11,8 +11,8 @@ import cs3500.music.view.textview.GuiView;
  * that is meant to occur in a Mouse Event and that is to add a note to the editor.
  */
 public class MouseHandler implements MouseListener {
-  IMusicOperations op;
-  GuiView view;
+  private final IMusicOperations op;
+  private final GuiView view;
 
 
   /**
@@ -26,6 +26,9 @@ public class MouseHandler implements MouseListener {
     this.view = view;
   }
 
+  /**
+   * If a mouse if clicked addNote at the location to the model.
+   */
   @Override
   public void mouseClicked(MouseEvent e) {
     view.addNote(e);
@@ -33,20 +36,21 @@ public class MouseHandler implements MouseListener {
 
   @Override
   public void mousePressed(MouseEvent e) {
+    //Do Nothing
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-
+    //Do Nothing
   }
 
   @Override
   public void mouseEntered(MouseEvent e) {
-
+    //Do Nothing
   }
 
   @Override
   public void mouseExited(MouseEvent e) {
-
+    //Do Nothing
   }
 }

@@ -25,12 +25,12 @@ import static junit.framework.TestCase.assertEquals;
  * Tests the controller
  */
 public class TestControl {
-  IMusicOperations op = new Music();
-  IView view = ViewBuilder.createView("visual", op);
-  KeyboardHandler kh = new KeyboardHandler();
-  MouseHandler mh = new MouseHandler(op, (GuiView) view);
-  JPanel test = new JPanel();
-  boolean testRunnable = false;
+  private IMusicOperations op = new Music();
+  private IView view = ViewBuilder.createView("visual", op);
+  private KeyboardHandler kh = new KeyboardHandler();
+  private MouseHandler mh = new MouseHandler(op, (GuiView) view);
+  private JPanel test = new JPanel();
+  private boolean testRunnable = false;
 
   //test mock view
   class MockView implements GuiView {
@@ -104,7 +104,8 @@ public class TestControl {
     HashMap<Integer, Runnable> testRunnables = new HashMap<>();
     testRunnables.put(KeyEvent.VK_UP, () -> testMethod());
     kh.setKeyPressedMap(testRunnables);
-    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_UP, 'c');
+    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
+            KeyEvent.VK_UP, 'c');
     kh.keyPressed(key);
 
     assertEquals(true, testRunnable);
@@ -118,7 +119,8 @@ public class TestControl {
     testRunnables.put(KeyEvent.VK_UP, () -> testMethod());
     kh.setKeyPressedMap(testRunnables);
 
-    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_DOWN, 'K');
+    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
+            KeyEvent.VK_DOWN, 'K');
     kh.keyPressed(key);
 
     assertEquals(false, testRunnable);
@@ -131,7 +133,8 @@ public class TestControl {
     MockView x = new MockView();
     c1.setView(x);
 
-    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_RIGHT, 's');
+    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
+            KeyEvent.VK_RIGHT, 's');
     kh.keyPressed(key);
     assertEquals("addKeyListener\n" +
             "resetFocus\n" +
@@ -148,7 +151,8 @@ public class TestControl {
     MockView x = new MockView();
     c1.setView(x);
 
-    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_HOME, 's');
+    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
+            KeyEvent.VK_HOME, 's');
     kh.keyPressed(key);
     assertEquals("addKeyListener\n" +
             "resetFocus\n" +
@@ -165,7 +169,8 @@ public class TestControl {
     MockView x = new MockView();
     c1.setView(x);
 
-    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_END, 's');
+    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
+            KeyEvent.VK_END, 's');
     kh.keyPressed(key);
     assertEquals("addKeyListener\n" +
             "resetFocus\n" +
@@ -182,7 +187,8 @@ public class TestControl {
     MockView x = new MockView();
     c1.setView(x);
 
-    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_SPACE, 's');
+    KeyEvent key = new KeyEvent(test, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0,
+            KeyEvent.VK_SPACE, 's');
     kh.keyPressed(key);
     assertEquals("addKeyListener\n" +
             "resetFocus\n" +

@@ -6,13 +6,10 @@ import java.util.ArrayList;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
-import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
@@ -30,9 +27,7 @@ public class MidiViewImpl implements IView {
   private final ArrayList<Integer> beats;
   protected Sequence sequence;
   protected Sequencer sequencer;
-  Synthesizer synth;
-  Receiver receiver;
-  boolean play = false;
+  private boolean play = false;
 
   /**
    * Builds a MidiViewImpl.
@@ -42,15 +37,14 @@ public class MidiViewImpl implements IView {
    * @param op Represents the model to read from.
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
-  public MidiViewImpl(IMusicOperations op, Synthesizer synth, boolean play) throws MidiUnavailableException {
+  public MidiViewImpl(IMusicOperations op, Sequencer seq, boolean play)
+          throws MidiUnavailableException {
     this.op = op;
     this.tempo = op.getTempo();
-    this.synth = synth;
-    this.receiver = synth.getReceiver();
     this.beats = op.getStartingBeats();
     this.play = play;
     try {
-      sequencer = MidiSystem.getSequencer();
+      this.sequencer = seq;
       sequence = new Sequence(Sequence.PPQ, 1);
       sequencer.setTempoInMPQ(this.tempo);
     } catch (InvalidMidiDataException e) {
@@ -68,7 +62,8 @@ public class MidiViewImpl implements IView {
    * @param instrument Represents the instrument of the note to play.
    * @throws InvalidMidiDataException if the midi fails to play the note.
    */
-  protected void playNote(String tone, int duration, int startBeat, int volume, int instrument) throws InvalidMidiDataException {
+  protected void playNote(String tone, int duration, int startBeat, int volume, int instrument)
+          throws InvalidMidiDataException {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument, Pitch.toneIndex.indexOf(tone), volume);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument, Pitch.toneIndex.indexOf(tone), volume);
 
