@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ import cs3500.music.view.textview.GuiView;
  */
 public class MusicEditor {
   /**
-   * Main method starts the program.
+   * Main method starts the program and sets the configurations.
    *
    * @param args represents the args
    * @throws IOException              throws an IOException
@@ -28,16 +29,23 @@ public class MusicEditor {
    */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     if (args.length == 2) {
-      BufferedReader br = new BufferedReader(new FileReader(args[0]));
-      Music.Builder x = new Music.Builder(); //Once built, returns a copy of the model.
-      IMusicOperations op = MusicReader.parseFile(br, x);
-      IView view = ViewBuilder.createView(args[1], op);
-      if (args[1].equals("visual") || args[1].equals("composite")) {
-        KeyboardHandler kl = new KeyboardHandler();
-        MouseHandler mh = new MouseHandler(op, (GuiView) view);
-        new Controller(op, kl, mh).setView((GuiView) view);
+      try {
+        BufferedReader br = new BufferedReader(new FileReader(args[0]));
+        Music.Builder x = new Music.Builder(); //Once built, returns a copy of the model.
+        IMusicOperations op;
+        op = MusicReader.parseFile(br, x);
+        IView view = ViewBuilder.createView(args[1], op);
+        if (args[1].equals("visual") || args[1].equals("composite")) {
+          KeyboardHandler kl = new KeyboardHandler();
+          MouseHandler mh = new MouseHandler(op, (GuiView) view);
+          new Controller(op, kl, mh).setView((GuiView) view);
+          view.initialize();
+        }
+      } catch (FileNotFoundException e) {
+        System.out.println("Invalid File");
       }
-      view.initialize();
+    } else {
+      System.out.println("No configurations");
     }
   }
 }
