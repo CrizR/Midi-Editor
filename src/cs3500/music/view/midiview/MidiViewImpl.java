@@ -34,7 +34,9 @@ public class MidiViewImpl implements IView {
    * The MidiView has an IMusicOperation, the last beat in the model, a synthesizer,
    * a receiver, and the starting beats.
    *
-   * @param op Represents the model to read from.
+   * @param op   Represents the model to read from.
+   * @param play determines whether or not to start the midi right away
+   * @param seq  the sequencer to use in this midi view
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
   public MidiViewImpl(IMusicOperations op, Sequencer seq, boolean play)
@@ -96,7 +98,7 @@ public class MidiViewImpl implements IView {
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
-    if(play) {
+    if (play) {
       sequencer.start();
     }
   }
