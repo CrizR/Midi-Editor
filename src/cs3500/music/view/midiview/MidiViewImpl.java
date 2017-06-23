@@ -1,14 +1,9 @@
 package cs3500.music.view.midiview;
 
 
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.sound.midi.ControllerEventListener;
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
@@ -19,7 +14,6 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
-import javax.sound.midi.Transmitter;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
@@ -112,19 +106,6 @@ public class MidiViewImpl implements IView {
     }
   }
 
-  @Override
-  public void toEnd() {
-    this.sequencer.setTickPosition(op.lastBeat() * this.tempo);
-  }
-
-  @Override
-  public void toBeginning() {
-    this.sequencer.setTickPosition(0);
-    if (play) {
-      this.sequencer.start();
-    }
-  }
-
   public void refresh() {
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
@@ -144,33 +125,12 @@ public class MidiViewImpl implements IView {
 
   @Override
   public void prevBeat() {
-      this.sequencer.setTickPosition(this.sequencer.getTickPosition() - 1);
+    this.sequencer.setTickPosition(this.sequencer.getTickPosition() - 1);
   }
 
   @Override
   public void nextBeat() {
-      this.sequencer.setTickPosition(this.sequencer.getTickPosition() + 1);
+    this.sequencer.setTickPosition(this.sequencer.getTickPosition() + 1);
   }
 
-  @Override
-  public void togglePlay() {
-  }
-
-  @Override
-  public void resetFocus() {
-  }
-
-  @Override
-  public void addKeyListener(KeyListener listener) {
-
-  }
-
-  @Override
-  public void addMouseListener(MouseListener listener) {
-
-  }
-
-  @Override
-  public void addNote(MouseEvent e) {
-  }
 }

@@ -2,41 +2,57 @@ package cs3500.music.controller;
 
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.IView;
+import cs3500.music.view.textview.GuiView;
 
 
 /**
- * Basic Controller class to aid in the initial setup of the music editor. The user
- * inputs a view type and a file name in the config and it runs the program.
+ * Initializes the keyboard and mouse commands and then adds the keyboard and mouse listeners
+ * to the set view.
+ * Modified: June 22, Changed the controller to account for the key and mouse listeners.
  */
 public class Controller {
-
   private IMusicOperations op;
-  private IView view;
+  private GuiView view;
+  private KeyboardHandler kbd;
+  private MouseListener mh;
 
-  public Controller(IMusicOperations op) {
+  /**
+   * Builds the controller given an IMusicOperation
+   *
+   * @param op Represents the operations to set it to.
+   * @param kh Represents the keyboard handler to set it to.
+   * @param mh Represents the mouse handler to set it to.
+   */
+  public Controller(IMusicOperations op, KeyboardHandler kh, MouseListener mh) {
     this.op = op;
+    this.kbd = kh;
+    this.mh = mh;
   }
 
   /**
-   * Add javadoc TODO
+   * Sets the view of the controller.
+   *
+   * @param view Represents the view to set.
+   * @return the controller itself.
    */
-  public void setView(IView view) {
+  public void setView(GuiView view) {
     this.view = view;
     keyBoardSetup();
     mouseSetup();
   }
 
+  //sets up the mouse handler and adds it to the view
   private void mouseSetup() {
-    MouseHandler mh = new MouseHandler(op, view);
     view.addMouseListener(mh);
     view.resetFocus();
   }
 
+  //Sets upt the keyboard and the commands and adds it to the view
   private void keyBoardSetup() {
     Map<Character, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
@@ -48,7 +64,6 @@ public class Controller {
     keyPresses.put(KeyEvent.VK_HOME, () -> view.toBeginning());
     keyPresses.put(KeyEvent.VK_END, () -> view.toEnd());
 
-    KeyboardHandler kbd = new KeyboardHandler();
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);

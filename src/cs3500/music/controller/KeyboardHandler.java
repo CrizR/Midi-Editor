@@ -5,10 +5,10 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import cs3500.music.model.IMusicOperations;
-
 /**
- * Created by ChrisRisley on 6/14/17.
+ * Handles the keyboard commands. For each command set by the the methods:
+ * setKeyTypes, pressed, and released, the Keyboard handler dispatches to the Runnable
+ * saved in the three different maps when the appropriate key is pressed.
  */
 public class KeyboardHandler implements KeyListener {
   Map<Character, Runnable> keyTypedMap = new HashMap<>();
@@ -21,7 +21,6 @@ public class KeyboardHandler implements KeyListener {
   /**
    * Set the map for key typed events. Key typed events in Java Swing are characters
    */
-
   public void setKeyTypedMap(Map<Character, Runnable> map) {
     keyTypedMap = map;
   }

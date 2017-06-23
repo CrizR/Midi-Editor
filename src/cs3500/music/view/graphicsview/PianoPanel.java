@@ -1,12 +1,15 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.IMusicOperations;
+
 
 
 /**
@@ -49,14 +52,6 @@ public class PianoPanel extends JPanel {
       this.x = x;
       this.y = y;
       this.octave = octave;
-    }
-
-    public int getX() {
-      return x;
-    }
-
-    public int getY() {
-      return y;
     }
 
     public boolean onKey(int x1, int y1) {
