@@ -28,6 +28,7 @@ public class CompView extends MidiViewImpl implements IView{
   private final ArrayList<Integer> beats;
   boolean play = false;
   GuiViewFrame guiDelegate;
+  int lastBeat;
 
 
   /**
@@ -39,12 +40,12 @@ public class CompView extends MidiViewImpl implements IView{
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
   public CompView(IMusicOperations op, Synthesizer synth) throws MidiUnavailableException {
-    super(op, synth);
+    super(op, synth, false);
     this.guiDelegate = new GuiViewFrame(op);
     this.beats = op.getStartingBeats();
     Track t = this.sequence.createTrack();
     MetaMessage tick = new MetaMessage();
-    int lastBeat = this.op.lastBeat();
+    this.lastBeat = this.op.lastBeat();
     for (int i = 0; i <= lastBeat; i ++) {
       MidiEvent tic = new MidiEvent(tick, i);
       t.add(tic);
@@ -79,6 +80,7 @@ public class CompView extends MidiViewImpl implements IView{
 
   @Override
   public void togglePlay() {
+    this.guiDelegate.movePanel();
     if (this.play) {
       sequencer.stop();
       this.play = false;
@@ -108,13 +110,14 @@ public class CompView extends MidiViewImpl implements IView{
   @Override
   public void toEnd() {
     this.guiDelegate.toEnd();
-    this.sequencer.setTickPosition(this.op.lastBeat() * this.tempo);
+    this.sequencer.setTickPosition(lastBeat);
   }
 
   @Override
   public void toBeginning() {
     this.guiDelegate.toBeginning();
     this.sequencer.setTickPosition(0);
+    this.sequencer.setTempoInMPQ(this.tempo);
     if (play) {
       this.sequencer.start();
     }

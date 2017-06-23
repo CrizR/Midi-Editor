@@ -45,7 +45,7 @@ public class MidiTest {
     MockMidiDevice mockMidiDevice = new MockMidiDevice();
     IView view = null;
     try {
-      view = new MidiViewImpl(op, mockMidiDevice);
+      view = new MidiViewImpl(op, mockMidiDevice, true);
     } catch (MidiUnavailableException e) {
       //can't play midi
     }
@@ -135,7 +135,7 @@ public class MidiTest {
     MockMidiDevice modckMidiDevice = new MockMidiDevice();
     IView view = null;
     try {
-      view = new MidiViewImpl(op, modckMidiDevice);
+      view = new MidiViewImpl(op, modckMidiDevice, true);
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }

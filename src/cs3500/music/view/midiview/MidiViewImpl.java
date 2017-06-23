@@ -48,12 +48,13 @@ public class MidiViewImpl implements IView {
    * @param op Represents the model to read from.
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
-  public MidiViewImpl(IMusicOperations op, Synthesizer synth) throws MidiUnavailableException {
+  public MidiViewImpl(IMusicOperations op, Synthesizer synth, boolean play) throws MidiUnavailableException {
     this.op = op;
     this.tempo = op.getTempo();
     this.synth = synth;
     this.receiver = synth.getReceiver();
     this.beats = op.getStartingBeats();
+    this.play = play;
     try {
       sequencer = MidiSystem.getSequencer();
       sequence = new Sequence(Sequence.PPQ, 1);
@@ -106,7 +107,9 @@ public class MidiViewImpl implements IView {
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
-    sequencer.start();
+    if(play) {
+      sequencer.start();
+    }
   }
 
   @Override

@@ -30,7 +30,7 @@ public class ViewBuilder {
         return new GuiViewFrame(op);
       case "midi":
         try {
-          return new MidiViewImpl(op, MidiSystem.getSynthesizer());
+          return new MidiViewImpl(op, MidiSystem.getSynthesizer(), true);
         } catch (MidiUnavailableException e) {
           System.out.println("Could not start MidiView");
           return new ConsoleView(op);

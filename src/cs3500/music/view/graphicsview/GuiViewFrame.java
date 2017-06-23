@@ -57,6 +57,7 @@ public class GuiViewFrame extends JFrame implements IView {
     this.add(pianoPanel, BorderLayout.SOUTH);
     this.setSize(1000, 750);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.pack();
 
     this.setResizable(false);
   }
@@ -74,6 +75,7 @@ public class GuiViewFrame extends JFrame implements IView {
 
   @Override
   public void togglePlay() {
+
 
   }
 
@@ -93,8 +95,9 @@ public class GuiViewFrame extends JFrame implements IView {
   public void prevBeat() {
     if (BEAT - 1 >= 0) {
       if (BEAT % (MIDI_WIDTH / GuiPanel.cellWidth) == 0) {
-        this.scrollPane.getHorizontalScrollBar().setValue(BEAT - (MIDI_WIDTH / GuiPanel.cellWidth)
-                * GuiPanel.cellWidth);
+        this.scrollPane.getHorizontalScrollBar().setValue(
+                GuiViewFrame.BEAT * GuiPanel.cellWidth -
+                scrollPane.getWidth());
       }
       BEAT--;
     }
@@ -114,7 +117,7 @@ public class GuiViewFrame extends JFrame implements IView {
   public void toEnd() {
     BEAT = op.lastBeat() + 1;
     this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.cellWidth);
-    refresh();
+    this.refresh();
   }
 
   @Override
@@ -127,7 +130,11 @@ public class GuiViewFrame extends JFrame implements IView {
   @Override
   public void refresh() {
     this.revalidate();
-    this.repaint();
+    this.midiPanel.repaint(this.scrollPane.getHorizontalScrollBar().getValue(),
+            this.scrollPane.getVerticalScrollBar().getValue(), this.midiPanel.getWidth(),
+            this.midiPanel.getHeight());
+    this.pianoPanel.repaint();
+//    this.repaint();
     this.update();
   }
 
