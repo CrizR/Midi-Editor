@@ -94,14 +94,13 @@ public class GuiViewFrame extends JFrame implements IView {
   @Override
   public void prevBeat() {
     if (BEAT - 1 >= 0) {
-      if (BEAT % (MIDI_WIDTH / GuiPanel.cellWidth) == 0) {
+      if (BEAT  % (scrollPane.getWidth() / GuiPanel.cellWidth) == 0) {
         this.scrollPane.getHorizontalScrollBar().setValue(
-                GuiViewFrame.BEAT * GuiPanel.cellWidth -
-                scrollPane.getWidth());
+                GuiViewFrame.BEAT * GuiPanel.cellWidth - scrollPane.getWidth());
       }
       BEAT--;
     }
-    refresh();
+    this.refresh();
   }
 
   @Override
@@ -134,7 +133,6 @@ public class GuiViewFrame extends JFrame implements IView {
             this.scrollPane.getVerticalScrollBar().getValue(), this.midiPanel.getWidth(),
             this.midiPanel.getHeight());
     this.pianoPanel.repaint();
-//    this.repaint();
     this.update();
   }
 
