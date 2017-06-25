@@ -78,8 +78,6 @@ public interface GuiView extends IView {
    */
   void movePanel();
 
-  //TODO:
-  void addRepeat();
 
 
   //TODO:
@@ -92,4 +90,10 @@ public interface GuiView extends IView {
   void togglePractice();
 
   void startCreate();
+
+  void addBeginRepeat();
+
+  void addEndRepeat();
+
+  void addDoubleRepeat();
 }

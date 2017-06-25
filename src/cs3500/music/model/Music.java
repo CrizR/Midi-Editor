@@ -11,17 +11,23 @@ import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
 import cs3500.music.mechanics.Set;
 import cs3500.music.mechanics.ToneRange;
+import cs3500.music.mechanics.repeats.DoubleRepeat;
+import cs3500.music.mechanics.repeats.Repeat;
+import cs3500.music.mechanics.repeats.RepeatType;
+import cs3500.music.mechanics.repeats.SingleRepeat;
 
 /**
  * This represents a piece of music model which implements the IMusicOperations interface.
  * A music model has a list of notes with the starting BEAT mapping to notes.
  * It also has a deque to keep track of the pitches. This model can also be
  * visualized in the console in string format.
+ * MODIFIED on June25, added repeats to the model.
  */
 public class Music implements IMusicOperations {
   protected ToneRange toneList;
   protected HashMap<Integer, Set> noteMap;
   protected int tempo;
+  private HashMap<Integer, Repeat> repeats;
 
   /**
    * Initialize the music model. Set the pitchList to a new pitchList and
@@ -29,6 +35,7 @@ public class Music implements IMusicOperations {
    */
   public Music() {
     this.toneList = new ToneRange();
+    this.repeats = new HashMap<>();
     this.noteMap = new HashMap<>();
   }
 
@@ -42,6 +49,7 @@ public class Music implements IMusicOperations {
   public Music(ToneRange toneList, HashMap<Integer, Set> noteMap, int tempo) {
     this.toneList = toneList.clone();
     this.noteMap = copyMap(noteMap);
+    this.repeats = new HashMap<>();
     this.tempo = tempo;
   }
 
@@ -236,6 +244,24 @@ public class Music implements IMusicOperations {
       result = notes.isEmpty() && result;
     }
     return result;
+  }
+
+  /**
+   * TODO:
+   */
+  public HashMap<Integer, Repeat> getRepeats() {
+    return (HashMap<Integer, Repeat>) repeats.clone();
+  }
+
+  /**
+   * Adds a repeat at the current location.
+   */
+  public void addRepeat(int startingPosition, RepeatType type) {
+    if (type == RepeatType.BOTH) {
+      repeats.put(startingPosition, new DoubleRepeat());
+    } else {
+      repeats.put(startingPosition, new SingleRepeat(type));
+    }
   }
 
 

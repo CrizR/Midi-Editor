@@ -21,6 +21,7 @@ import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
+import cs3500.music.mechanics.repeats.RepeatType;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.GuiView;
@@ -128,7 +129,7 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void prevBeat() {
-    if (!play) {
+    if (!play && !practicing) {
       this.guiDelegate.prevBeat();
       super.prevBeat();
     }
@@ -250,10 +251,6 @@ public class CompView extends MidiViewImpl implements GuiView {
     //do nothing
   }
 
-  @Override
-  public void addRepeat() {
-//    op.addRepeat(this.guiDelegate.ge)
-  }
 
   @Override
   public void increaseTempo() {
@@ -289,6 +286,32 @@ public class CompView extends MidiViewImpl implements GuiView {
   @Override
   public void startCreate() {
     this.guiDelegate.startCreate();
+  }
+
+  @Override
+  public void addBeginRepeat() {
+    int beat = GuiViewFrame.BEAT;
+    if (beat % 4 == 0){
+      op.addRepeat(beat, RepeatType.BEGIN);
+    }
+  }
+
+  @Override
+  public void addEndRepeat() {
+    int beat = GuiViewFrame.BEAT;
+    if (beat % 4 == 0){
+      op.addRepeat(beat, RepeatType.END);
+    }
+
+  }
+
+  @Override
+  public void addDoubleRepeat() {
+    int beat = GuiViewFrame.BEAT;
+    if (beat % 4 == 0){
+      op.addRepeat(beat, RepeatType.BOTH);
+    }
+
   }
 
   /**

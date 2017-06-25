@@ -13,6 +13,7 @@ import cs3500.music.view.textview.GuiView;
  * Initializes the keyboard and mouse commands and then adds the keyboard and mouse listeners
  * to the set view.
  * Modified: June 22, Changed the controller to account for the key and mouse listeners.
+ * Modified: June 25, Added commands to change tempo, to add repeats, and to toggle practice mode.
  */
 public class Controller {
   protected GuiView view;
@@ -65,6 +66,9 @@ public class Controller {
     keyPresses.put(KeyEvent.VK_CLOSE_BRACKET, () -> view.increaseTempo());
     keyPresses.put(KeyEvent.VK_OPEN_BRACKET, () -> view.decreaseTempo());
     keyPresses.put(KeyEvent.VK_P, () -> view.togglePractice());
+    keyPresses.put(KeyEvent.VK_E, () -> view.addBeginRepeat());
+    keyPresses.put(KeyEvent.VK_R, () -> view.addEndRepeat());
+    keyPresses.put(KeyEvent.VK_B, () -> view.addDoubleRepeat());
 
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);

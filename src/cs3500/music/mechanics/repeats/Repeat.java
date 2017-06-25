@@ -5,8 +5,15 @@ package cs3500.music.mechanics.repeats;
  */
 public abstract class Repeat {
 
-  abstract boolean isPlayed();
+  public abstract boolean isPlayed();
 
-  abstract boolean isDoubleRepeat();
+  public abstract boolean isDoubleRepeat();
+
+  public abstract RepeatType getType();
+
+  public abstract boolean isEndPlayed();
+
+  public abstract boolean isBeginPlayed();
+
 
 }

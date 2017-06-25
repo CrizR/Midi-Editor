@@ -14,13 +14,36 @@ public class SingleRepeat extends Repeat {
   boolean played;
 
   @Override
-  boolean isPlayed() {
+  public boolean isPlayed() {
     return played;
   }
 
   @Override
-  boolean isDoubleRepeat() {
+  public boolean isDoubleRepeat() {
     return false;
+  }
+
+  @Override
+  public RepeatType getType() {
+    return this.type;
+  }
+
+  @Override
+  public boolean isEndPlayed() {
+    if (this.type == RepeatType.END) {
+      return this.played;
+    } else {
+      return true;
+    }
+  }
+
+  @Override
+  public boolean isBeginPlayed() {
+    if (this.type == RepeatType.BEGIN) {
+      return this.played;
+    } else {
+      return true;
+    }
   }
 
   void makePlayed() {

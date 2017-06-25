@@ -114,6 +114,21 @@ public class GuiViewFrame extends JFrame implements GuiView {
   }
 
   @Override
+  public void addBeginRepeat() {
+    //DO NOTHING
+  }
+
+  @Override
+  public void addEndRepeat() {
+    //DO NOTHING
+  }
+
+  @Override
+  public void addDoubleRepeat() {
+    //DO NOTHING
+  }
+
+  @Override
   public void nextBeat() {
     if (creatingNote) {
       movePanel();
@@ -151,26 +166,27 @@ public class GuiViewFrame extends JFrame implements GuiView {
 
   @Override
   public void addNote(MouseEvent e, int duration) {
-      for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
-        PianoPanel.Key k = PianoPanel.KEYS.get(i);
-        if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
-          if (k.getPitch().isSharp()) {
-            op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
-                    (BEAT + 1) - duration);
-            break;
-          } else {
-            for (int j = i; j < PianoPanel.KEYS.size(); j++) {
-              if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
-                op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
-                        (BEAT + 1) - duration);
-                break;
-              }
+    for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
+      PianoPanel.Key k = PianoPanel.KEYS.get(i);
+      if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
+        if (k.getPitch().isSharp()) {
+          op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                  (BEAT + 1) - duration);
+          System.out.println("test1");
+        } else {
+          for (int j = i; j < PianoPanel.KEYS.size(); j++) {
+            if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
+              op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                      (BEAT + 1) - duration);
+              System.out.println("test2");
+              break;
             }
           }
         }
-        refresh();
-        resetFocus();
-        creatingNote = false;
+      }
+      refresh();
+      resetFocus();
+      creatingNote = false;
     }
   }
 
@@ -181,11 +197,6 @@ public class GuiViewFrame extends JFrame implements GuiView {
     }
   }
 
-  @Override
-  public void addRepeat() {
-
-    //TODO
-  }
 
   @Override
   public void increaseTempo() {

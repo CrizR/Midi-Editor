@@ -100,10 +100,6 @@ public class TestControl {
       //do nothing
     }
 
-    @Override
-    public void addRepeat() {
-      //TODO
-    }
 
     @Override
     public void increaseTempo() {
@@ -122,6 +118,21 @@ public class TestControl {
 
     @Override
     public void startCreate() {
+
+    }
+
+    @Override
+    public void addBeginRepeat() {
+
+    }
+
+    @Override
+    public void addEndRepeat() {
+
+    }
+
+    @Override
+    public void addDoubleRepeat() {
 
     }
   }

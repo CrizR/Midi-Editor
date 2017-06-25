@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cs3500.music.mechanics.Note;
+import cs3500.music.mechanics.repeats.Repeat;
+import cs3500.music.mechanics.repeats.RepeatType;
 
 /**
  * This interface is an interface for the music editor,
@@ -144,4 +146,15 @@ public interface IMusicOperations {
    * @return the clone of the model.
    */
   IMusicOperations clone();
+
+  /**
+   * TODO:
+   */
+  public HashMap<Integer, Repeat> getRepeats();
+
+  /**
+   * Adds a repeat at the current location.
+   */
+  public void addRepeat(int startingPosition, RepeatType type);
+
 }

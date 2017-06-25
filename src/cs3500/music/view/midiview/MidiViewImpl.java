@@ -112,7 +112,6 @@ public class MidiViewImpl implements IView {
   public void refresh() {
     this.beats = op.getStartingBeats();
     this.tempo = op.getTempo();
-    System.out.println(op.lastBeat());
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {

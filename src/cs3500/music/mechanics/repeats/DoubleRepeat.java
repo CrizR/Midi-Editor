@@ -4,24 +4,32 @@ package cs3500.music.mechanics.repeats;
  * Created by ChrisRisley on 6/25/17.
  */
 public class DoubleRepeat extends Repeat {
+
   @Override
-  boolean isPlayed() {
+  public boolean isPlayed() {
     return false;
   }
 
   @Override
-  boolean isDoubleRepeat() {
+  public boolean isDoubleRepeat() {
     return true;
+  }
+
+  @Override
+  public RepeatType getType() {
+    return RepeatType.BOTH;
   }
 
   boolean leftPlayed;
   boolean rightPlayed;
 
-  boolean isLeftPlayed() {
+  @Override
+  public boolean isEndPlayed() {
     return leftPlayed;
   }
 
-  boolean isRightPlayed() {
+  @Override
+  public boolean isBeginPlayed() {
     return rightPlayed;
   }
 
