@@ -9,11 +9,18 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
+import cs3500.music.mechanics.Pitch;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.GuiView;
@@ -30,6 +37,8 @@ public class CompView extends MidiViewImpl implements GuiView {
   private int lastBeat;
   private boolean practicing;
   ArrayList<String> tonesPlayed;
+  protected Sequence sequenceForPratice;
+  protected Sequencer sequencerForPratice;
 
 
   /**
@@ -52,8 +61,20 @@ public class CompView extends MidiViewImpl implements GuiView {
       MidiEvent tic = new MidiEvent(tick, i);
       t.add(tic);
     }
-
     sequencer.addMetaEventListener(new Refresh());
+
+    try {
+      this.sequencerForPratice = MidiSystem.getSequencer();
+      sequenceForPratice = new Sequence(Sequence.PPQ, 1);
+      sequencerForPratice.setTempoInMPQ(this.tempo);
+    } catch (InvalidMidiDataException e) {
+      // failed to use mid
+    }
+    try {
+      sequencerForPratice.open();
+    } catch (MidiUnavailableException e) {
+      // failed to connect to mid
+    }
   }
 
   public void update() {
@@ -122,12 +143,31 @@ public class CompView extends MidiViewImpl implements GuiView {
       }
     } else {
       if (playedAllNotes()) {
-        super.playNextBeat(); //PLAYS THE NOTE
+        for (Note n : this.op.activeNotes(GuiViewFrame.BEAT).values()) {
+          try {
+            this.playNext(n.getTone(), GuiViewFrame.BEAT, n.getVolume(), n.getInstrument() - 1);
+          } catch (InvalidMidiDataException e) {
+          }
+        }
+
+          try {
+            sequencerForPratice.setSequence(sequenceForPratice);
+          } catch (InvalidMidiDataException e) {
+            // failed to get midi data
+          }
+          this.sequencerForPratice.setTickPosition(GuiViewFrame.BEAT);
+          this.sequencerForPratice.start();
+        try {
+          Thread.sleep((int)this.sequencerForPratice.getTempoInBPM());
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        this.sequencerForPratice.stop();
         this.guiDelegate.nextBeat();
         super.nextBeat();
         tonesPlayed = new ArrayList<>();
       }
-    }
+      }
   }
 
   private boolean playedAllNotes() {
@@ -249,6 +289,31 @@ public class CompView extends MidiViewImpl implements GuiView {
   @Override
   public void startCreate() {
     this.guiDelegate.startCreate();
+  }
+
+  /**
+   * Plays the given note as defined by the following parameters.
+   *
+   * @param tone       Represents the tone of the note to play.
+   * @param startBeat  Represents the startBeat of the note to play.
+   * @param volume     Represents the volume of the note to play.
+   * @param instrument Represents the instrument of the note to play.
+   * @throws InvalidMidiDataException if the midi fails to play the note.
+   */
+  protected void playNext(String tone, int startBeat, int volume, int instrument)
+          throws InvalidMidiDataException {
+    System.out.println(startBeat + " ");
+    System.out.println(tone);
+    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument,
+            Pitch.toneIndex.indexOf(tone), volume);
+    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument,
+            Pitch.toneIndex.indexOf(tone), volume);
+
+    MidiEvent startNote = new MidiEvent(start, startBeat);
+    MidiEvent endNote = new MidiEvent(stop, startBeat + 1);
+    Track notes = sequenceForPratice.createTrack();
+    notes.add(startNote);
+    notes.add(endNote);
   }
 
   public class Refresh implements MetaEventListener {
