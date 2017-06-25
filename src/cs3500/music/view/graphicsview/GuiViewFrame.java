@@ -209,10 +209,6 @@ public class GuiViewFrame extends JFrame implements GuiView {
 
   @Override
   public void togglePractice() {
-    if (practicing){
-      practicing = false;
-    } else {
-      practicing = true;
-    }
+    //Do nothing
   }
 }

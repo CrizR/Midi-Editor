@@ -29,7 +29,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   private boolean play = false;
   private final GuiViewFrame guiDelegate;
   private int lastBeat;
-  private boolean practice;
+  private boolean practicing;
 
 
   /**
@@ -91,14 +91,16 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void togglePlay() {
-    this.guiDelegate.movePanel();
-    if (this.play) {
-      sequencer.stop();
-      this.play = false;
-    } else {
-      sequencer.start();
-      sequencer.setTempoInMPQ(super.tempo);
-      this.play = true;
+    if (!practicing) {
+      this.guiDelegate.movePanel();
+      if (this.play) {
+        sequencer.stop();
+        this.play = false;
+      } else {
+        sequencer.start();
+        sequencer.setTempoInMPQ(super.tempo);
+        this.play = true;
+      }
     }
   }
 
@@ -112,9 +114,13 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void nextBeat() {
-    if (!play) {
-      this.guiDelegate.nextBeat();
-      super.nextBeat();
+    if (!practicing) {
+      if (!play) {
+        this.guiDelegate.nextBeat();
+        super.nextBeat();
+      }
+    } else {
+      //play those notes that are in the next beat
     }
   }
 
@@ -192,7 +198,11 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void togglePractice() {
-    this.guiDelegate.togglePractice();
+    if (practicing){
+      practicing = false;
+    } else {
+      practicing = true;
+    }
   }
 
   @Override
