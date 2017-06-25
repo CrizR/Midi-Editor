@@ -47,6 +47,7 @@ public class MouseHandler implements MouseListener {
       time++;
     });
     timer.start();
+    view.startCreate();
   }
 
   @Override

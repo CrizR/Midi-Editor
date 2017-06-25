@@ -40,6 +40,7 @@ public class GuiViewFrame extends JFrame implements GuiView {
   private JPanel pianoPanel;
   private JScrollPane scrollPane;
   private boolean practicing;
+  private boolean creatingNote;
 
   /**
    * Constructs a GuiView frame by first instantiating the midipanel and piano panel
@@ -51,6 +52,7 @@ public class GuiViewFrame extends JFrame implements GuiView {
    */
   public GuiViewFrame(IMusicOperations op) {
     this.op = op;
+    this.creatingNote = false;
     midiPanel = new GuiPanel(op);
     pianoPanel = new PianoPanel(op);
     update();
@@ -115,8 +117,16 @@ public class GuiViewFrame extends JFrame implements GuiView {
   }
 
   @Override
+  public void startCreate(){
+    this.creatingNote = true;
+  }
+
+  @Override
   public void nextBeat() {
-    if (BEAT + 1 <= op.lastBeat() + 1) {
+    if (creatingNote) {
+      movePanel();
+      BEAT++;
+    } else if (BEAT + 1 <= op.lastBeat() + 1) {
       movePanel();
       BEAT++;
     }
@@ -168,7 +178,8 @@ public class GuiViewFrame extends JFrame implements GuiView {
       }
       update();
       refresh();
-      //resetFocus();
+      resetFocus();
+      creatingNote = false;
     }
   }
 

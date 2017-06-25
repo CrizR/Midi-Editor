@@ -90,4 +90,6 @@ public interface GuiView extends IView {
 
   //TODO:
   void togglePractice();
+
+  void startCreate();
 }

@@ -195,6 +195,11 @@ public class CompView extends MidiViewImpl implements GuiView {
     this.guiDelegate.togglePractice();
   }
 
+  @Override
+  public void startCreate() {
+    this.guiDelegate.startCreate();
+  }
+
   public class Refresh implements MetaEventListener {
     @Override
     public void meta(MetaMessage meta) {
