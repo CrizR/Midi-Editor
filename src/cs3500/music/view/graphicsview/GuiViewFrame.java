@@ -1,34 +1,45 @@
 package cs3500.music.view.graphicsview;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
+
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.IView;
+import cs3500.music.view.textview.GuiView;
+
 
 
 /**
  * IView that represents the graphical view for the user. This view shows each note on a grid
- * above keys. As the user clicks the left or right arrow, the bar on the
- * midi editor moves in accordance to the changed BEAT. The keys light up
+ * above KEYS. As the user clicks the left or right arrow, the bar on the
+ * midi editor moves in accordance to the changed BEAT. The KEYS light up
  * when the bar is on top of the corresponding note. This is represented with two JPanels,
  * the midiPanel and the piano panel. We made the BEAT public and static in this class so that
  * our panels have access to the current BEAT being "played." The current BEAT is updated in the
  * view because the model is a read only object.
+ * Modified, June 22, abstracted out some of the logic in the constructor to a helper method.
+ * Added methods that were added to the GuiView interface.
  */
-public class GuiViewFrame extends JFrame implements IView {
+public class GuiViewFrame extends JFrame implements GuiView {
   private IMusicOperations op;
   public static int BEAT;
-  public static final int PIANO_WIDTH = 1000;
-  public static final int PIANO_HEIGHT = 250;
-  public static final int MIDI_WIDTH = 1000;
-  public static final int MIDI_HEIGHT = 500;
-  JPanel midiPanel;
-  JPanel pianoPanel;
-  JScrollPane scrollPane;
+  private final int pianoWidth = 1000;
+  private final int pianoHeight = 250;
+  private final int midiWidth = 1000;
+  private final int midiHeight = 500;
+  private JPanel midiPanel;
+  private JPanel pianoPanel;
+  private JScrollPane scrollPane;
+  private boolean practicing;
 
   /**
    * Constructs a GuiView frame by first instantiating the midipanel and piano panel
@@ -48,7 +59,7 @@ public class GuiViewFrame extends JFrame implements IView {
     scrollPane = new JScrollPane(midiPanel,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    scrollPane.setPreferredSize(new Dimension(MIDI_WIDTH, MIDI_HEIGHT));
+    scrollPane.setPreferredSize(new Dimension(midiWidth, midiHeight));
     scrollPane.getVerticalScrollBar().setUnitIncrement(128);
     scrollPane.getHorizontalScrollBar().setUnitIncrement(128);
 
@@ -64,19 +75,18 @@ public class GuiViewFrame extends JFrame implements IView {
 
   private void update() {
     //init piano panel
-    pianoPanel.setPreferredSize(new Dimension(PIANO_WIDTH, PIANO_HEIGHT));
+    pianoPanel.setPreferredSize(new Dimension(pianoWidth, pianoHeight));
     pianoPanel.setBackground(Color.gray.brighter());
     //this.pianoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
     midiPanel.setAutoscrolls(true);
     midiPanel.setPreferredSize(new Dimension(
-            (op.lastBeat() + 2) * GuiPanel.cellWidth,
-            (op.getTones().size() + 2) * GuiPanel.cellHeight));
+            (op.lastBeat() + 2) * GuiPanel.CELL_WIDTH,
+            (op.getTones().size() + 2) * GuiPanel.CELL_HEIGHT));
   }
 
   @Override
   public void togglePlay() {
-
-
+    //Do Nothing
   }
 
   @Override
@@ -94,13 +104,14 @@ public class GuiViewFrame extends JFrame implements IView {
   @Override
   public void prevBeat() {
     if (BEAT - 1 >= 0) {
-      if (BEAT  % (scrollPane.getWidth() / GuiPanel.cellWidth) == 0) {
+      if (BEAT % (midiWidth / GuiPanel.CELL_WIDTH) == 0) {
         this.scrollPane.getHorizontalScrollBar().setValue(
-                GuiViewFrame.BEAT * GuiPanel.cellWidth - scrollPane.getWidth());
+                GuiViewFrame.BEAT * GuiPanel.CELL_WIDTH -
+                        scrollPane.getWidth());
       }
       BEAT--;
     }
-    this.refresh();
+    refresh();
   }
 
   @Override
@@ -115,14 +126,14 @@ public class GuiViewFrame extends JFrame implements IView {
   @Override
   public void toEnd() {
     BEAT = op.lastBeat() + 1;
-    this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.cellWidth);
+    this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.CELL_WIDTH);
     this.refresh();
   }
 
   @Override
   public void toBeginning() {
     BEAT = 0;
-    this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.cellWidth);
+    this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.CELL_WIDTH);
     refresh();
   }
 
@@ -137,33 +148,57 @@ public class GuiViewFrame extends JFrame implements IView {
   }
 
   @Override
-  public void addNote(MouseEvent e) {
-    for (int i = 0; i < PianoPanel.keys.size(); i++) {
-      PianoPanel.Key k = PianoPanel.keys.get(i);
-      if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
+  public void addNote(MouseEvent e, int duration) {
+    for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
+      PianoPanel.Key k = PianoPanel.KEYS.get(i);
+      if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
         if (k.getPitch().isSharp()) {
-          op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 60),
-                  GuiViewFrame.BEAT);
-          this.nextBeat();
+          op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                  BEAT - duration);
           break;
         } else {
-          for (int j = i; j < PianoPanel.keys.size(); j++) {
-            if (k.onKey(e.getX(), e.getY() - GuiViewFrame.MIDI_HEIGHT)) {
-              op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 60),
-                      GuiViewFrame.BEAT);
-              this.nextBeat();
+          for (int j = i; j < PianoPanel.KEYS.size(); j++) {
+            if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
+              op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                      BEAT - duration);
               break;
             }
           }
         }
       }
     }
+  }
+
+  @Override
+  public void movePanel() {
+    if (GuiViewFrame.BEAT % (this.midiWidth / GuiPanel.CELL_WIDTH) == 0) {
+      this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.CELL_WIDTH);
+    }
+  }
+
+  @Override
+  public void addRepeat() {
+
+    //TODO
+  }
+
+  @Override
+  public void increaseTempo() {
+    //Do nothing
 
   }
 
-  public void movePanel() {
-    if (GuiViewFrame.BEAT % (GuiViewFrame.MIDI_WIDTH / GuiPanel.cellWidth) == 0) {
-      this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.cellWidth);
+  @Override
+  public void decreaseTempo() {
+    //Do nothing
+  }
+
+  @Override
+  public void togglePractice() {
+    if (practicing){
+      practicing = false;
+    } else {
+      practicing = true;
     }
   }
 }

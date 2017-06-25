@@ -42,6 +42,8 @@ views. Console View, MidiView, GuiViewFrame, and PlayMidiFile.
 
 GuiView: In the GuiView interface (it extends view) we add additional methods to be used by our
 GuiViewFrame
+*Modified* We added methods to give the GUI related classes that implements this interface
+more functionality
 
 Console View: In the console view we print out the model's contents to the console for the user to
 see.The console view, implements the View interface.
@@ -53,16 +55,21 @@ GuiView: In the GuiView we created a basic graphics user interface that allows t
 through the notes in the song and move the song marker via the left and right arrow keys. This view
 implements the GuiView interface.
 
+*Modified*
+CompositeView: This view class extends the existing Midi class and has a GuiView class as a
+delegate. We have the GUi view and midi view synced via the sequencer, and we can send in the
+sequencer meta message per beat and pass in a metaMessageListener that refreshes the Gui view
+every beat according to the current beat of the sequencer.
+
 
 CONTROLLER:
-
-IController: In the controller interface IController, we defined the methods to be used by the
-Controller.
 
 Controller: We allow the user to input the initial settings so that they can choose what song to
 play and what view to use. This is a basic controller and will need to be changed in the upcoming
 homework. Implements the IController.
 
+*Modified*
+The controller establishes the mouse listener and keyboard listener to connect to the view.
 
 UTIL:
 
@@ -74,5 +81,5 @@ BUILDER:
 CompositionBuilder: Interface for the Builder class found in our Music class (the model).
 This allows the MusicReader to convert Midi-Text to our model.
 
-
-MusicEditor: Main class that starts the program.
+MusicEditor: Main class that starts the program. Parses the configuration and sets up the view
+and file to open.

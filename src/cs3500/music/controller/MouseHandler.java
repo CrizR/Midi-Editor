@@ -1,9 +1,14 @@
 package cs3500.music.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.*;
+
 import cs3500.music.model.IMusicOperations;
+import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.textview.GuiView;
 
 /**
@@ -11,19 +16,21 @@ import cs3500.music.view.textview.GuiView;
  * that is meant to occur in a Mouse Event and that is to add a note to the editor.
  */
 public class MouseHandler implements MouseListener {
-  private final IMusicOperations op;
   private final GuiView view;
-
-
+  private javax.swing.Timer timer;
+  private int time;
   /**
    * Constructs the MouseHandler by initializing the IMusicOperations and IView.
    *
-   * @param op   Represents the IMusicOperations.
    * @param view Represents the View.
    */
-  public MouseHandler(IMusicOperations op, GuiView view) {
-    this.op = op;
+  public MouseHandler(GuiView view, IMusicOperations op) {
+    this.time = 0;
     this.view = view;
+    timer = new Timer(op.getTempo() / 1000, e -> {
+      view.nextBeat();
+      time++;
+    });
   }
 
   /**
@@ -31,17 +38,21 @@ public class MouseHandler implements MouseListener {
    */
   @Override
   public void mouseClicked(MouseEvent e) {
-    view.addNote(e);
+    //TODO Nothing
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    //Do Nothing
+    timer.start();
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    //Do Nothing
+    timer.stop();
+    System.out.println(time);
+    view.addNote(e, time);
+    time = 0;
+
   }
 
   @Override

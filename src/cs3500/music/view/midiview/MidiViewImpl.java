@@ -20,10 +20,11 @@ import cs3500.music.view.IView;
 /**
  * A Class that represents the MidiView. Via the implementation of the Midi Receiver and Synthesizer
  * this view allows the user to hear the notes found in the music model.
+ * *Modified* This midi view now uses the sequencer instead of the synthesizer
  */
 public class MidiViewImpl implements IView {
   protected final IMusicOperations op;
-  protected final int tempo;
+  protected int tempo;
   private final ArrayList<Integer> beats;
   protected Sequence sequence;
   protected Sequencer sequencer;
@@ -34,7 +35,9 @@ public class MidiViewImpl implements IView {
    * The MidiView has an IMusicOperation, the last beat in the model, a synthesizer,
    * a receiver, and the starting beats.
    *
-   * @param op Represents the model to read from.
+   * @param op   Represents the model to read from.
+   * @param play determines whether or not to start the midi right away
+   * @param seq  the sequencer to use in this midi view
    * @throws MidiUnavailableException throws an exception if the midi fails.
    */
   public MidiViewImpl(IMusicOperations op, Sequencer seq, boolean play)
@@ -64,8 +67,10 @@ public class MidiViewImpl implements IView {
    */
   protected void playNote(String tone, int duration, int startBeat, int volume, int instrument)
           throws InvalidMidiDataException {
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument, Pitch.toneIndex.indexOf(tone), volume);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument, Pitch.toneIndex.indexOf(tone), volume);
+    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument,
+            Pitch.toneIndex.indexOf(tone), volume);
+    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument,
+            Pitch.toneIndex.indexOf(tone), volume);
 
     MidiEvent startNote = new MidiEvent(start, startBeat);
     MidiEvent endNote = new MidiEvent(stop, startBeat + duration);
@@ -90,18 +95,22 @@ public class MidiViewImpl implements IView {
         }
       }
     }
-
     try {
       sequencer.setSequence(sequence);
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
-    if(play) {
+    if (play) {
       sequencer.start();
     }
   }
 
+  /**
+   * Refreshes the Midi View by reinitializing every note. This is used mainly after a note has
+   * been added manually. TODO make sure it's playing all of the notes after adding one
+   */
   public void refresh() {
+    this.tempo = op.getTempo();
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {

@@ -11,12 +11,9 @@ import java.util.Map;
  * saved in the three different maps when the appropriate key is pressed.
  */
 public class KeyboardHandler implements KeyListener {
-  Map<Character, Runnable> keyTypedMap = new HashMap<>();
-  Map<Integer, Runnable> keyPressedMap = new HashMap<>();
-  Map<Integer, Runnable> keyReleasedMap = new HashMap<>();
-
-  public KeyboardHandler() {
-  }
+  private Map<Character, Runnable> keyTypedMap = new HashMap<>();
+  private Map<Integer, Runnable> keyPressedMap = new HashMap<>();
+  private Map<Integer, Runnable> keyReleasedMap = new HashMap<>();
 
   /**
    * Set the map for key typed events. Key typed events in Java Swing are characters
@@ -49,8 +46,9 @@ public class KeyboardHandler implements KeyListener {
 
   @Override
   public void keyTyped(KeyEvent e) {
-    if (keyTypedMap.containsKey(e.getKeyChar()))
+    if (keyTypedMap.containsKey(e.getKeyChar())) {
       keyTypedMap.get(e.getKeyChar()).run();
+    }
   }
 
   /**
@@ -60,8 +58,9 @@ public class KeyboardHandler implements KeyListener {
 
   @Override
   public void keyPressed(KeyEvent e) {
-    if (keyPressedMap.containsKey(e.getKeyCode()))
+    if (keyPressedMap.containsKey(e.getKeyCode())) {
       keyPressedMap.get(e.getKeyCode()).run();
+    }
   }
 
   /**
@@ -71,7 +70,14 @@ public class KeyboardHandler implements KeyListener {
 
   @Override
   public void keyReleased(KeyEvent e) {
-    if (keyReleasedMap.containsKey(e.getKeyCode()))
+    if (keyReleasedMap.containsKey(e.getKeyCode())) {
       keyReleasedMap.get(e.getKeyCode()).run();
+    }
+  }
+
+  public void addCommand(HashMap<Integer, Runnable> x) {
+    for (Map.Entry<Integer, Runnable> entry : x.entrySet()) {
+      keyPressedMap.put(entry.getKey(), entry.getValue());
+    }
   }
 }
