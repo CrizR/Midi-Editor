@@ -4,6 +4,7 @@ package cs3500.music.view.midiview;
 import java.util.ArrayList;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiUnavailableException;
@@ -14,6 +15,7 @@ import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
+import cs3500.music.mechanics.repeats.Repeat;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.IView;
 
@@ -112,6 +114,14 @@ public class MidiViewImpl implements IView {
   public void refresh() {
     this.beats = op.getStartingBeats();
     this.tempo = op.getTempo();
+    int lastBeat = op.lastBeat();
+    long temp = this.sequencer.getTickPosition();
+    try {
+      sequence = new Sequence(Sequence.PPQ, 1);
+    } catch (InvalidMidiDataException e) {
+    }
+
+    sequencer.setTempoInMPQ(this.tempo);
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {
@@ -121,23 +131,18 @@ public class MidiViewImpl implements IView {
         }
       }
     }
+    Track t = sequence.createTrack();
+    MetaMessage tick = new MetaMessage();
+    for (int i = 0; i <= lastBeat; i++) {
+      MidiEvent tic = new MidiEvent(tick, i);
+      t.add(tic);
+    }
     try {
       sequencer.setSequence(sequence);
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
-  }
-
-  //TODO write comments
-  public void playNextBeat() {
-    if (this.sequencer.getTickPosition() != op.lastBeat())
-    this.sequencer.start();
-    try {
-      Thread.sleep((int)this.sequencer.getTempoInBPM());
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    this.sequencer.stop();
+    sequencer.setTickPosition(temp);
   }
 
   @Override
@@ -149,5 +154,4 @@ public class MidiViewImpl implements IView {
   public void nextBeat() {
     this.sequencer.setTickPosition(this.sequencer.getTickPosition() + 1);
   }
-
 }

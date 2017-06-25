@@ -40,6 +40,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   ArrayList<String> tonesPlayed;
   protected Sequence sequenceForPratice;
   protected Sequencer sequencerForPratice;
+  protected ArrayList<Integer> repeatBeats;
 
 
   /**
@@ -76,6 +77,7 @@ public class CompView extends MidiViewImpl implements GuiView {
     } catch (MidiUnavailableException e) {
       // failed to connect to mid
     }
+    this.repeatBeats = op.repeatBeats();
   }
 
   public void update() {
