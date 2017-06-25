@@ -29,7 +29,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   private boolean play = false;
   private final GuiViewFrame guiDelegate;
   private int lastBeat;
-  private boolean practice;
+  private boolean practicing;
 
 
   /**
@@ -192,7 +192,11 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void togglePractice() {
-    this.guiDelegate.togglePractice();
+    if (practicing){
+      practicing = false;
+    } else {
+      practicing = true;
+    }
   }
 
   @Override
