@@ -19,9 +19,9 @@ import cs3500.music.mechanics.ToneRange;
  * visualized in the console in string format.
  */
 public class Music implements IMusicOperations {
-  private ToneRange toneList;
-  private HashMap<Integer, Set> noteMap;
-  private int tempo;
+  protected ToneRange toneList;
+  protected HashMap<Integer, Set> noteMap;
+  protected int tempo;
 
   /**
    * Initialize the music model. Set the pitchList to a new pitchList and

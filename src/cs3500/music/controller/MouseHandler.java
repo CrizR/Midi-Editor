@@ -1,14 +1,11 @@
 package cs3500.music.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.textview.GuiView;
 
 /**
@@ -19,18 +16,18 @@ public class MouseHandler implements MouseListener {
   private final GuiView view;
   private javax.swing.Timer timer;
   private int time;
+  private int tempo;
+  private IMusicOperations op;
+
   /**
    * Constructs the MouseHandler by initializing the IMusicOperations and IView.
    *
    * @param view Represents the View.
    */
   public MouseHandler(GuiView view, IMusicOperations op) {
-    this.time = 0;
+    this.op = op;
+    this.time = 1;
     this.view = view;
-    timer = new Timer(op.getTempo() / 1000, e -> {
-      view.nextBeat();
-      time++;
-    });
   }
 
   /**
@@ -39,20 +36,25 @@ public class MouseHandler implements MouseListener {
   @Override
   public void mouseClicked(MouseEvent e) {
     //TODO Nothing
+ //   view.addNote(e, 5);
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
+    this.tempo = op.getTempo() / 1000;
+    timer = new Timer(tempo, f -> {
+      view.nextBeat();
+      time++;
+    });
     timer.start();
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
     timer.stop();
-    System.out.println(time);
     view.addNote(e, time);
-    time = 0;
-
+    view.nextBeat();
+    time = 1;
   }
 
   @Override

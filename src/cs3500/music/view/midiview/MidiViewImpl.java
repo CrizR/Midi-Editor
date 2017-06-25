@@ -25,7 +25,7 @@ import cs3500.music.view.IView;
 public class MidiViewImpl implements IView {
   protected final IMusicOperations op;
   protected int tempo;
-  private final ArrayList<Integer> beats;
+  private ArrayList<Integer> beats;
   protected Sequence sequence;
   protected Sequencer sequencer;
   private boolean play = false;
@@ -110,6 +110,8 @@ public class MidiViewImpl implements IView {
    * been added manually. TODO make sure it's playing all of the notes after adding one
    */
   public void refresh() {
+    System.out.println(op.lastBeat());
+    this.beats = op.getStartingBeats();
     this.tempo = op.getTempo();
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {

@@ -114,6 +114,11 @@ public class TestControl {
     public void decreaseTempo() {
       log.append("Decrease Tempo").append("\n");
     }
+
+    @Override
+    public void togglePractice() {
+
+    }
   }
 
 

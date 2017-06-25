@@ -24,7 +24,7 @@ public class Note {
    * @throws IllegalArgumentException if the octave is not between 1 and 10
    */
   public Note(Pitch pitch, int octave, int duration, int instrument, int volume) {
-    if (octave < 1 || octave > 10 || duration < 0) {
+    if (octave < 1 || octave > 10 || duration <= 0) {
       throw new IllegalArgumentException("Invalid note!");
     }
     this.pitch = pitch;

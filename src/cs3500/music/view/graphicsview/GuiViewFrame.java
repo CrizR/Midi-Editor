@@ -154,18 +154,21 @@ public class GuiViewFrame extends JFrame implements GuiView {
       if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
         if (k.getPitch().isSharp()) {
           op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
-                  BEAT - duration);
+                  (BEAT + 1) - duration);
           break;
         } else {
           for (int j = i; j < PianoPanel.KEYS.size(); j++) {
             if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
               op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
-                      BEAT - duration);
+                      (BEAT + 1) - duration);
               break;
             }
           }
         }
       }
+      update();
+      refresh();
+      //resetFocus();
     }
   }
 

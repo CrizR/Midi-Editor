@@ -6,10 +6,12 @@ import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
 import cs3500.music.controller.Controller;
+import cs3500.music.controller.ControllerCapo;
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.controller.MouseHandler;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.model.Music;
+import cs3500.music.model.MusicCapo;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.IView;
 import cs3500.music.view.ViewBuilder;
@@ -39,6 +41,24 @@ public class MusicEditor {
           KeyboardHandler kl = new KeyboardHandler();
           MouseHandler mh = new MouseHandler((GuiView) view, op);
           new Controller(kl, mh).setView((GuiView) view);
+          view.initialize();
+        } else {
+          view.initialize();
+        }
+      } catch (FileNotFoundException e) {
+        System.out.println("Invalid File");
+      }
+    } else if (args.length == 3 && args[3].equals("r")) {
+      try {
+        BufferedReader br = new BufferedReader(new FileReader(args[0]));
+        MusicCapo.Builder x = new MusicCapo.Builder(); //Once built, returns a copy of the model.
+        IMusicOperations op;
+        op = MusicReader.parseFile(br, x);
+        IView view = ViewBuilder.createView(args[1], op);
+        if (args[1].equals("visual") || args[1].equals("composite")) {
+          KeyboardHandler kl = new KeyboardHandler();
+          MouseHandler mh = new MouseHandler((GuiView) view, op);
+          new ControllerCapo(kl, mh).setView((GuiView) view);
           view.initialize();
         } else {
           view.initialize();
