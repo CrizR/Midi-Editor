@@ -55,6 +55,16 @@ public class CompView extends MidiViewImpl implements GuiView {
     sequencer.addMetaEventListener(new Refresh());
   }
 
+  public void update() {
+    Track t = this.sequence.createTrack();
+    MetaMessage tick = new MetaMessage();
+    this.lastBeat = this.op.lastBeat();
+    for (int i = 0; i <= lastBeat; i++) {
+      MidiEvent tic = new MidiEvent(tick, i);
+      t.add(tic);
+    }
+  }
+
   @Override
   public void initialize() {
     this.guiDelegate.initialize();
@@ -111,7 +121,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   @Override
   public void toEnd() {
     this.guiDelegate.toEnd();
-    this.sequencer.setTickPosition(lastBeat);
+    this.sequencer.setTickPosition(op.lastBeat());
   }
 
   @Override
@@ -149,6 +159,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   public void addNote(MouseEvent e, int duration) {
     if (!play) {
       this.guiDelegate.addNote(e, duration);
+      this.update();
       refresh();
     }
   }
@@ -182,6 +193,11 @@ public class CompView extends MidiViewImpl implements GuiView {
   @Override
   public void togglePractice() {
     this.guiDelegate.togglePractice();
+  }
+
+  @Override
+  public void startCreate() {
+    this.guiDelegate.startCreate();
   }
 
   public class Refresh implements MetaEventListener {
