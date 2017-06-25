@@ -1,7 +1,9 @@
 package cs3500.music.view.graphicsview;
 
 import java.awt.*;
+import java.util.HashMap;
 
+import cs3500.music.mechanics.repeats.Repeat;
 import cs3500.music.model.IMusicOperations;
 
 /**

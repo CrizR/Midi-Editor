@@ -1,4 +1,4 @@
-package cs3500.music.view.compositeview;
+package cs3500.music.view.graphicsview;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -15,7 +15,6 @@ import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.GuiView;
 
@@ -30,6 +29,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   private final GuiViewFrame guiDelegate;
   private int lastBeat;
   private boolean practicing;
+  ArrayList<String> tonesPlayed;
 
 
   /**
@@ -42,6 +42,7 @@ public class CompView extends MidiViewImpl implements GuiView {
    */
   public CompView(IMusicOperations op) throws MidiUnavailableException {
     super(op, MidiSystem.getSequencer(), false);
+    this.tonesPlayed = new ArrayList<>();
     this.guiDelegate = new GuiViewFrame(op);
     this.beats = op.getStartingBeats();
     Track t = this.sequence.createTrack();
@@ -120,8 +121,22 @@ public class CompView extends MidiViewImpl implements GuiView {
         super.nextBeat();
       }
     } else {
-      //play those notes that are in the next beat
+      if (playedAllNotes()) {
+        super.playNextBeat(); //PLAYS THE NOTE
+        this.guiDelegate.nextBeat();
+        super.nextBeat();
+        tonesPlayed = new ArrayList<>();
+      }
     }
+  }
+
+  private boolean playedAllNotes() {
+    for (String key : op.activeNotes(GuiViewFrame.BEAT).keySet()) {
+      if (!tonesPlayed.contains(key)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
@@ -148,6 +163,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   @Override
   public void refresh() {
     super.refresh();
+    this.update();
     this.guiDelegate.refresh();
   }
 
@@ -163,10 +179,29 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void addNote(MouseEvent e, int duration) {
-    if (!play) {
-      this.guiDelegate.addNote(e, duration);
-      this.update();
-      refresh();
+    if (!practicing) {
+      if (!play) {
+        this.guiDelegate.addNote(e, duration);
+        refresh();
+      }
+    } else {
+      for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
+        PianoPanel.Key k = PianoPanel.KEYS.get(i);
+        if (k.onKey(e.getX(), e.getY() - 500)) {
+          if (k.getPitch().isSharp()) {
+            tonesPlayed.add(k.getPitch().toString() + Integer.toString(k.getOctave()));
+            break;
+          } else {
+            for (int j = i; j < PianoPanel.KEYS.size(); j++) {
+              if (k.onKey(e.getX(), e.getY() - 500)) {
+                tonesPlayed.add(k.getPitch().toString() + Integer.toString(k.getOctave()));
+                break;
+              }
+            }
+          }
+        }
+      }
+      this.nextBeat();
     }
   }
 
@@ -198,11 +233,17 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void togglePractice() {
-    if (practicing){
-      practicing = false;
-    } else {
-      practicing = true;
+    if (!play) {
+      if (practicing) {
+        practicing = false;
+      } else {
+        practicing = true;
+      }
     }
+//    JLabel practice = new JLabel("Practice Mode");
+//    practice.setText("Test");
+//    this.guiDelegate.add(practice);
+//    this.guiDelegate.refresh();
   }
 
   @Override

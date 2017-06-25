@@ -134,14 +134,11 @@ public class MidiViewImpl implements IView {
     if (this.sequencer.getTickPosition() != op.lastBeat())
     this.sequencer.start();
     try {
-      Thread.sleep(tempo);
+      Thread.sleep((int)this.sequencer.getTempoInBPM());
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     this.sequencer.stop();
-//    if(this.sequencer.getTickPosition() == this.sequencer.getTickPosition() + 1) {
-//      this.sequencer.stop();
-//    }
   }
 
   @Override

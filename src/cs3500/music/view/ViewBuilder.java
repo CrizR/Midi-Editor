@@ -4,7 +4,7 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.IMusicOperations;
-import cs3500.music.view.compositeview.CompView;
+import cs3500.music.view.graphicsview.CompView;
 import cs3500.music.view.graphicsview.GuiViewFrame;
 import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.ConsoleView;

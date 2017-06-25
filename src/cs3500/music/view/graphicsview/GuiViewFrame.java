@@ -1,21 +1,13 @@
 package cs3500.music.view.graphicsview;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Color;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.WindowConstants;
-
+import javax.swing.*;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.textview.GuiView;
-
 
 
 /**
@@ -117,7 +109,7 @@ public class GuiViewFrame extends JFrame implements GuiView {
   }
 
   @Override
-  public void startCreate(){
+  public void startCreate() {
     this.creatingNote = true;
   }
 
@@ -159,27 +151,26 @@ public class GuiViewFrame extends JFrame implements GuiView {
 
   @Override
   public void addNote(MouseEvent e, int duration) {
-    for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
-      PianoPanel.Key k = PianoPanel.KEYS.get(i);
-      if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
-        if (k.getPitch().isSharp()) {
-          op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
-                  (BEAT + 1) - duration);
-          break;
-        } else {
-          for (int j = i; j < PianoPanel.KEYS.size(); j++) {
-            if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
-              op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
-                      (BEAT + 1) - duration);
-              break;
+      for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
+        PianoPanel.Key k = PianoPanel.KEYS.get(i);
+        if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
+          if (k.getPitch().isSharp()) {
+            op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                    (BEAT + 1) - duration);
+            break;
+          } else {
+            for (int j = i; j < PianoPanel.KEYS.size(); j++) {
+              if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
+                op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                        (BEAT + 1) - duration);
+                break;
+              }
             }
           }
         }
-      }
-      update();
-      refresh();
-      resetFocus();
-      creatingNote = false;
+        refresh();
+        resetFocus();
+        creatingNote = false;
     }
   }
 
