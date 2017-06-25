@@ -62,7 +62,6 @@ public class GuiPanel extends JPanel {
     this.drawTones(g2);
     this.drawBeats(g2);
     this.drawOctaveLine(g2);
-    g2.setColor(Color.MAGENTA);
     this.drawLine(g2);
     this.drawRepeats(g2);
   }
@@ -81,6 +80,7 @@ public class GuiPanel extends JPanel {
 
   // draws the the line
   private void drawLine(Graphics g2) {
+    g2.setColor(Color.MAGENTA);
     g2.drawLine(fromSide + (GuiViewFrame.BEAT * CELL_WIDTH), fromTop,
             fromSide + (GuiViewFrame.BEAT * CELL_WIDTH),
             fromTop + CELL_HEIGHT * this.numOfTones);
@@ -99,7 +99,7 @@ public class GuiPanel extends JPanel {
   // draws the tone labeling
   private void drawTones(Graphics g2) {
     for (int i = 0; i < this.revTone.size(); i++) {
-      g2.drawString(this.revTone.get(i), fromSide - 30, i * CELL_HEIGHT + fromTop + 20);
+      g2.drawString(this.revTone.get(i), fromSide - 40, i * CELL_HEIGHT + fromTop + 20);
     }
   }
 
@@ -127,6 +127,7 @@ public class GuiPanel extends JPanel {
 
   // draw the bold line across octave
   private void drawOctaveLine(Graphics2D g2) {
+    g2.setColor(Color.BLACK);
     for (int i = 0; i < tones.size(); i++) {
       if (tones.get(i).charAt(0) == 'B' && i != tones.size() - 1) {
         g2.setStroke(new BasicStroke(3));

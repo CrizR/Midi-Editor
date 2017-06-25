@@ -61,8 +61,8 @@ public class PianoPanel extends JPanel {
      */
     protected boolean onKey(int x1, int y1) {
       if (p.isSharp()) {
-        return x1 > x && x1 < x + keyWidth
-                && y1 > y && y1 < y + blackKeyLength;
+        return x1 > x && x1 < (x + keyWidth)
+                && y1 > y && y1 < (y + blackKeyLength);
       } else {
         return x1 > x && x1 < x + keyWidth
                 && y1 > y && y1 < y + whiteKeyLength;
@@ -142,9 +142,7 @@ public class PianoPanel extends JPanel {
           played = true;
         }
         if (p.isSharp()) {
-          x += keyWidth / 3;
-          this.KEYS.add(new Key(played, Color.BLACK, p, x, y, i));
-          x -= keyWidth / 3;
+          this.KEYS.add(new Key(played, Color.BLACK, p, x + keyWidth / 3, y, i));
         } else {
           x += keyWidth;
           this.KEYS.add(new Key(played, Color.WHITE, p, x, y, i));

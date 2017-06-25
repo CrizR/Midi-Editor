@@ -253,15 +253,6 @@ public class Music implements IMusicOperations {
     return (HashMap<Integer, Repeat>) repeats.clone();
   }
 
-  public ArrayList<Integer> repeatBeats() {
-    ArrayList<Integer> result = new ArrayList<>();
-    for(int i : this.repeats.keySet()) {
-      result.add(i);
-    }
-    Collections.sort(result);
-    return result;
-  }
-
   /**
    * Adds a repeat at the current location.
    */

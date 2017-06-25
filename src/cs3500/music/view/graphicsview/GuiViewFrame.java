@@ -131,7 +131,6 @@ public class GuiViewFrame extends JFrame implements GuiView {
   @Override
   public void nextBeat() {
     if (creatingNote) {
-      movePanel();
       BEAT++;
     } else if (BEAT + 1 <= op.lastBeat() + 1) {
       movePanel();
@@ -183,10 +182,10 @@ public class GuiViewFrame extends JFrame implements GuiView {
           }
         }
       }
-      refresh();
-      resetFocus();
-      creatingNote = false;
     }
+    refresh();
+    resetFocus();
+    creatingNote = false;
   }
 
   @Override

@@ -157,5 +157,4 @@ public interface IMusicOperations {
    */
   public void addRepeat(int startingPosition, RepeatType type);
 
-  ArrayList<Integer> repeatBeats();
 }
