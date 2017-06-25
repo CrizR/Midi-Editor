@@ -53,6 +53,11 @@ public class MidiViewImpl implements IView {
     } catch (InvalidMidiDataException e) {
       // failed to use mid
     }
+    try {
+      sequencer.open();
+    } catch (MidiUnavailableException e) {
+      // failed to connect to mid
+    }
   }
 
   /**
@@ -77,11 +82,6 @@ public class MidiViewImpl implements IView {
     Track t = sequence.createTrack();
     t.add(startNote);
     t.add(endNote);
-    try {
-      sequencer.open();
-    } catch (MidiUnavailableException e) {
-      // failed to connect to mid
-    }
   }
 
   @Override
@@ -110,9 +110,9 @@ public class MidiViewImpl implements IView {
    * been added manually. TODO make sure it's playing all of the notes after adding one
    */
   public void refresh() {
-    System.out.println(op.lastBeat());
     this.beats = op.getStartingBeats();
     this.tempo = op.getTempo();
+    System.out.println(op.lastBeat());
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {
@@ -127,6 +127,21 @@ public class MidiViewImpl implements IView {
     } catch (InvalidMidiDataException e) {
       // failed to get midi data
     }
+  }
+
+  //TODO write comments
+  public void playNextBeat() {
+    if (this.sequencer.getTickPosition() != op.lastBeat())
+    this.sequencer.start();
+    try {
+      Thread.sleep(tempo);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    this.sequencer.stop();
+//    if(this.sequencer.getTickPosition() == this.sequencer.getTickPosition() + 1) {
+//      this.sequencer.stop();
+//    }
   }
 
   @Override
