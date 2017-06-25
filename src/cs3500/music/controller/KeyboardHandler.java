@@ -74,4 +74,10 @@ public class KeyboardHandler implements KeyListener {
       keyReleasedMap.get(e.getKeyCode()).run();
     }
   }
+
+  public void addCommand(HashMap<Integer, Runnable> x) {
+    for (Map.Entry<Integer, Runnable> entry : x.entrySet()) {
+      keyPressedMap.put(entry.getKey(), entry.getValue());
+    }
+  }
 }

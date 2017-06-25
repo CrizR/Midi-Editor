@@ -24,7 +24,7 @@ import cs3500.music.view.IView;
  */
 public class MidiViewImpl implements IView {
   protected final IMusicOperations op;
-  protected final int tempo;
+  protected int tempo;
   private final ArrayList<Integer> beats;
   protected Sequence sequence;
   protected Sequencer sequencer;
@@ -107,9 +107,10 @@ public class MidiViewImpl implements IView {
 
   /**
    * Refreshes the Midi View by reinitializing every note. This is used mainly after a note has
-   * been added manually.
+   * been added manually. TODO make sure it's playing all of the notes after adding one
    */
   public void refresh() {
+    this.tempo = op.getTempo();
     for (int i : beats) {
       for (Note n : op.getNotes(i).values()) {
         try {

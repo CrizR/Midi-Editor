@@ -67,10 +67,10 @@ public interface GuiView extends IView {
 
   /**
    * Adds the note to the view determined by the given MouseEvent location.
-   *
    * @param e Represents the MouseEvent and its characteristics.
+   * @param duration
    */
-  void addNote(MouseEvent e);
+  void addNote(MouseEvent e, int duration);
 
   /**
    * Moves the panel to the location of the current beat. This is used mainly
@@ -78,5 +78,16 @@ public interface GuiView extends IView {
    */
   void movePanel();
 
-  void addDuration();
+  //TODO:
+  void addRepeat();
+
+
+  //TODO:
+  void increaseTempo();
+
+  //TODO:
+  void decreaseTempo();
+
+  //TODO:
+  void togglePractice();
 }

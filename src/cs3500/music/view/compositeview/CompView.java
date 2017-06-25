@@ -29,6 +29,7 @@ public class CompView extends MidiViewImpl implements GuiView {
   private boolean play = false;
   private final GuiViewFrame guiDelegate;
   private int lastBeat;
+  private boolean practice;
 
 
   /**
@@ -130,7 +131,7 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void refresh() {
-    super.initialize();
+    super.refresh();
     this.guiDelegate.refresh();
   }
 
@@ -145,16 +146,42 @@ public class CompView extends MidiViewImpl implements GuiView {
   }
 
   @Override
-  public void addNote(MouseEvent e) {
+  public void addNote(MouseEvent e, int duration) {
     if (!play) {
-      this.guiDelegate.addNote(e);
-      this.refresh();
+      this.guiDelegate.addNote(e, duration);
+      refresh();
     }
   }
 
   @Override
   public void movePanel() {
     //do nothing
+  }
+
+  @Override
+  public void addRepeat() {
+//    op.addRepeat(this.guiDelegate.ge)
+  }
+
+  @Override
+  public void increaseTempo() {
+    if (!play) {
+      op.setTempo(op.getTempo() - 5000);
+      super.refresh();
+    }
+  }
+
+  @Override
+  public void decreaseTempo() {
+    if (!play) {
+      op.setTempo(op.getTempo() + 5000);
+      super.refresh();
+    }
+  }
+
+  @Override
+  public void togglePractice() {
+    this.guiDelegate.togglePractice();
   }
 
   public class Refresh implements MetaEventListener {

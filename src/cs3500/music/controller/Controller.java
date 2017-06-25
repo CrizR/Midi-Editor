@@ -62,6 +62,9 @@ public class Controller {
     keyPresses.put(KeyEvent.VK_SPACE, () -> view.togglePlay());
     keyPresses.put(KeyEvent.VK_HOME, () -> view.toBeginning());
     keyPresses.put(KeyEvent.VK_END, () -> view.toEnd());
+    keyPresses.put(KeyEvent.VK_CLOSE_BRACKET, () -> view.increaseTempo());
+    keyPresses.put(KeyEvent.VK_OPEN_BRACKET, () -> view.decreaseTempo());
+    keyPresses.put(KeyEvent.VK_P, () -> view.togglePractice());
 
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);

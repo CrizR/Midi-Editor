@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.controller.Controller;
 import cs3500.music.controller.KeyboardHandler;
@@ -28,7 +28,7 @@ public class TestControl {
   private IMusicOperations op = new Music();
   private IView view = ViewBuilder.createView("visual", op);
   private KeyboardHandler kh = new KeyboardHandler();
-  private MouseHandler mh = new MouseHandler((GuiView) view);
+  private MouseHandler mh = new MouseHandler((GuiView) view, op);
   private JPanel test = new JPanel();
   private boolean testRunnable = false;
 
@@ -91,13 +91,28 @@ public class TestControl {
     }
 
     @Override
-    public void addNote(MouseEvent e) {
+    public void addNote(MouseEvent e, int duration) {
       log.append("addNote").append("\n");
     }
 
     @Override
     public void movePanel() {
       //do nothing
+    }
+
+    @Override
+    public void addRepeat() {
+      //TODO
+    }
+
+    @Override
+    public void increaseTempo() {
+      log.append("Increase Tempo").append("\n");
+    }
+
+    @Override
+    public void decreaseTempo() {
+      log.append("Decrease Tempo").append("\n");
     }
   }
 
@@ -207,7 +222,7 @@ public class TestControl {
   //tests to see if the mousehandler properly calls the right methods
   public void testMouseHandler5() {
     MockView x = new MockView();
-    MouseHandler mh = new MouseHandler(x);
+    MouseHandler mh = new MouseHandler(x, op);
     Controller c1 = new Controller(kh, mh);
     c1.setView(x);
     MouseEvent mouse = new MouseEvent(test, // which

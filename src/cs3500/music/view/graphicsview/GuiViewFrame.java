@@ -39,6 +39,7 @@ public class GuiViewFrame extends JFrame implements GuiView {
   private JPanel midiPanel;
   private JPanel pianoPanel;
   private JScrollPane scrollPane;
+  private boolean practicing;
 
   /**
    * Constructs a GuiView frame by first instantiating the midipanel and piano panel
@@ -147,34 +148,57 @@ public class GuiViewFrame extends JFrame implements GuiView {
   }
 
   @Override
-  public void addNote(MouseEvent e) {
+  public void addNote(MouseEvent e, int duration) {
     for (int i = 0; i < PianoPanel.KEYS.size(); i++) {
       PianoPanel.Key k = PianoPanel.KEYS.get(i);
       if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
         if (k.getPitch().isSharp()) {
-          op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 60),
-                  GuiViewFrame.BEAT);
-          this.nextBeat();
+          op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                  BEAT - duration);
           break;
         } else {
           for (int j = i; j < PianoPanel.KEYS.size(); j++) {
             if (k.onKey(e.getX(), e.getY() - this.midiHeight)) {
-              op.addNote(new Note(k.getPitch(), k.getOctave(), 1, 1, 60),
-                      GuiViewFrame.BEAT);
-              this.nextBeat();
+              op.addNote(new Note(k.getPitch(), k.getOctave(), duration, 1, 60),
+                      BEAT - duration);
               break;
             }
           }
         }
       }
     }
-
   }
 
   @Override
   public void movePanel() {
     if (GuiViewFrame.BEAT % (this.midiWidth / GuiPanel.CELL_WIDTH) == 0) {
       this.scrollPane.getHorizontalScrollBar().setValue(GuiViewFrame.BEAT * GuiPanel.CELL_WIDTH);
+    }
+  }
+
+  @Override
+  public void addRepeat() {
+
+    //TODO
+  }
+
+  @Override
+  public void increaseTempo() {
+    //Do nothing
+
+  }
+
+  @Override
+  public void decreaseTempo() {
+    //Do nothing
+  }
+
+  @Override
+  public void togglePractice() {
+    if (practicing){
+      practicing = false;
+    } else {
+      practicing = true;
     }
   }
 }

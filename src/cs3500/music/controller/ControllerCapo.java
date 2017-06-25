@@ -29,21 +29,10 @@ public class ControllerCapo extends Controller {
 
   @Override
   protected void keyBoardSetup() {
-    Map<Character, Runnable> keyTypes = new HashMap<>();
-    Map<Integer, Runnable> keyPresses = new HashMap<>();
-    Map<Integer, Runnable> keyReleases = new HashMap<>();
-
-    keyPresses.put(KeyEvent.VK_LEFT, () -> view.prevBeat());
-    keyPresses.put(KeyEvent.VK_RIGHT, () -> view.nextBeat());
-    keyPresses.put(KeyEvent.VK_SPACE, () -> view.togglePlay());
-    keyPresses.put(KeyEvent.VK_HOME, () -> view.toBeginning());
-    keyPresses.put(KeyEvent.VK_END, () -> view.toEnd());
-    keyPresses.put(KeyEvent.VK_SHIFT, () -> view.addDuration());
-
-
-    kbd.setKeyTypedMap(keyTypes);
-    kbd.setKeyPressedMap(keyPresses);
-    kbd.setKeyReleasedMap(keyReleases);
+    super.keyBoardSetup();
+    HashMap<Integer, Runnable> x = new HashMap<>();
+    x.put(KeyEvent.VK_SHIFT, () -> view.addRepeat());
+    super.kbd.addCommand(x);
 
     view.addKeyListener(kbd);
     view.resetFocus();
