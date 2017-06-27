@@ -6,6 +6,7 @@ import java.util.HashMap;
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.repeats.Repeat;
 import cs3500.music.mechanics.repeats.RepeatType;
+import cs3500.music.mechanics.repeats.TimeBar;
 
 /**
  * This interface is an interface for the music editor,
@@ -150,11 +151,17 @@ public interface IMusicOperations {
   /**
    * TODO:
    */
-  public HashMap<Integer, Repeat> getRepeats();
+  HashMap<Integer, Repeat> getRepeats();
 
   /**
    * Adds a repeat at the current location.
    */
-  public void addRepeat(int startingPosition, RepeatType type);
+  void addRepeat(int startingPosition, RepeatType type);
 
+  ArrayList<Integer> repeatBeats();
+
+
+  void addTimebar(TimeBar t);
+
+  ArrayList<TimeBar> getTimebars();
 }

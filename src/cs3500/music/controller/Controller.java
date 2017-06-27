@@ -69,6 +69,7 @@ public class Controller {
     keyPresses.put(KeyEvent.VK_E, () -> view.addBeginRepeat());
     keyPresses.put(KeyEvent.VK_R, () -> view.addEndRepeat());
     keyPresses.put(KeyEvent.VK_B, () -> view.addDoubleRepeat());
+    keyPresses.put(KeyEvent.VK_T, () -> view.addTimebar());
 
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);

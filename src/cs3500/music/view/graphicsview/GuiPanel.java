@@ -11,6 +11,7 @@ import javax.swing.*;
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.repeats.Repeat;
 import cs3500.music.mechanics.repeats.RepeatType;
+import cs3500.music.mechanics.repeats.TimeBar;
 import cs3500.music.model.IMusicOperations;
 
 
@@ -26,7 +27,7 @@ public class GuiPanel extends JPanel {
   private ArrayList<String> tones;
   private int numOfTones;
   private ArrayList<String> revTone;
-  private final int fromTop = 25;
+  private final int fromTop = 40;
   private final int fromSide = 40;
   private static int scale = 1;
   protected static final int CELL_WIDTH = 42 * scale;
@@ -64,6 +65,19 @@ public class GuiPanel extends JPanel {
     this.drawOctaveLine(g2);
     this.drawLine(g2);
     this.drawRepeats(g2);
+    this.drawTimebars(g2);
+  }
+
+  private void drawTimebars(Graphics2D g2) {
+    for (TimeBar t : this.op.getTimebars()) {
+      g2.drawLine(fromSide + (t.getStartingBeat() * CELL_WIDTH), fromTop - 35,
+              fromSide + ((t.getStartingBeat() + 4) * CELL_WIDTH),
+              fromTop - 35);
+      g2.drawLine(fromSide + (t.getStartingBeat() * CELL_WIDTH), fromTop - 35,
+              fromSide + (t.getStartingBeat() * CELL_WIDTH), fromTop - 15);
+      g2.drawString(Integer.toString(t.getEndingNumber()), fromSide + 2 + (t.getStartingBeat()
+              * CELL_WIDTH), fromTop - 20);
+    }
   }
 
   //Updates the GuiPanel every time the component is called.
@@ -144,22 +158,33 @@ public class GuiPanel extends JPanel {
     for (Map.Entry<Integer, Repeat> entry : repeats.entrySet()) {
       if (entry.getValue().isDoubleRepeat()) {
         g2.setColor(Color.RED);
-        g2.fillRect(fromSide + entry.getKey() * CELL_WIDTH, fromTop, 2, this.tones.size() * CELL_HEIGHT);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 7, (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 7, (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3, (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3, (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
+        g2.fillRect(fromSide + entry.getKey() * CELL_WIDTH, fromTop, 2,
+                this.tones.size() * CELL_HEIGHT);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 7,
+                (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 7,
+                (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3,
+                (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3,
+                (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
       } else if (entry.getValue().getType() == RepeatType.END) {
         g2.setColor(Color.RED);
-        g2.fillRect(fromSide + entry.getKey() * CELL_WIDTH, fromTop, 2, this.tones.size() * CELL_HEIGHT);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 8, (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 8, (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
+        g2.fillRect(fromSide + entry.getKey() * CELL_WIDTH, fromTop, 2,
+                this.tones.size() * CELL_HEIGHT);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 8,
+                (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) + CELL_WIDTH / 8,
+                (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
 
       } else {
         g2.setColor(Color.RED);
-        g2.fillRect(fromSide + entry.getKey() * CELL_WIDTH, fromTop, 2, this.tones.size() * CELL_HEIGHT);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3, (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
-        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3, (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
+        g2.fillRect(fromSide + entry.getKey() * CELL_WIDTH, fromTop, 2,
+                this.tones.size() * CELL_HEIGHT);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3,
+                (this.tones.size() * CELL_HEIGHT / 2) + 20, 7, 7);
+        g2.fillOval((fromSide + entry.getKey() * CELL_WIDTH) - CELL_WIDTH / 3,
+                (this.tones.size() * CELL_HEIGHT / 2) - 20, 7, 7);
 
       }
     }

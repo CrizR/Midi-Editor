@@ -5,6 +5,13 @@ package cs3500.music.mechanics.repeats;
  */
 public class DoubleRepeat extends Repeat {
 
+  public DoubleRepeat() {
+  }
+
+  public DoubleRepeat(TimeBar timebar) {
+    super(timebar);
+  }
+
   @Override
   public boolean isPlayed() {
     return false;
@@ -29,15 +36,14 @@ public class DoubleRepeat extends Repeat {
   }
 
   @Override
-  public boolean isBeginPlayed() {
-    return rightPlayed;
+  public void setHasntPlayed() {
+    this.leftPlayed = false;
+    this.rightPlayed = false;
   }
 
-  public void playRight() {
-    this.rightPlayed = true;
-  }
-
-  public void playLeft() {
+  @Override
+  public void setPlayed() {
     this.leftPlayed = true;
   }
+
 }

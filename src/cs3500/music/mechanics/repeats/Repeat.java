@@ -5,6 +5,27 @@ package cs3500.music.mechanics.repeats;
  */
 public abstract class Repeat {
 
+  TimeBar timebar;
+
+  public Repeat() {
+  }
+
+  public Repeat(TimeBar timebar) {
+    this.timebar = timebar;
+  }
+
+  public void setTimebar(TimeBar timebar) {
+    this.timebar = timebar;
+  }
+
+  public boolean hasTimebar() {
+    return this.timebar != null;
+  }
+
+  public TimeBar getTimebar() {
+    return timebar;
+  }
+
   public abstract boolean isPlayed();
 
   public abstract boolean isDoubleRepeat();
@@ -13,7 +34,7 @@ public abstract class Repeat {
 
   public abstract boolean isEndPlayed();
 
-  public abstract boolean isBeginPlayed();
+  public abstract void setHasntPlayed();
 
-
+  public abstract void setPlayed();
 }

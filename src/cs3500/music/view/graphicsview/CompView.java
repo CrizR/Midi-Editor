@@ -1,9 +1,12 @@
 package cs3500.music.view.graphicsview;
 
+
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
@@ -19,10 +22,13 @@ import javax.sound.midi.Track;
 
 import cs3500.music.mechanics.Note;
 import cs3500.music.mechanics.Pitch;
+import cs3500.music.mechanics.repeats.Repeat;
 import cs3500.music.mechanics.repeats.RepeatType;
+import cs3500.music.mechanics.repeats.TimeBar;
 import cs3500.music.model.IMusicOperations;
 import cs3500.music.view.midiview.MidiViewImpl;
 import cs3500.music.view.textview.GuiView;
+
 
 /**
  * A Class that represents both the MidiView and the GuiView.
@@ -35,10 +41,12 @@ public class CompView extends MidiViewImpl implements GuiView {
   private final GuiViewFrame guiDelegate;
   private int lastBeat;
   private boolean practicing;
-  ArrayList<String> tonesPlayed;
-  protected Sequence sequenceForPractice;
-  protected Sequencer sequencerForPractice;
-  private MetaEventListener metaListener;
+  private ArrayList<String> tonesPlayed;
+  protected Sequence sequenceForPratice;
+  protected Sequencer sequencerForPratice;
+  protected ArrayList<Integer> repeatBeats;
+  protected HashMap<Integer, Repeat> repeats;
+  private int currentEnding;
 
 
   /**
@@ -54,6 +62,7 @@ public class CompView extends MidiViewImpl implements GuiView {
     this.tonesPlayed = new ArrayList<>();
     this.guiDelegate = new GuiViewFrame(op);
     this.beats = op.getStartingBeats();
+    this.currentEnding = 1;
     Track t = this.sequence.createTrack();
     MetaMessage tick = new MetaMessage();
     this.lastBeat = this.op.lastBeat();
@@ -61,21 +70,24 @@ public class CompView extends MidiViewImpl implements GuiView {
       MidiEvent tic = new MidiEvent(tick, i);
       t.add(tic);
     }
-    this.metaListener = new Refresh();
-    super.sequencer.addMetaEventListener(metaListener);
+    sequencer.addMetaEventListener(new Refresh());
+
+//    sequencer.addMetaEventListener(new replay());
 
     try {
-      this.sequencerForPractice = MidiSystem.getSequencer();
-      sequenceForPractice = new Sequence(Sequence.PPQ, 1);
-      sequencerForPractice.setTempoInMPQ(this.tempo);
+      this.sequencerForPratice = MidiSystem.getSequencer();
+      sequenceForPratice = new Sequence(Sequence.PPQ, 1);
+      sequencerForPratice.setTempoInMPQ(this.tempo);
     } catch (InvalidMidiDataException e) {
       // failed to use mid
     }
     try {
-      sequencerForPractice.open();
+      sequencerForPratice.open();
     } catch (MidiUnavailableException e) {
       // failed to connect to mid
     }
+    this.repeatBeats = op.repeatBeats();
+    this.repeats = op.getRepeats();
   }
 
   public void update() {
@@ -86,6 +98,19 @@ public class CompView extends MidiViewImpl implements GuiView {
       MidiEvent tic = new MidiEvent(tick, i);
       t.add(tic);
     }
+//
+//    Track r = this.sequence.createTrack();
+//    byte[] dum = {};
+//    MetaMessage rMessage = new MetaMessage();
+//    try {
+//      rMessage.setMessage(1,dum, dum.length);
+//    } catch (InvalidMidiDataException e) {
+//      e.printStackTrace();
+//    }
+//    for (int b : this.repeatBeats) {
+//      MidiEvent tic = new MidiEvent(rMessage, b);
+//      r.add(tic);
+//    }
   }
 
   @Override
@@ -152,18 +177,18 @@ public class CompView extends MidiViewImpl implements GuiView {
         }
 
         try {
-          sequencerForPractice.setSequence(sequenceForPractice);
+          sequencerForPratice.setSequence(sequenceForPratice);
         } catch (InvalidMidiDataException e) {
           // failed to get midi data
         }
-        this.sequencerForPractice.setTickPosition(GuiViewFrame.BEAT);
-        this.sequencerForPractice.start();
+        this.sequencerForPratice.setTickPosition(GuiViewFrame.BEAT);
+        this.sequencerForPratice.start();
         try {
-          Thread.sleep((int) this.sequencerForPractice.getTempoInBPM());
+          Thread.sleep((int) this.sequencerForPratice.getTempoInBPM());
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        this.sequencerForPractice.stop();
+        this.sequencerForPratice.stop();
         this.guiDelegate.nextBeat();
         super.nextBeat();
         tonesPlayed = new ArrayList<>();
@@ -251,7 +276,6 @@ public class CompView extends MidiViewImpl implements GuiView {
     //do nothing
   }
 
-
   @Override
   public void increaseTempo() {
     if (!play) {
@@ -277,6 +301,10 @@ public class CompView extends MidiViewImpl implements GuiView {
         practicing = true;
       }
     }
+//    JLabel practice = new JLabel("Practice Mode");
+//    practice.setText("Test");
+//    this.guiDelegate.add(practice);
+//    this.guiDelegate.refresh();
   }
 
   @Override
@@ -286,34 +314,50 @@ public class CompView extends MidiViewImpl implements GuiView {
 
   @Override
   public void addBeginRepeat() {
-    if (!play) {
+    if (!play && !repeatBeats.contains(GuiViewFrame.BEAT)) {
+
       int beat = GuiViewFrame.BEAT;
       if (beat % 4 == 0) {
         op.addRepeat(beat, RepeatType.BEGIN);
-        refresh();
       }
+      repeatBeats = op.repeatBeats();
+      repeats = op.getRepeats();
     }
   }
 
   @Override
   public void addEndRepeat() {
-    if (!play) {
+    if (!play && !repeatBeats.contains(GuiViewFrame.BEAT)) {
       int beat = GuiViewFrame.BEAT;
       if (beat % 4 == 0) {
         op.addRepeat(beat, RepeatType.END);
-        refresh();
       }
+      repeatBeats = op.repeatBeats();
+      repeats = op.getRepeats();
     }
   }
 
   @Override
   public void addDoubleRepeat() {
-    if (!play) {
+    if (!play && !repeatBeats.contains(GuiViewFrame.BEAT)) {
       int beat = GuiViewFrame.BEAT;
       if (beat % 4 == 0) {
         op.addRepeat(beat, RepeatType.BOTH);
-        refresh();
       }
+      repeatBeats = op.repeatBeats();
+      repeats = op.getRepeats();
+    }
+  }
+
+  @Override
+  public void addTimebar() {
+    if (op.getRepeats().containsKey(GuiViewFrame.BEAT)
+            && !op.getRepeats().get(GuiViewFrame.BEAT).hasTimebar()
+            && (op.getRepeats().get(GuiViewFrame.BEAT).getType() == RepeatType.BEGIN
+            || op.getRepeats().get(GuiViewFrame.BEAT).getType() == RepeatType.BOTH)) {
+      TimeBar t = new TimeBar(GuiViewFrame.BEAT - 4, op.getTimebars().size() + 1);
+      this.op.addTimebar(t);
+      op.getRepeats().get(GuiViewFrame.BEAT).setTimebar(t);
     }
   }
 
@@ -328,8 +372,6 @@ public class CompView extends MidiViewImpl implements GuiView {
    */
   protected void playNext(String tone, int startBeat, int volume, int instrument)
           throws InvalidMidiDataException {
-    System.out.println(startBeat + " ");
-    System.out.println(tone);
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, instrument,
             Pitch.toneIndex.indexOf(tone), volume);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, instrument,
@@ -337,17 +379,63 @@ public class CompView extends MidiViewImpl implements GuiView {
 
     MidiEvent startNote = new MidiEvent(start, startBeat);
     MidiEvent endNote = new MidiEvent(stop, startBeat + 1);
-    Track notes = sequenceForPractice.createTrack();
+    Track notes = sequenceForPratice.createTrack();
     notes.add(startNote);
     notes.add(endNote);
   }
 
-  public class Refresh implements MetaEventListener {
+  private class Refresh implements MetaEventListener {
     @Override
     public void meta(MetaMessage meta) {
+      int currentBeat = (int) sequencer.getTickPosition();
+      Repeat r = repeats.get(currentBeat);
+
+      if (repeatBeats.contains(GuiViewFrame.BEAT + 4) &&
+              repeats.get(GuiViewFrame.BEAT + 4).hasTimebar()) {
+        if (repeats.get(GuiViewFrame.BEAT + 4).getTimebar().getEndingNumber() != currentEnding) {
+          sequencer.setTickPosition(GuiViewFrame.BEAT + 4);
+          sequencer.setTempoInMPQ(tempo);
+        } else {
+          currentEnding++;
+          System.out.println(currentEnding);
+        }
+      }
+
+      if (repeatBeats.contains(currentBeat)) {
+        if (r.getType() == RepeatType.BEGIN && !r.isPlayed()
+                || r.getType() == RepeatType.BOTH && !r.isEndPlayed()) {
+          for (int i = currentBeat - 1; i >= 0; i--) {
+            if (repeats.containsKey(i) && repeats.get(i).getType() == RepeatType.END
+                    && !repeats.get(i).isPlayed()) {
+              sequencer.setTickPosition(i);
+              break;
+            } else if (repeats.containsKey(i) && repeats.get(i).getType() == RepeatType.BOTH) {
+              sequencer.setTickPosition(i);
+              break;
+            } else if (i == 0) {
+              sequencer.setTickPosition(0);
+              break;
+            }
+          }
+          r.setPlayed();
+          sequencer.setTempoInMPQ(tempo);
+
+        }
+      }
       GuiViewFrame.BEAT = (int) sequencer.getTickPosition();
       guiDelegate.movePanel();
       guiDelegate.refresh();
+      resetRepeats();
+    }
+
+    private void resetRepeats() {
+      if (GuiViewFrame.BEAT == op.lastBeat()) {
+        for (Map.Entry<Integer, Repeat> entry : op.getRepeats().entrySet()) {
+          entry.getValue().setHasntPlayed();
+
+        }
+      }
     }
   }
+
 }

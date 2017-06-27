@@ -135,6 +135,11 @@ public class TestControl {
     public void addDoubleRepeat() {
 
     }
+
+    @Override
+    public void addTimebar() {
+
+    }
   }
 
 

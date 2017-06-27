@@ -5,6 +5,13 @@ package cs3500.music.mechanics.repeats;
  */
 public class SingleRepeat extends Repeat {
 
+  public SingleRepeat() {
+  }
+
+  public SingleRepeat(TimeBar timebar) {
+    super(timebar);
+  }
+
   private RepeatType type;
 
   public SingleRepeat(RepeatType type) {
@@ -38,15 +45,14 @@ public class SingleRepeat extends Repeat {
   }
 
   @Override
-  public boolean isBeginPlayed() {
-    if (this.type == RepeatType.BEGIN) {
-      return this.played;
-    } else {
-      return true;
-    }
+  public void setHasntPlayed() {
+    this.played = false;
+
   }
 
-  void makePlayed() {
+  @Override
+  public void setPlayed() {
     this.played = true;
   }
+
 }

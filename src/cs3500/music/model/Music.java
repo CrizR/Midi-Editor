@@ -15,6 +15,7 @@ import cs3500.music.mechanics.repeats.DoubleRepeat;
 import cs3500.music.mechanics.repeats.Repeat;
 import cs3500.music.mechanics.repeats.RepeatType;
 import cs3500.music.mechanics.repeats.SingleRepeat;
+import cs3500.music.mechanics.repeats.TimeBar;
 
 /**
  * This represents a piece of music model which implements the IMusicOperations interface.
@@ -28,6 +29,7 @@ public class Music implements IMusicOperations {
   protected HashMap<Integer, Set> noteMap;
   protected int tempo;
   private HashMap<Integer, Repeat> repeats;
+  private ArrayList<TimeBar> timebars;
 
   /**
    * Initialize the music model. Set the pitchList to a new pitchList and
@@ -37,6 +39,7 @@ public class Music implements IMusicOperations {
     this.toneList = new ToneRange();
     this.repeats = new HashMap<>();
     this.noteMap = new HashMap<>();
+    this.timebars = new ArrayList<>();
   }
 
   /**
@@ -50,6 +53,7 @@ public class Music implements IMusicOperations {
     this.toneList = toneList.clone();
     this.noteMap = copyMap(noteMap);
     this.repeats = new HashMap<>();
+    this.timebars = new ArrayList<>();
     this.tempo = tempo;
   }
 
@@ -262,6 +266,25 @@ public class Music implements IMusicOperations {
     } else {
       repeats.put(startingPosition, new SingleRepeat(type));
     }
+  }
+
+  @Override
+  public ArrayList<Integer> repeatBeats() {
+    ArrayList<Integer> beats = new ArrayList<>();
+    for (Integer entry : this.repeats.keySet()) {
+      beats.add(entry);
+    }
+    return beats;
+  }
+
+  @Override
+  public void addTimebar(TimeBar t) {
+    timebars.add(t);
+  }
+
+  @Override
+  public ArrayList<TimeBar> getTimebars() {
+    return this.timebars;
   }
 
 

@@ -96,4 +96,6 @@ public interface GuiView extends IView {
   void addEndRepeat();
 
   void addDoubleRepeat();
+
+  void addTimebar();
 }

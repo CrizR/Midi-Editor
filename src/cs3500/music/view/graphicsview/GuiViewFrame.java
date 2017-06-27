@@ -129,6 +129,11 @@ public class GuiViewFrame extends JFrame implements GuiView {
   }
 
   @Override
+  public void addTimebar() {
+    //DO NOTHING
+  }
+
+  @Override
   public void nextBeat() {
     if (creatingNote) {
       BEAT++;
