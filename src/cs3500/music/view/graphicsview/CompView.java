@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaEventListener;
@@ -71,9 +70,6 @@ public class CompView extends MidiViewImpl implements GuiView {
       t.add(tic);
     }
     sequencer.addMetaEventListener(new Refresh());
-
-//    sequencer.addMetaEventListener(new replay());
-
     try {
       this.sequencerForPratice = MidiSystem.getSequencer();
       sequenceForPratice = new Sequence(Sequence.PPQ, 1);
@@ -353,12 +349,23 @@ public class CompView extends MidiViewImpl implements GuiView {
   public void addTimebar() {
     if (op.getRepeats().containsKey(GuiViewFrame.BEAT)
             && !op.getRepeats().get(GuiViewFrame.BEAT).hasTimebar()
+            && GuiViewFrame.BEAT > lastEnding()
             && (op.getRepeats().get(GuiViewFrame.BEAT).getType() == RepeatType.BEGIN
             || op.getRepeats().get(GuiViewFrame.BEAT).getType() == RepeatType.BOTH)) {
       TimeBar t = new TimeBar(GuiViewFrame.BEAT - 4, op.getTimebars().size() + 1);
       this.op.addTimebar(t);
       op.getRepeats().get(GuiViewFrame.BEAT).setTimebar(t);
     }
+  }
+
+  private int lastEnding() {
+    int max = 0;
+    for (TimeBar r : op.getTimebars()) {
+      if (r.getStartingBeat() > max) {
+        max = r.getStartingBeat();
+      }
+    }
+    return max;
   }
 
   /**
@@ -390,17 +397,17 @@ public class CompView extends MidiViewImpl implements GuiView {
       int currentBeat = (int) sequencer.getTickPosition();
       Repeat r = repeats.get(currentBeat);
 
-      if (repeatBeats.contains(GuiViewFrame.BEAT + 4) &&
-              repeats.get(GuiViewFrame.BEAT + 4).hasTimebar()) {
-        if (repeats.get(GuiViewFrame.BEAT + 4).getTimebar().getEndingNumber() != currentEnding) {
-          sequencer.setTickPosition(GuiViewFrame.BEAT + 4);
-          sequencer.setTempoInMPQ(tempo);
-        } else {
-          currentEnding++;
-          System.out.println(currentEnding);
-        }
-      }
+      handleEndings();
 
+      handleRepeats(currentBeat, r);
+
+      GuiViewFrame.BEAT = (int) sequencer.getTickPosition();
+      guiDelegate.movePanel();
+      guiDelegate.refresh();
+      resetRepeats();
+    }
+
+    private void handleRepeats(int currentBeat, Repeat r) {
       if (repeatBeats.contains(currentBeat)) {
         if (r.getType() == RepeatType.BEGIN && !r.isPlayed()
                 || r.getType() == RepeatType.BOTH && !r.isEndPlayed()) {
@@ -419,19 +426,29 @@ public class CompView extends MidiViewImpl implements GuiView {
           }
           r.setPlayed();
           sequencer.setTempoInMPQ(tempo);
-
         }
       }
-      GuiViewFrame.BEAT = (int) sequencer.getTickPosition();
-      guiDelegate.movePanel();
-      guiDelegate.refresh();
-      resetRepeats();
+    }
+
+    private void handleEndings() {
+      if (repeatBeats.contains(GuiViewFrame.BEAT + 4) &&
+              repeats.get(GuiViewFrame.BEAT + 4).hasTimebar()) {
+        if (repeats.get(GuiViewFrame.BEAT + 4).getTimebar().getEndingNumber() != currentEnding) {
+          sequencer.setTickPosition(GuiViewFrame.BEAT + 4);
+          sequencer.setTempoInMPQ(tempo);
+        } else {
+          currentEnding++;
+          sequencer.setTickPosition(GuiViewFrame.BEAT + 1);
+          sequencer.setTempoInMPQ(tempo);
+        }
+      }
     }
 
     private void resetRepeats() {
       if (GuiViewFrame.BEAT == op.lastBeat()) {
-        for (Map.Entry<Integer, Repeat> entry : op.getRepeats().entrySet()) {
-          entry.getValue().setHasntPlayed();
+        for (Repeat r : op.getRepeats().values()) {
+          r.setHasntPlayed();
+          currentEnding = 1;
 
         }
       }
